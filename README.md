@@ -67,4 +67,4 @@ python scripts/fslr_final_report.py
 
 ## 注意事項
 本プロジェクトは教育目的のシミュレーションであり、投資助言ではありません。
-実際の投資判断は、ご自身の責任において行うようにしてください。 
+実際の投資判断は、ご自身の責任において行うようにしてください。 This is a test for learning Git.
