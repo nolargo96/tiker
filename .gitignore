@@ -1,0 +1,8 @@
+# Generated files
+*.csv
+charts/*.png
+data/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.log

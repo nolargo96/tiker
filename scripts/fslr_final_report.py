@@ -1,5 +1,9 @@
 ﻿# -*- coding: utf-8 -*-
-import yfinance as yf
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from stock_analyzer_lib import StockAnalyzer
 import datetime
 import pandas as pd
 import numpy as np
@@ -8,10 +12,21 @@ import numpy as np
 TICKER = 'FSLR'
 TODAY_JST = datetime.datetime.now().strftime("%Y-%m-%d")
 
-# データ取得
-ticker = yf.Ticker(TICKER)
-info = ticker.info
-df = ticker.history(period='1y')
+# StockAnalyzerを使用してデータ取得とチャート生成
+analyzer = StockAnalyzer()
+success, message = analyzer.analyze_stock(TICKER, TODAY_JST)
+
+if not success:
+    print(f"データ取得エラー: {message}")
+    exit(1)
+
+# データファイルを読み込んで分析に使用
+csv_filename = f"{TICKER}_analysis_data_{TODAY_JST}.csv"
+try:
+    df = pd.read_csv(csv_filename, index_col=0, parse_dates=True)
+except FileNotFoundError:
+    print(f"データファイル {csv_filename} が見つかりません。")
+    exit(1)
 
 # 基本データ取得（エラーハンドリング含む）
 try:
@@ -23,29 +38,11 @@ try:
 except IndexError:
     current_price = 155.0  # データがない場合のデフォルト値を現実に近い値に修正
 
-# テクニカル指標
-df['EMA20'] = df['Close'].ewm(span=20).mean()
-df['EMA50'] = df['Close'].ewm(span=50).mean()
-df['SMA200'] = df['Close'].rolling(200).mean()
-
-# RSI
-def calculate_rsi(data, period=14):
-    delta = data.diff()
-    gain = delta.where(delta > 0, 0)
-    loss = -delta.where(delta < 0, 0)
-    avg_gain = gain.rolling(window=period).mean()
-    avg_loss = loss.rolling(window=period).mean()
-    rs = avg_gain / avg_loss
-    rsi = 100 - (100 / (1 + rs))
-    return rsi
-
-df['RSI'] = calculate_rsi(df['Close'])
-
-# 最新の正確な値を取得
-current_rsi = df['RSI'].iloc[-1] if not df['RSI'].dropna().empty else 45
-current_ema20 = df['EMA20'].iloc[-1] if not df['EMA20'].dropna().empty else current_price
-current_ema50 = df['EMA50'].iloc[-1] if not df['EMA50'].dropna().empty else current_price
-current_sma200 = df['SMA200'].iloc[-1] if not df['SMA200'].dropna().empty else current_price * 0.9
+# 最新の正確な値を取得（StockAnalyzerで既に計算済みの指標を使用）
+current_rsi = df['RSI'].iloc[-1] if 'RSI' in df.columns and not pd.isna(df['RSI'].iloc[-1]) else 45
+current_ema20 = df['EMA20'].iloc[-1] if 'EMA20' in df.columns and not pd.isna(df['EMA20'].iloc[-1]) else current_price
+current_ema50 = df['EMA50'].iloc[-1] if 'EMA50' in df.columns and not pd.isna(df['EMA50'].iloc[-1]) else current_price
+current_sma200 = df['SMA200'].iloc[-1] if 'SMA200' in df.columns and not pd.isna(df['SMA200'].iloc[-1]) else current_price * 0.9
 
 # 価格レベル
 high_52w = df['High'].max() if not df.empty else current_price * 1.2
@@ -57,6 +54,11 @@ recent_low = df['Low'].tail(60).min() if not df.empty else current_price * 0.9
 fib_382 = recent_low + (recent_high - recent_low) * 0.382
 fib_50 = recent_low + (recent_high - recent_low) * 0.5
 fib_618 = recent_low + (recent_high - recent_low) * 0.618
+
+print(f"=== StockAnalyzer による {TICKER} データ取得・チャート生成完了 ===")
+print(f"チャート: ./charts/{TICKER}_chart_{TODAY_JST}.png")
+print(f"データ: {csv_filename}")
+print("="*70)
 
 
 # レポート出力
