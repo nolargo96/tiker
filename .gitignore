@@ -1,8 +1,14 @@
 # Generated files
-*.csv
+*_analysis_data_*.csv
 charts/*.png
-data/
+data/generated/
 __pycache__/
 *.pyc
 .pytest_cache/
 *.log
+
+# Development artifacts
+test.txt
+session_log.md
+new_*.txt
+*.tmp

@@ -22,6 +22,53 @@ import warnings
 
 warnings.filterwarnings('ignore')
 
+def setup_logging(config_path: str = 'config.yaml') -> logging.Logger:
+    """
+    統一ログ設定の初期化
+    
+    Args:
+        config_path (str): 設定ファイルのパス
+        
+    Returns:
+        logging.Logger: 設定済みのロガー
+    """
+    try:
+        with open(config_path, 'r', encoding='utf-8') as file:
+            config = yaml.safe_load(file)
+        
+        log_config = config.get('logging', {})
+        log_level = getattr(logging, log_config.get('level', 'INFO'))
+        log_format = log_config.get('format', '%(asctime)s - %(levelname)s - %(message)s')
+        log_file = log_config.get('file', 'stock_analyzer.log')
+        
+        # ログファイルのディレクトリを作成
+        log_dir = os.path.dirname(log_file) if os.path.dirname(log_file) else '.'
+        if not os.path.exists(log_dir):
+            os.makedirs(log_dir)
+        
+        logging.basicConfig(
+            level=log_level,
+            format=log_format,
+            handlers=[
+                logging.FileHandler(log_file, encoding='utf-8'),
+                logging.StreamHandler()
+            ]
+        )
+        
+        logger = logging.getLogger('tiker')
+        logger.info("ログ設定が初期化されました")
+        return logger
+        
+    except Exception as e:
+        # 設定ファイルが読めない場合のフォールバック
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(levelname)s - %(message)s'
+        )
+        logger = logging.getLogger('tiker')
+        logger.warning(f"設定ファイルからのログ設定に失敗: {e}")
+        return logger
+
 class ConfigManager:
     """設定管理クラス"""
     

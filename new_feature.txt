@@ -1,2 +1,0 @@
-This is a new feature file.
-This line was added in feature/modify-existing-file branch.

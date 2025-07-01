@@ -169,11 +169,11 @@ def analyze_and_chart_stock(ticker_symbol: str, today_date_str: Optional[str] = 
         traceback.print_exc()
         return False, f"エラーが発生しました: {str(e)}"
 
-if __name__ == '__main__':
-    # 例として、TSLAとASTSの分析を実行
-    # コマンドライン引数でティッカーと日付を受け取ることも可能
-    # 例: python unified_stock_analyzer.py --ticker MSFT --date 2024-07-30
-
+def main():
+    """
+    tiker-analyzeコマンドのエントリーポイント
+    setup.pyのconsole_scriptsから呼び出される
+    """
     import argparse
     parser = argparse.ArgumentParser(description='米国株の株価分析とチャート作成')
     parser.add_argument('--ticker', type=str, default='TSLA', help='分析対象のティッカーシンボル')
@@ -183,6 +183,5 @@ if __name__ == '__main__':
     success, message = analyze_and_chart_stock(args.ticker, args.date)
     print(f"\n結果: {message}")
 
-    # 別のティッカーを試す場合
-    # success, message = analyze_and_chart_stock("ASTS")
-    # print(f"\n結果: {message}")
+if __name__ == '__main__':
+    main()
