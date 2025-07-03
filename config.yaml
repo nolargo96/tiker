@@ -60,12 +60,22 @@ naming:
   chart_pattern: '{ticker}_chart_{date}.png'
   data_pattern: '{ticker}_analysis_data_{date}.csv'
   report_pattern: '{ticker}_analysis_{date}.md'
+  html_report_pattern: '{ticker}_analysis_{date}.html'
 
 # ログ設定
 logging:
   level: 'INFO'
   format: '%(asctime)s - %(levelname)s - %(message)s'
   file: 'stock_analyzer.log'
+
+# HTMLレポート設定
+html_report:
+  enabled: true
+  output_directory: './reports/html'
+  include_interactive_charts: true
+  include_expert_analysis: true
+  responsive_design: true
+  print_friendly: true
   
 # 分析専門家設定（tiker.md用）
 experts:
