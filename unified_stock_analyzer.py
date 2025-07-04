@@ -5,7 +5,7 @@ import numpy as np
 import os
 from datetime import datetime, timedelta
 import warnings
-from typing import Tuple, Optional
+from typing import Tuple, Optional, Dict, Any, Union, List
 
 warnings.filterwarnings(
     "ignore"
@@ -224,8 +224,8 @@ def analyze_and_chart_stock(
 
 
 def analyze_portfolio(
-    portfolio_config: dict, today_date_str: Optional[str] = None
-) -> dict:
+    portfolio_config: Dict[str, float], today_date_str: Optional[str] = None
+) -> Dict[str, Any]:
     """
     ポートフォリオ全体の分析を実行し、統合レポートを生成します。
 
@@ -423,7 +423,7 @@ def calculate_risk_score(df: pd.DataFrame, allocation: float) -> float:
 
 def get_entry_recommendation(
     tech: float, fund: float, macro: float, risk: float
-) -> dict:
+) -> Dict[str, Union[str, float]]:
     """エントリー推奨度を算出"""
     overall_score = (tech + fund + macro + risk) / 4
 

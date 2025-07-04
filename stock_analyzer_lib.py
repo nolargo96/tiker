@@ -192,7 +192,7 @@ class StockDataManager:
         self.config = config
         self.setup_logging()
 
-    def setup_logging(self):
+    def setup_logging(self) -> None:
         """ログ設定"""
         log_level = self.config.get("logging.level", "INFO")
         log_format = self.config.get(
@@ -406,7 +406,7 @@ class StockAnalyzer:
 
         return True, "分析完了"
 
-    def _display_latest_data(self, df: pd.DataFrame, ticker: str):
+    def _display_latest_data(self, df: pd.DataFrame, ticker: str) -> None:
         """最新データを表示"""
         latest = df.iloc[-1]
         print(f"\n=== {ticker} 最新データ ({df.index[-1].strftime('%Y-%m-%d')}) ===")
