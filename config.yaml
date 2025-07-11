@@ -99,5 +99,68 @@ experts:
 # デフォルトティッカーリスト（テスト用）
 default_tickers: ['TSLA', 'AAPL', 'MSFT', 'GOOGL', 'AMZN']
 
+# 専用ポートフォリオ設定（9銘柄）
+portfolio:
+  name: "次世代テクノロジー・ポートフォリオ"
+  description: "中長期成長を目指すテクノロジー投資ポートフォリオ"
+  total_allocation: 100
+  holdings:
+    TSLA:
+      allocation: 20
+      description: "EV・自動運転技術のリーダー"
+      sector: "Consumer Cyclical"
+      theme: ["EV", "Autonomous", "Energy Storage"]
+    FSLR:
+      allocation: 20
+      description: "太陽光発電・CdTe技術"
+      sector: "Technology"
+      theme: ["Solar", "Clean Energy", "Renewable"]
+    RKLB:
+      allocation: 10
+      description: "小型ロケット・宇宙インフラ"
+      sector: "Industrials"
+      theme: ["Space", "Launch", "Satellite"]
+    ASTS:
+      allocation: 10
+      description: "衛星通信・スマートフォン直接接続"
+      sector: "Communication Services"
+      theme: ["Satellite", "5G", "Space"]
+    OKLO:
+      allocation: 10
+      description: "小型モジュール原子炉（SMR）"
+      sector: "Utilities"
+      theme: ["Nuclear", "Clean Energy", "SMR"]
+    JOBY:
+      allocation: 10
+      description: "eVTOL・都市航空モビリティ"
+      sector: "Industrials"
+      theme: ["eVTOL", "Urban Air Mobility", "Aviation"]
+    OII:
+      allocation: 10
+      description: "海洋工学・ROVサービス"
+      sector: "Energy"
+      theme: ["Marine", "ROV", "Offshore"]
+    LUNR:
+      allocation: 5
+      description: "月面着陸・宇宙探査"
+      sector: "Industrials"
+      theme: ["Space", "Lunar", "Exploration"]
+    RDW:
+      allocation: 5
+      description: "宇宙インフラ・軌道上製造"
+      sector: "Industrials"
+      theme: ["Space", "Manufacturing", "Infrastructure"]
+
+# 専門家重み設定
+expert_weights:
+  TECH: 1.0
+  FUND: 1.5
+  MACRO: 1.0
+  RISK: 1.2
+  ESG: 0.8
+  THEME: 1.0
+  CATALYST: 0.7
+  MANAGEMENT: 0.8
+
 # 免責事項
 disclaimer: '本情報は教育目的のシミュレーションであり、投資助言ではありません。実際の投資判断は、ご自身の責任において行うようにしてください。'

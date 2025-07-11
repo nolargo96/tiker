@@ -1069,8 +1069,8 @@ def main():
                 "OKLO": 10,  # 維持
                 "JOBY": 10,  # 維持
                 "OII": 10,  # 維持
-                "LUNR": 5,   # 維持
-                "RDW": 5,    # 維持
+                "LUNR": 5,  # 維持
+                "RDW": 5,  # 維持
             }
 
         results = analyze_portfolio(portfolio_config, args.date)

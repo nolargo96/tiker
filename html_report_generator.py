@@ -21,57 +21,64 @@ from stock_analyzer_lib import ConfigManager, StockDataManager, TechnicalIndicat
 
 class HTMLReportGenerator:
     """HTMLレポート生成クラス"""
-    
-    def __init__(self, config_path: str = 'config.yaml'):
+
+    def __init__(self, config_path: str = "config.yaml"):
         """
         HTMLレポート生成クラスの初期化
-        
+
         Args:
             config_path (str): 設定ファイルのパス
         """
         self.config = ConfigManager(config_path)
         self.data_manager = StockDataManager(self.config)
         self.template_dir = self._ensure_template_directory()
-        
+
     def _ensure_template_directory(self) -> Path:
         """テンプレートディレクトリを作成・確保"""
-        template_dir = Path(self.config.get('directories.reports', './reports')) / 'templates'
+        template_dir = (
+            Path(self.config.get("directories.reports", "./reports")) / "templates"
+        )
         template_dir.mkdir(parents=True, exist_ok=True)
         return template_dir
-    
-    def generate_stock_html_report(self, ticker: str, analysis_data: pd.DataFrame, 
-                                 chart_path: str, date_str: str, 
-                                 markdown_content: Optional[str] = None) -> Tuple[bool, str]:
+
+    def generate_stock_html_report(
+        self,
+        ticker: str,
+        analysis_data: pd.DataFrame,
+        chart_path: str,
+        date_str: str,
+        markdown_content: Optional[str] = None,
+    ) -> Tuple[bool, str]:
         """
         個別株式のHTMLレポートを生成
-        
+
         Args:
             ticker (str): ティッカーシンボル
             analysis_data (pd.DataFrame): 分析データ
             chart_path (str): チャート画像のパス
             date_str (str): 分析基準日
             markdown_content (str, optional): 既存のMarkdownレポート内容
-            
+
         Returns:
             Tuple[bool, str]: 成功フラグとファイルパス/エラーメッセージ
         """
         try:
             # HTMLレポートファイルパス
-            reports_dir = Path(self.config.get('directories.reports', './reports'))
-            html_dir = reports_dir / 'html'
+            reports_dir = Path(self.config.get("directories.reports", "./reports"))
+            html_dir = reports_dir / "html"
             html_dir.mkdir(parents=True, exist_ok=True)
-            
+
             html_filename = f"{ticker}_analysis_{date_str}.html"
             html_filepath = html_dir / html_filename
-            
+
             # チャート画像をBase64エンコード
             chart_base64 = self._encode_image_to_base64(chart_path)
-            
+
             # データ分析
             latest_data = self._extract_latest_data(analysis_data)
             technical_summary = self._generate_technical_summary(analysis_data)
             chart_data = self._prepare_chart_data(analysis_data)
-            
+
             # HTMLコンテンツ生成
             html_content = self._generate_html_template(
                 ticker=ticker,
@@ -80,127 +87,133 @@ class HTMLReportGenerator:
                 technical_summary=technical_summary,
                 chart_base64=chart_base64,
                 chart_data=chart_data,
-                markdown_content=markdown_content
+                markdown_content=markdown_content,
             )
-            
+
             # ファイル保存
-            with open(html_filepath, 'w', encoding='utf-8') as f:
+            with open(html_filepath, "w", encoding="utf-8") as f:
                 f.write(html_content)
-            
+
             return True, str(html_filepath)
-            
+
         except Exception as e:
             return False, f"HTMLレポート生成エラー: {str(e)}"
-    
+
     def _encode_image_to_base64(self, image_path: str) -> str:
         """画像をBase64エンコード"""
         try:
-            with open(image_path, 'rb') as image_file:
+            with open(image_path, "rb") as image_file:
                 encoded_string = base64.b64encode(image_file.read()).decode()
                 return f"data:image/png;base64,{encoded_string}"
         except Exception:
             return ""
-    
+
     def _extract_latest_data(self, df: pd.DataFrame) -> Dict[str, Any]:
         """最新データを抽出"""
         if df.empty:
             return {}
-        
+
         latest = df.iloc[-1]
         return {
-            'date': df.index[-1].strftime('%Y-%m-%d'),
-            'close': latest['Close'],
-            'volume': latest['Volume'],
-            'high': latest['High'],
-            'low': latest['Low'],
-            'open': latest['Open'],
-            'ema20': latest.get('EMA20'),
-            'ema50': latest.get('EMA50'),
-            'sma200': latest.get('SMA200'),
-            'rsi': latest.get('RSI'),
-            'bb_upper': latest.get('BB_upper'),
-            'bb_lower': latest.get('BB_lower'),
-            'atr': latest.get('ATR')
+            "date": df.index[-1].strftime("%Y-%m-%d"),
+            "close": latest["Close"],
+            "volume": latest["Volume"],
+            "high": latest["High"],
+            "low": latest["Low"],
+            "open": latest["Open"],
+            "ema20": latest.get("EMA20"),
+            "ema50": latest.get("EMA50"),
+            "sma200": latest.get("SMA200"),
+            "rsi": latest.get("RSI"),
+            "bb_upper": latest.get("BB_upper"),
+            "bb_lower": latest.get("BB_lower"),
+            "atr": latest.get("ATR"),
         }
-    
+
     def _generate_technical_summary(self, df: pd.DataFrame) -> Dict[str, Any]:
         """テクニカル指標のサマリー生成"""
         if df.empty:
             return {}
-        
+
         latest = df.iloc[-1]
-        
+
         # トレンド分析
         trend_signals = []
-        if not pd.isna(latest.get('EMA20')) and not pd.isna(latest.get('EMA50')):
-            if latest['EMA20'] > latest['EMA50']:
+        if not pd.isna(latest.get("EMA20")) and not pd.isna(latest.get("EMA50")):
+            if latest["EMA20"] > latest["EMA50"]:
                 trend_signals.append("短期トレンド: 上昇")
             else:
                 trend_signals.append("短期トレンド: 下降")
-        
-        if not pd.isna(latest.get('SMA200')):
-            if latest['Close'] > latest['SMA200']:
+
+        if not pd.isna(latest.get("SMA200")):
+            if latest["Close"] > latest["SMA200"]:
                 trend_signals.append("長期トレンド: 上昇")
             else:
                 trend_signals.append("長期トレンド: 下降")
-        
+
         # RSI分析
         rsi_signal = ""
-        if not pd.isna(latest.get('RSI')):
-            rsi_value = latest['RSI']
+        if not pd.isna(latest.get("RSI")):
+            rsi_value = latest["RSI"]
             if rsi_value > 70:
                 rsi_signal = "過買い圏"
             elif rsi_value < 30:
                 rsi_signal = "過売り圏"
             else:
                 rsi_signal = "中立圏"
-        
+
         # ボリンジャーバンド分析
         bb_signal = ""
-        if not pd.isna(latest.get('BB_upper')) and not pd.isna(latest.get('BB_lower')):
-            if latest['Close'] > latest['BB_upper']:
+        if not pd.isna(latest.get("BB_upper")) and not pd.isna(latest.get("BB_lower")):
+            if latest["Close"] > latest["BB_upper"]:
                 bb_signal = "上限突破"
-            elif latest['Close'] < latest['BB_lower']:
+            elif latest["Close"] < latest["BB_lower"]:
                 bb_signal = "下限突破"
             else:
                 bb_signal = "バンド内"
-        
+
         return {
-            'trend_signals': trend_signals,
-            'rsi_signal': rsi_signal,
-            'bb_signal': bb_signal,
-            'volatility': latest.get('ATR', 0)
+            "trend_signals": trend_signals,
+            "rsi_signal": rsi_signal,
+            "bb_signal": bb_signal,
+            "volatility": latest.get("ATR", 0),
         }
-    
+
     def _prepare_chart_data(self, df: pd.DataFrame) -> Dict[str, List]:
         """チャートデータの準備（JavaScript用）"""
         if df.empty:
             return {}
-        
+
         # 最新30日分のデータを抽出
         df_recent = df.tail(30)
-        
+
         return {
-            'dates': [d.strftime('%Y-%m-%d') for d in df_recent.index],
-            'prices': df_recent['Close'].tolist(),
-            'volumes': df_recent['Volume'].tolist(),
-            'ema20': df_recent.get('EMA20', pd.Series()).fillna(0).tolist(),
-            'ema50': df_recent.get('EMA50', pd.Series()).fillna(0).tolist(),
-            'sma200': df_recent.get('SMA200', pd.Series()).fillna(0).tolist(),
-            'rsi': df_recent.get('RSI', pd.Series()).fillna(0).tolist()
+            "dates": [d.strftime("%Y-%m-%d") for d in df_recent.index],
+            "prices": df_recent["Close"].tolist(),
+            "volumes": df_recent["Volume"].tolist(),
+            "ema20": df_recent.get("EMA20", pd.Series()).fillna(0).tolist(),
+            "ema50": df_recent.get("EMA50", pd.Series()).fillna(0).tolist(),
+            "sma200": df_recent.get("SMA200", pd.Series()).fillna(0).tolist(),
+            "rsi": df_recent.get("RSI", pd.Series()).fillna(0).tolist(),
         }
-    
-    def _generate_html_template(self, ticker: str, date_str: str, 
-                               latest_data: Dict[str, Any], 
-                               technical_summary: Dict[str, Any],
-                               chart_base64: str, chart_data: Dict[str, List],
-                               markdown_content: Optional[str] = None) -> str:
+
+    def _generate_html_template(
+        self,
+        ticker: str,
+        date_str: str,
+        latest_data: Dict[str, Any],
+        technical_summary: Dict[str, Any],
+        chart_base64: str,
+        chart_data: Dict[str, List],
+        markdown_content: Optional[str] = None,
+    ) -> str:
         """HTMLテンプレートを生成"""
-        
+
         # チャートデータをJSONとして埋め込み
         chart_data_json = json.dumps(chart_data, ensure_ascii=False)
-        
-        html_content = f"""
+
+        html_content = (
+            f"""
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -247,13 +260,25 @@ class HTMLReportGenerator:
             <button class="tab-button active" onclick="openTab(event, 'chart-tab')">チャート</button>
             <button class="tab-button" onclick="openTab(event, 'technical-tab')">テクニカル分析</button>
             <button class="tab-button" onclick="openTab(event, 'data-tab')">データ</button>
-            """ + ('<button class="tab-button" onclick="openTab(event, \'expert-tab\')">専門家分析</button>' if markdown_content else '') + """
+            """
+            + (
+                '<button class="tab-button" onclick="openTab(event, \'expert-tab\')">専門家分析</button>'
+                if markdown_content
+                else ""
+            )
+            + """
         </div>
         
         <div id="chart-tab" class="tab-content active">
             <div class="chart-section">
                 <h2>価格チャート</h2>
-                """ + (f'<img src="{chart_base64}" alt="{ticker} チャート" class="main-chart" onclick="toggleFullscreen(this)">' if chart_base64 else '<p>チャート画像が利用できません。</p>') + """
+                """
+            + (
+                f'<img src="{chart_base64}" alt="{ticker} チャート" class="main-chart" onclick="toggleFullscreen(this)">'
+                if chart_base64
+                else "<p>チャート画像が利用できません。</p>"
+            )
+            + """
                 
                 <div class="interactive-charts">
                     <div class="chart-container">
@@ -324,7 +349,13 @@ class HTMLReportGenerator:
             </div>
         </div>
         
-        """ + (self._generate_expert_tab_html(markdown_content) if markdown_content else '') + """
+        """
+            + (
+                self._generate_expert_tab_html(markdown_content)
+                if markdown_content
+                else ""
+            )
+            + """
         
         <footer class="footer">
             <p>{self.config.get('disclaimer', '本情報は教育目的のシミュレーションです。')}</p>
@@ -339,9 +370,10 @@ class HTMLReportGenerator:
     </script>
 </body>
 </html>"""
-        
+        )
+
         return html_content
-    
+
     def _get_rsi_class(self, rsi_value: Optional[float]) -> str:
         """RSI値に基づくCSSクラスを取得"""
         if rsi_value is None:
@@ -352,7 +384,7 @@ class HTMLReportGenerator:
             return "oversold"
         else:
             return "neutral"
-    
+
     def _generate_expert_tab_html(self, markdown_content: str) -> str:
         """専門家分析タブのHTMLを生成"""
         converted_html = self._convert_markdown_to_html(markdown_content)
@@ -366,29 +398,29 @@ class HTMLReportGenerator:
             </div>
         </div>
         """
-    
+
     def _convert_markdown_to_html(self, markdown_content: Optional[str]) -> str:
         """簡単なMarkdown to HTML変換"""
         if not markdown_content:
             return ""
-        
+
         # 基本的なMarkdown要素の変換
         html_content = markdown_content
-        
+
         # ヘッダーの変換
-        html_content = html_content.replace('### ', '<h3>').replace('\n', '</h3>\n')
-        html_content = html_content.replace('## ', '<h2>').replace('\n', '</h2>\n')
-        html_content = html_content.replace('# ', '<h1>').replace('\n', '</h1>\n')
-        
+        html_content = html_content.replace("### ", "<h3>").replace("\n", "</h3>\n")
+        html_content = html_content.replace("## ", "<h2>").replace("\n", "</h2>\n")
+        html_content = html_content.replace("# ", "<h1>").replace("\n", "</h1>\n")
+
         # 段落の変換
-        html_content = html_content.replace('\n\n', '</p><p>')
-        html_content = f'<p>{html_content}</p>'
-        
+        html_content = html_content.replace("\n\n", "</p><p>")
+        html_content = f"<p>{html_content}</p>"
+
         # 改行の変換
-        html_content = html_content.replace('\n', '<br>')
-        
+        html_content = html_content.replace("\n", "<br>")
+
         return html_content
-    
+
     def _get_css_styles(self) -> str:
         """CSSスタイルを取得"""
         return """
@@ -699,7 +731,7 @@ class HTMLReportGenerator:
             }
         }
         """
-    
+
     def _get_javascript_code(self) -> str:
         """JavaScriptコードを取得"""
         return """
@@ -853,33 +885,35 @@ class HTMLReportGenerator:
 
 
 # 使用例
-if __name__ == '__main__':
+if __name__ == "__main__":
     # HTMLレポートジェネレータのテスト
     generator = HTMLReportGenerator()
-    
+
     # サンプルデータでテスト
-    sample_data = pd.DataFrame({
-        'Close': [100, 102, 98, 105, 103],
-        'Volume': [1000000, 1200000, 900000, 1100000, 1050000],
-        'High': [102, 104, 100, 107, 105],
-        'Low': [98, 100, 95, 102, 101],
-        'Open': [99, 101, 99, 103, 104],
-        'EMA20': [100, 101, 99.5, 102, 102.5],
-        'EMA50': [99, 100, 99.8, 101, 101.5],
-        'SMA200': [98, 98.5, 98.2, 99, 99.5],
-        'RSI': [45, 55, 35, 65, 60],
-        'BB_upper': [105, 107, 103, 110, 108],
-        'BB_lower': [95, 97, 93, 100, 98],
-        'ATR': [2.5, 2.8, 2.3, 3.1, 2.9]
-    })
-    
-    success, result = generator.generate_stock_html_report(
-        ticker='TSLA',
-        analysis_data=sample_data,
-        chart_path='./charts/TSLA_chart_2025-07-03.png',
-        date_str='2025-07-03',
-        markdown_content='# サンプルMarkdownコンテンツ\n\n## 分析結果\n\nサンプルの分析結果です。'
+    sample_data = pd.DataFrame(
+        {
+            "Close": [100, 102, 98, 105, 103],
+            "Volume": [1000000, 1200000, 900000, 1100000, 1050000],
+            "High": [102, 104, 100, 107, 105],
+            "Low": [98, 100, 95, 102, 101],
+            "Open": [99, 101, 99, 103, 104],
+            "EMA20": [100, 101, 99.5, 102, 102.5],
+            "EMA50": [99, 100, 99.8, 101, 101.5],
+            "SMA200": [98, 98.5, 98.2, 99, 99.5],
+            "RSI": [45, 55, 35, 65, 60],
+            "BB_upper": [105, 107, 103, 110, 108],
+            "BB_lower": [95, 97, 93, 100, 98],
+            "ATR": [2.5, 2.8, 2.3, 3.1, 2.9],
+        }
     )
-    
+
+    success, result = generator.generate_stock_html_report(
+        ticker="TSLA",
+        analysis_data=sample_data,
+        chart_path="./charts/TSLA_chart_2025-07-03.png",
+        date_str="2025-07-03",
+        markdown_content="# サンプルMarkdownコンテンツ\n\n## 分析結果\n\nサンプルの分析結果です。",
+    )
+
     print(f"HTMLレポート生成: {success}")
     print(f"結果: {result}")
