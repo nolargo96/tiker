@@ -55,12 +55,41 @@ data/generated/
 # Reports (keep structure, ignore generated content)
 reports/html/*.html
 reports/portfolio_review_*.md
+reports/*_discussion_analysis_????-??-??.md
+reports/*_enhanced_report_????-??-??.md
+reports/*_investment_report_????-??-??.md
+reports/portfolio_analysis_????-??-??.md
+reports/portfolio_master_analysis_????-??-??.md
+
+# Coverage and testing
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.py,cover
+
+# Python version management
+.python-version
 
 # Development artifacts
 test.txt
 session_log.md
 new_*.txt
 *.tmp
+*.bak
+*.backup
+
+# Environment variables and secrets
+.env
+.env.local
+.env.development
+.env.production
+secrets.json
+api_keys.json
 
 # Keep important documentation and examples
 !README.md
@@ -69,3 +98,4 @@ new_*.txt
 !example_*.csv
 !example_*.png
 !reports/templates/
+!reports/examples/
