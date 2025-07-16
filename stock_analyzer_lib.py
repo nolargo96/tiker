@@ -130,6 +130,9 @@ class ConfigManager:
 
 class TechnicalIndicators:
     """テクニカル指標計算クラス"""
+    
+    def __init__(self, config: ConfigManager):
+        self.config = config
 
     @staticmethod
     def calculate_moving_averages(

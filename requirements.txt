@@ -11,8 +11,9 @@ matplotlib>=3.6.0
 mplfinance>=0.12.9
 seaborn>=0.11.0
 
-# 設定管理
+# 設定管理・テンプレート
 PyYAML>=6.0
+Jinja2>=3.0.0
 
 # テスト・開発
 pytest>=7.0.0
