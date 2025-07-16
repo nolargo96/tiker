@@ -48,6 +48,8 @@ tiker/
 ├── unified_stock_analyzer.py      # メイン分析エンジン
 ├── stock_analyzer_lib.py          # 共通ライブラリ
 ├── html_report_generator.py       # HTMLレポート生成
+├── competitor_analysis.py         # 競合分析機能（財務比較統合済み）
+├── financial_comparison_extension.py # 財務比較拡張モジュール
 ├── test_stock_analyzer.py         # テストスイート
 ├── config.yaml                    # 設定ファイル
 ├── requirements.txt               # Python依存関係
@@ -133,6 +135,39 @@ python -m pytest test_stock_analyzer.py -v --cov=stock_analyzer_lib
 
 # 特定テストクラス実行
 python -m pytest test_stock_analyzer.py::TestTechnicalIndicators -v
+```
+
+### 競合・財務分析
+```bash
+# 個別銘柄の拡張競合分析（財務分析含む）
+python competitor_analysis.py
+
+# ポートフォリオ9銘柄の財務比較
+python -c "
+from competitor_analysis import CompetitorAnalysis
+analyzer = CompetitorAnalysis()
+df = analyzer.get_portfolio_financial_comparison()
+print(df[['companyName', 'marketCap', 'forwardPE', 'returnOnEquity']].to_string())
+"
+
+# 財務比較機能単体テスト
+python financial_comparison_extension.py
+```
+
+### ポートフォリオ総合マスターレポート
+```bash
+# すべての分析を統合した総合HTMLレポート生成
+python portfolio_master_report.py
+
+# 生成されたHTMLレポートは以下に保存されます：
+# reports/html/portfolio_master_report_YYYY-MM-DD.html
+
+# レポートには以下が含まれます：
+# - 9銘柄の現在状況（価格、指標）
+# - 専門家討論分析（4専門家の議論）
+# - 財務パフォーマンス比較
+# - 競合他社分析
+# - ポートフォリオ最適化提案
 ```
 
 ## 🔧 開発ツール
@@ -270,3 +305,98 @@ traceback.print_exc()
 **更新日**: 2025年1月3日  
 **対象バージョン**: v1.0.0  
 **サポート**: 開発進捗レポートとロードマップも参照してください
+
+---
+
+## 詳細分析
+
+### 主要なタスク
+- npmでインストールしたClaude CLI（または類似ツール）の実行ファイルが、コマンドラインから認識されるようにする。
+
+### 重要な要件・制約
+- Windows環境（PowerShell）
+- npmグローバルインストールのパスがPATHに含まれていること
+
+### 潜在的な課題
+- npmのグローバルパスがPATHに自動追加されていない
+- PowerShellの再起動が必要な場合がある
+- 複数のNode.jsバージョン管理ツール（nvm等）を使っている場合、パスが競合している可能性
+
+---
+
+## ステップバイステップ確認・対応
+
+### 1. npmグローバルパスの確認
+
+PowerShellで以下を実行してください：
+
+```powershell
+npm config get prefix
+```
+
+この出力例（例: `C:\Users\ユーザー名\AppData\Roaming\npm`）の下に`claude.cmd`や`claude`という実行ファイルがあるか確認します。
+
+```powershell
+dir (npm config get prefix)
+```
+
+### 2. PATHに含まれているか確認
+
+PowerShellで以下を実行：
+
+```powershell
+$env:PATH
+```
+
+この中に、上記npmのprefixパス（例: `C:\Users\ユーザー名\AppData\Roaming\npm`）が含まれているか確認してください。
+
+### 3. 含まれていない場合の対処
+
+#### 一時的にPATHを追加（PowerShellのこのセッションのみ）
+
+```powershell
+$env:PATH += ";C:\Users\ユーザー名\AppData\Roaming\npm"
+```
+（上記パスはnpm config get prefixの出力に合わせてください）
+
+#### 永続的にPATHを追加（今後も有効）
+
+「システム環境変数」または「ユーザー環境変数」のPATHに、npmのprefixパスを追加してください。
+
+1. Windowsの「システムのプロパティ」→「環境変数」
+2. 「ユーザー環境変数」または「システム環境変数」のPATHを編集
+3. 先ほどのnpm prefixパスを追加
+4. PowerShellを再起動
+
+---
+
+## 4. 動作確認
+
+再度PowerShellを開き、下記を実行：
+
+```powershell
+claude --help
+```
+または
+```powershell
+claude
+```
+
+---
+
+## まとめ
+
+- npmでエラーがなければ、**パスの問題**がほぼ確実です。
+- 上記手順でPATHを修正すれば、`claude`コマンドが認識されるはずです。
+
+---
+
+### もし上記で解決しない場合
+
+- `claude`実行ファイルがnpmのprefixディレクトリに存在するか確認
+- `claude.cmd`や`claude.ps1`など、Windows用のラッパーが生成されているか確認
+- それでも動かない場合は、`npm uninstall -g claude` → `npm install -g claude`で再インストール
+
+---
+
+**進捗や追加のエラー内容があれば、出力を貼り付けてください。さらに詳しくサポートします。**

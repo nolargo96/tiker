@@ -15,6 +15,7 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Tuple, Optional, Any
 import warnings
 from stock_analyzer_lib import StockDataManager, TechnicalIndicators, ConfigManager
+from financial_comparison_extension import FinancialComparison
 
 warnings.filterwarnings("ignore")
 
@@ -31,6 +32,7 @@ class CompetitorAnalysis:
         """
         self.config = ConfigManager(config_path)
         self.data_manager = StockDataManager(self.config)
+        self.financial_comparison = FinancialComparison()
 
         # 9銘柄の競合企業・同業リーダーマッピング
         self.competitor_mapping = {
@@ -394,6 +396,89 @@ class CompetitorAnalysis:
 
         return results
 
+    def analyze_financial_performance(self, ticker: str) -> Dict[str, Any]:
+        """
+        財務パフォーマンス分析
+
+        Args:
+            ticker (str): 分析対象銘柄
+
+        Returns:
+            Dict[str, Any]: 財務分析結果
+        """
+        if ticker not in self.competitor_mapping:
+            return {}
+
+        competitor_info = self.competitor_mapping[ticker]
+        competitors = competitor_info['competitors']
+
+        # セクター内財務比較
+        sector_analysis = self.financial_comparison.analyze_sector_performance(ticker, competitors)
+
+        # 四半期トレンド
+        quarterly_trends = self.financial_comparison.get_quarterly_trends(ticker)
+
+        return {
+            'ticker': ticker,
+            'sector': competitor_info['sector'],
+            'sector_analysis': sector_analysis,
+            'quarterly_trends': quarterly_trends,
+            'financial_report': self.financial_comparison.generate_financial_report(ticker, competitors)
+        }
+
+    def generate_enhanced_competitor_report(self, ticker: str, period_days: int = 365) -> str:
+        """
+        財務分析を含む拡張競合レポート生成
+
+        Args:
+            ticker (str): 分析対象銘柄
+            period_days (int): 分析期間
+
+        Returns:
+            str: 拡張競合レポート
+        """
+        # 既存の競合分析レポート生成
+        existing_report = self.generate_competitor_report(ticker, period_days)
+
+        # 財務分析の追加
+        financial_analysis = self.analyze_financial_performance(ticker)
+
+        if financial_analysis and financial_analysis.get('financial_report'):
+            financial_section = f"""
+
+## 📊 財務パフォーマンス分析
+
+{financial_analysis.get('financial_report', '')}
+
+### 四半期売上トレンド
+"""
+
+            # 四半期データがある場合
+            if 'quarterly_trends' in financial_analysis and financial_analysis['quarterly_trends']:
+                trends = financial_analysis['quarterly_trends']
+                if 'revenue_trend' in trends and trends['revenue_trend']:
+                    for quarter, revenue in list(trends['revenue_trend'].items())[:4]:
+                        financial_section += f"- {quarter}: ${revenue:.1f}B\n"
+
+                if 'growth_rates' in trends and 'revenue_qoq' in trends['growth_rates']:
+                    qoq = trends['growth_rates']['revenue_qoq']
+                    financial_section += f"\n**四半期成長率 (QoQ)**: {qoq:+.1f}%\n"
+
+            enhanced_report = existing_report + financial_section
+            return enhanced_report
+
+        return existing_report
+
+    def get_portfolio_financial_comparison(self) -> pd.DataFrame:
+        """
+        ポートフォリオ9銘柄の財務指標比較
+
+        Returns:
+            pd.DataFrame: 財務指標比較表
+        """
+        portfolio_tickers = list(self.competitor_mapping.keys())
+        return self.financial_comparison.compare_financial_metrics(portfolio_tickers)
+
 
 def main():
     """メイン実行関数"""
@@ -403,8 +488,16 @@ def main():
     ticker = "TSLA"
     print(f"{ticker} の競合分析を実行中...")
 
-    report = analyzer.generate_competitor_report(ticker, 365)
-    print(report)
+    # 拡張レポート（財務分析含む）のテスト
+    enhanced_report = analyzer.generate_enhanced_competitor_report(ticker, 365)
+    print("=== 拡張競合レポート（財務分析含む） ===")
+    print(enhanced_report)
+
+    # ポートフォリオ財務比較テスト
+    print("\n=== ポートフォリオ9銘柄 財務比較 ===")
+    portfolio_comparison = analyzer.get_portfolio_financial_comparison()
+    if not portfolio_comparison.empty:
+        print(portfolio_comparison[['companyName', 'marketCap', 'forwardPE', 'returnOnEquity', 'profitMargins']].to_string())
 
     # 全銘柄の競合分析
     print("\n全9銘柄の競合分析を実行中...")
