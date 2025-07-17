@@ -65,6 +65,26 @@ function searchStocks(query) {
     });
 }
 
+// 討論セクション切り替え
+function showDiscussionSection(ticker, expertType) {
+    // すべての討論コンテンツを非表示
+    const discussionContents = document.querySelectorAll(`#${ticker}-discussion .discussion-content`);
+    discussionContents.forEach(content => content.classList.remove('active'));
+    
+    // すべての討論タブを非アクティブ
+    const discussionTabs = document.querySelectorAll(`#${ticker}-discussion .discussion-tab`);
+    discussionTabs.forEach(tab => tab.classList.remove('active'));
+    
+    // 選択されたコンテンツを表示
+    const targetContent = document.getElementById(`${ticker}-discussion-${expertType}`);
+    if (targetContent) {
+        targetContent.classList.add('active');
+    }
+    
+    // 選択されたタブをアクティブ
+    event.target.classList.add('active');
+}
+
 // アニメーション効果
 function animateValue(element, start, end, duration = 1000) {
     const startTimestamp = performance.now();

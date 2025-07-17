@@ -45,6 +45,9 @@ class PortfolioMasterReportHybrid:
             autoescape=select_autoescape(['html', 'xml'])
         )
         
+        # カスタムフィルタ追加
+        self.env.filters['extract_expert'] = self._extract_expert_discussion
+        
         # ポートフォリオ構成とセクター色定義
         self.portfolio = {
             "TSLA": {"weight": 20, "name": "Tesla", "sector": "EV・自動運転", "color": "#e31837"},
@@ -202,8 +205,20 @@ class PortfolioMasterReportHybrid:
     def read_discussion_report(self, ticker: str) -> Optional[str]:
         """専門家討論レポートを読み込み"""
         try:
-            report_files = glob.glob(f"reports/{ticker.lower()}_discussion_*.md")
+            # 複数のパターンでレポートファイルを検索
+            patterns = [
+                f"reports/{ticker.upper()}_discussion_*.md",
+                f"reports/{ticker.lower()}_discussion_*.md",
+                f"reports/{ticker.upper()}_analysis_*.md",
+                f"reports/{ticker.lower()}_analysis_*.md"
+            ]
+            
+            report_files = []
+            for pattern in patterns:
+                report_files.extend(glob.glob(pattern))
+                
             if not report_files:
+                self.logger.info(f"{ticker}: 専門家討論レポートが見つかりません")
                 return None
                 
             # 最新のファイルを選択
@@ -212,6 +227,7 @@ class PortfolioMasterReportHybrid:
             with open(latest_file, 'r', encoding='utf-8') as f:
                 content = f.read()
                 
+            self.logger.info(f"{ticker}: 専門家討論レポート読み込み成功 - {latest_file}")
             return content
         except Exception as e:
             self.logger.warning(f"{ticker}: 専門家討論レポート読み込みエラー - {e}")
@@ -220,8 +236,20 @@ class PortfolioMasterReportHybrid:
     def read_competitor_report(self, ticker: str) -> Optional[str]:
         """競合分析レポートを読み込み"""
         try:
-            report_files = glob.glob(f"reports/{ticker.lower()}_competitor_*.md")
+            # 複数のパターンでレポートファイルを検索
+            patterns = [
+                f"reports/competitor_analysis_{ticker.upper()}_*.md",
+                f"reports/competitor_analysis_{ticker.lower()}_*.md",
+                f"reports/{ticker.upper()}_competitor_*.md",
+                f"reports/{ticker.lower()}_competitor_*.md"
+            ]
+            
+            report_files = []
+            for pattern in patterns:
+                report_files.extend(glob.glob(pattern))
+                
             if not report_files:
+                self.logger.info(f"{ticker}: 競合分析レポートが見つかりません")
                 return None
                 
             # 最新のファイルを選択
@@ -230,10 +258,144 @@ class PortfolioMasterReportHybrid:
             with open(latest_file, 'r', encoding='utf-8') as f:
                 content = f.read()
                 
+            self.logger.info(f"{ticker}: 競合分析レポート読み込み成功 - {latest_file}")
             return content
         except Exception as e:
             self.logger.warning(f"{ticker}: 競合分析レポート読み込みエラー - {e}")
             return None
+    
+    def _extract_expert_discussion(self, discussion_text: str, expert_type: str) -> str:
+        """特定の専門家の発言を抽出"""
+        try:
+            if not discussion_text:
+                return ""
+            
+            # 専門家タイプのマッピング
+            expert_markers = {
+                'TECH': ['【TECH】', 'TECH:', 'テクニカル分析'],
+                'FUND': ['【FUND】', 'FUND:', 'ファンダメンタル分析'],
+                'MACRO': ['【MACRO】', 'MACRO:', 'マクロ環境'],
+                'RISK': ['【RISK】', 'RISK:', 'リスク管理']
+            }
+            
+            if expert_type not in expert_markers:
+                return discussion_text
+            
+            # 該当専門家の発言を抽出
+            lines = discussion_text.split('\n')
+            extracted_lines = []
+            in_expert_section = False
+            
+            for line in lines:
+                # 専門家マーカーを確認
+                for marker in expert_markers[expert_type]:
+                    if marker in line:
+                        in_expert_section = True
+                        break
+                
+                # 他の専門家のマーカーがあれば終了
+                for other_expert, markers in expert_markers.items():
+                    if other_expert != expert_type:
+                        for marker in markers:
+                            if marker in line:
+                                in_expert_section = False
+                                break
+                
+                if in_expert_section:
+                    extracted_lines.append(line)
+            
+            return '\n'.join(extracted_lines) if extracted_lines else f"{expert_type}専門家の発言が見つかりません"
+            
+        except Exception as e:
+            self.logger.error(f"専門家討論抽出エラー: {e}")
+            return discussion_text
+    
+    def calculate_expert_scores(self, ticker: str) -> Dict:
+        """4専門家スコア評価を計算（TECH/FUND/MACRO/RISK）"""
+        try:
+            # キャッシュからデータを取得
+            df = self._batch_data_cache.get(ticker)
+            info = self._info_cache.get(ticker, {})
+            
+            if df is None or df.empty:
+                self.logger.warning(f"{ticker}: 専門家スコア計算用データが不足")
+                return {
+                    'TECH': 3.0, 'FUND': 3.0, 'MACRO': 3.0, 'RISK': 3.0, 'OVERALL': 3.0
+                }
+            
+            latest = df.iloc[-1]
+            
+            # TECH スコア (1-5点)
+            tech_score = 3.0
+            if latest['Close'] > latest['EMA20'] > latest['EMA50']:
+                tech_score += 1.0
+            if latest['RSI'] > 30 and latest['RSI'] < 70:
+                tech_score += 0.5
+            if latest['Close'] > latest['SMA200']:
+                tech_score += 0.5
+            tech_score = min(5.0, max(1.0, tech_score))
+            
+            # FUND スコア (1-5点)
+            fund_score = 3.0
+            pe_ratio = info.get('trailingPE', 0)
+            if pe_ratio > 0 and pe_ratio < 25:
+                fund_score += 0.5
+            if info.get('revenueGrowth', 0) > 0.1:
+                fund_score += 0.5
+            if info.get('grossMargins', 0) > 0.2:
+                fund_score += 0.5
+            if info.get('currentRatio', 0) > 1.5:
+                fund_score += 0.5
+            fund_score = min(5.0, max(1.0, fund_score))
+            
+            # MACRO スコア (1-5点) - セクター別調整
+            macro_score = 3.0
+            sector = self.portfolio.get(ticker, {}).get('sector', '')
+            if sector in ['EV・自動運転', 'ソーラーパネル']:
+                macro_score += 0.5  # 成長セクター
+            elif sector in ['宇宙インフラ', '月面探査']:
+                macro_score += 1.0  # 高成長期待
+            elif sector in ['衛星通信', 'eVTOL']:
+                macro_score += 0.5  # 新興市場
+            
+            # 市場全体のセンチメント調整
+            if latest['Close'] > df['Close'].rolling(50).mean().iloc[-1]:
+                macro_score += 0.5
+            macro_score = min(5.0, max(1.0, macro_score))
+            
+            # RISK スコア (1-5点) - 高いほど低リスク
+            risk_score = 3.0
+            volatility = df['Close'].pct_change().std() * (252**0.5)  # 年率ボラティリティ
+            if volatility < 0.3:
+                risk_score += 1.0
+            elif volatility < 0.5:
+                risk_score += 0.5
+            elif volatility > 0.8:
+                risk_score -= 1.0
+            
+            # 流動性評価
+            avg_volume = df['Volume'].rolling(20).mean().iloc[-1]
+            if avg_volume > 1000000:
+                risk_score += 0.5
+            
+            risk_score = min(5.0, max(1.0, risk_score))
+            
+            # 総合スコア
+            overall_score = (tech_score + fund_score + macro_score + risk_score) / 4.0
+            
+            return {
+                'TECH': round(tech_score, 1),
+                'FUND': round(fund_score, 1),
+                'MACRO': round(macro_score, 1),
+                'RISK': round(risk_score, 1),
+                'OVERALL': round(overall_score, 1)
+            }
+            
+        except Exception as e:
+            self.logger.error(f"{ticker}: 専門家スコア計算エラー - {e}")
+            return {
+                'TECH': 3.0, 'FUND': 3.0, 'MACRO': 3.0, 'RISK': 3.0, 'OVERALL': 3.0
+            }
     
     def calculate_portfolio_optimization(self) -> Dict:
         """ポートフォリオ最適化計算"""
@@ -317,8 +479,9 @@ class PortfolioMasterReportHybrid:
                 'sectors': list(set(info['sector'] for info in self.portfolio.values())),
                 'stock_metrics': {},
                 'financial_metrics': {},
-                'discussions': {},
-                'competitors': {},
+                'discussion_reports': {},
+                'competitor_reports': {},
+                'expert_scores': {},
                 'optimization': self.calculate_portfolio_optimization()
             }
             
@@ -326,8 +489,11 @@ class PortfolioMasterReportHybrid:
             for ticker in self.portfolio:
                 template_data['stock_metrics'][ticker] = self.get_current_metrics(ticker)
                 template_data['financial_metrics'][ticker] = self.get_financial_metrics(ticker)
-                template_data['discussions'][ticker] = self.read_discussion_report(ticker)
-                template_data['competitors'][ticker] = self.read_competitor_report(ticker)
+                template_data['expert_scores'][ticker] = self.calculate_expert_scores(ticker)
+                template_data['discussion_reports'][ticker] = self.read_discussion_report(ticker)
+                template_data['competitor_reports'][ticker] = self.read_competitor_report(ticker)
+                
+                self.logger.info(f"{ticker}: データ収集完了")
             
             return template_data
             

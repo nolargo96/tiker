@@ -335,6 +335,175 @@ body {
     margin-top: 40px;
 }
 
+/* 4専門家スコア評価のスタイル */
+.expert-scores-overview {
+    background: var(--bg-color);
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.score-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 8px;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.ticker-label {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    width: 60px;
+    text-align: center;
+}
+
+.scores-grid {
+    display: flex;
+    gap: 12px;
+    flex: 1;
+    margin-left: 15px;
+}
+
+.score-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 60px;
+}
+
+.score-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+    color: var(--text-secondary);
+}
+
+.score-value {
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* 専門家別カラー */
+.score-item.tech .score-value {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.score-item.fund .score-value {
+    background: #e8f5e8;
+    color: #2e7d32;
+}
+
+.score-item.macro .score-value {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+.score-item.risk .score-value {
+    background: #fce4ec;
+    color: #c2185b;
+}
+
+.score-item.overall .overall-score {
+    background: var(--primary-color);
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+/* 詳細スコアカード */
+.expert-scores-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.scores-grid-large {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.score-card {
+    background: var(--bg-color);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    border-left: 4px solid;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.score-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.score-card.tech { border-left-color: #3B82F6; }
+.score-card.fund { border-left-color: #10B981; }
+.score-card.macro { border-left-color: #F59E0B; }
+.score-card.risk { border-left-color: #EF4444; }
+
+.score-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.score-icon {
+    font-size: 2rem;
+}
+
+.score-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--text-primary);
+}
+
+.score-value-large {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.score-description {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.overall-score-card {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+}
+
+.overall-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.overall-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.overall-value {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 10px;
@@ -359,5 +528,21 @@ body {
     
     .metrics-grid {
         grid-template-columns: 1fr;
+    }
+    
+    /* 専門家スコアのレスポンシブ対応 */
+    .score-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .scores-grid {
+        margin-left: 0;
+        margin-top: 8px;
+        justify-content: space-around;
+    }
+    
+    .score-item {
+        min-width: auto;
     }
 }

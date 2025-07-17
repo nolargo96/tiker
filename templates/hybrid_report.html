@@ -50,6 +50,39 @@
                 </div>
                 
                 <div class="stock-card">
+                    <h3>⚖️ 4専門家評価スコア</h3>
+                    <div class="expert-scores-overview">
+                        {% for ticker, scores in expert_scores.items() %}
+                        <div class="score-row">
+                            <div class="ticker-label">{{ ticker }}</div>
+                            <div class="scores-grid">
+                                <div class="score-item tech">
+                                    <span class="score-label">TECH</span>
+                                    <span class="score-value">{{ scores.TECH }}★</span>
+                                </div>
+                                <div class="score-item fund">
+                                    <span class="score-label">FUND</span>
+                                    <span class="score-value">{{ scores.FUND }}★</span>
+                                </div>
+                                <div class="score-item macro">
+                                    <span class="score-label">MACRO</span>
+                                    <span class="score-value">{{ scores.MACRO }}★</span>
+                                </div>
+                                <div class="score-item risk">
+                                    <span class="score-label">RISK</span>
+                                    <span class="score-value">{{ scores.RISK }}★</span>
+                                </div>
+                                <div class="score-item overall">
+                                    <span class="score-label">総合</span>
+                                    <span class="score-value overall-score">{{ scores.OVERALL }}★</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="stock-card">
                     <h3>⚖️ 配分方針</h3>
                     <div class="analysis-section">
                         <div><strong>コア銘柄（20%）:</strong> TSLA, FSLR</div>
@@ -130,10 +163,10 @@
                         <tr>
                             <td><strong>{{ ticker }}</strong></td>
                             <td>{{ info.sector }}</td>
-                            <td>{{ current }}%</td>
-                            <td>{{ recommended }}%</td>
+                            <td>{{ "%.2f"|format(current) }}%</td>
+                            <td>{{ "%.2f"|format(recommended) }}%</td>
                             <td class="{{ 'positive' if change > 0 else 'negative' if change < 0 else '' }}">
-                                {{ '+' if change > 0 else '' }}{{ "%.1f"|format(change) }}%
+                                {{ '+' if change > 0 else '' }}{{ "%.2f"|format(change) }}%
                             </td>
                             <td style="color: {{ 'var(--danger-color)' if risk >= 7 else 'var(--warning-color)' if risk >= 5 else 'var(--success-color)' }}">
                                 {{ risk }}/10
@@ -175,6 +208,71 @@
             
             {% set metrics = stock_metrics.get(ticker) %}
             {% set financial = financial_metrics.get(ticker) %}
+            {% set scores = expert_scores.get(ticker) %}
+            {% set discussion = discussion_reports.get(ticker) %}
+            {% set competitor = competitor_reports.get(ticker) %}
+            
+            {% if scores %}
+            <div class="analysis-section">
+                <h3>⚖️ 4専門家評価スコア</h3>
+                <div class="expert-scores-detail">
+                    <div class="scores-grid-large">
+                        <div class="score-card tech">
+                            <div class="score-header">
+                                <div class="score-icon">📈</div>
+                                <div class="score-title">TECH</div>
+                                <div class="score-value-large">{{ scores.TECH }}★</div>
+                            </div>
+                            <div class="score-description">テクニカル分析</div>
+                        </div>
+                        <div class="score-card fund">
+                            <div class="score-header">
+                                <div class="score-icon">💰</div>
+                                <div class="score-title">FUND</div>
+                                <div class="score-value-large">{{ scores.FUND }}★</div>
+                            </div>
+                            <div class="score-description">ファンダメンタル分析</div>
+                        </div>
+                        <div class="score-card macro">
+                            <div class="score-header">
+                                <div class="score-icon">🌍</div>
+                                <div class="score-title">MACRO</div>
+                                <div class="score-value-large">{{ scores.MACRO }}★</div>
+                            </div>
+                            <div class="score-description">マクロ環境</div>
+                        </div>
+                        <div class="score-card risk">
+                            <div class="score-header">
+                                <div class="score-icon">🛡️</div>
+                                <div class="score-title">RISK</div>
+                                <div class="score-value-large">{{ scores.RISK }}★</div>
+                            </div>
+                            <div class="score-description">リスク管理</div>
+                        </div>
+                    </div>
+                    <div class="overall-score-card">
+                        <div class="overall-header">
+                            <div class="overall-title">総合評価</div>
+                            <div class="overall-value">{{ scores.OVERALL }}★</div>
+                        </div>
+                        <div class="overall-description">
+                            {% if scores.OVERALL >= 4.0 %}
+                            強い買い推奨
+                            {% elif scores.OVERALL >= 3.5 %}
+                            買い推奨
+                            {% elif scores.OVERALL >= 3.0 %}
+                            中立
+                            {% elif scores.OVERALL >= 2.5 %}
+                            弱い売り
+                            {% else %}
+                            売り推奨
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
             {% if metrics %}
             <div class="analysis-section">
                 <h3>📊 基本情報</h3>
@@ -207,25 +305,33 @@
                 </div>
             </div>
             
-            {% set discussion = discussions.get(ticker) %}
-            {% if discussion %}
+            <!-- 要約セクション -->
             <div class="analysis-section">
-                <h3>🗣️ 専門家討論</h3>
-                <div class="expert-discussion">
-                    <pre>{{ discussion[:1200] }}{% if discussion|length > 1200 %}...{% endif %}</pre>
+                <h3>📊 分析サマリー</h3>
+                <div class="summary-grid">
+                    {% set discussion = discussion_reports.get(ticker) %}
+                    {% if discussion %}
+                    <div class="summary-card">
+                        <h4>🗣️ 4専門家討論ハイライト</h4>
+                        <div class="summary-content">
+                            <p>{{ discussion[:500] }}{% if discussion|length > 500 %}...{% endif %}</p>
+                            <a href="#{{ ticker.lower() }}-discussion" class="read-more">→ 詳細を読む</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% set competitor = competitor_reports.get(ticker) %}
+                    {% if competitor %}
+                    <div class="summary-card">
+                        <h4>🏆 競合分析ハイライト</h4>
+                        <div class="summary-content">
+                            <p>{{ competitor[:500] }}{% if competitor|length > 500 %}...{% endif %}</p>
+                            <a href="#{{ ticker.lower() }}-competitor" class="read-more">→ 詳細を読む</a>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
-            {% endif %}
-            
-            {% set competitor = competitors.get(ticker) %}
-            {% if competitor %}
-            <div class="analysis-section">
-                <h3>🏆 競合分析</h3>
-                <div class="competitor-analysis">
-                    <pre>{{ competitor[:1000] }}{% if competitor|length > 1000 %}...{% endif %}</pre>
-                </div>
-            </div>
-            {% endif %}
             
             {% if financial %}
             <div class="analysis-section">
@@ -273,6 +379,46 @@
                 </div>
             </div>
             {% endif %}
+            
+            {% if discussion %}
+            <div class="analysis-section" id="{{ ticker.lower() }}-discussion">
+                <h3>🎯 4専門家討論レポート</h3>
+                <div class="discussion-tabs">
+                    <button class="discussion-tab active" onclick="showDiscussionSection('{{ ticker.lower() }}', 'full')">全文</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('{{ ticker.lower() }}', 'tech')">📈 TECH</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('{{ ticker.lower() }}', 'fund')">💰 FUND</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('{{ ticker.lower() }}', 'macro')">🌍 MACRO</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('{{ ticker.lower() }}', 'risk')">⚠️ RISK</button>
+                </div>
+                <div class="expert-discussion">
+                    <div id="{{ ticker.lower() }}-discussion-full" class="discussion-content active">
+                        <pre>{{ discussion }}</pre>
+                    </div>
+                    <div id="{{ ticker.lower() }}-discussion-tech" class="discussion-content">
+                        <pre>{{ discussion | extract_expert('TECH') }}</pre>
+                    </div>
+                    <div id="{{ ticker.lower() }}-discussion-fund" class="discussion-content">
+                        <pre>{{ discussion | extract_expert('FUND') }}</pre>
+                    </div>
+                    <div id="{{ ticker.lower() }}-discussion-macro" class="discussion-content">
+                        <pre>{{ discussion | extract_expert('MACRO') }}</pre>
+                    </div>
+                    <div id="{{ ticker.lower() }}-discussion-risk" class="discussion-content">
+                        <pre>{{ discussion | extract_expert('RISK') }}</pre>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if competitor %}
+            <div class="analysis-section" id="{{ ticker.lower() }}-competitor">
+                <h3>🏢 競合分析レポート</h3>
+                <div class="competitor-analysis">
+                    <pre>{{ competitor }}</pre>
+                </div>
+            </div>
+            {% endif %}
+            
         </div>
         {% endfor %}
         
