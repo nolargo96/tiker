@@ -95,7 +95,6 @@
             <div class="portfolio-grid">
                 {% for ticker, info in portfolio.items() %}
                 {% set metrics = stock_metrics.get(ticker) %}
-                {% if metrics %}
                 <div class="stock-card" style="border-left-color: {{ info.color }}">
                     <div class="stock-header">
                         <div class="stock-ticker">{{ ticker }}</div>
@@ -105,6 +104,7 @@
                     <div class="stock-sector">{{ info.sector }}</div>
                     
                     <div class="metrics-grid">
+                        {% if metrics %}
                         <div class="metric-item">
                             <div class="metric-label">現在価格</div>
                             <div class="metric-value">${{ "%.2f"|format(metrics.current_price) }}</div>
@@ -123,9 +123,14 @@
                             <div class="metric-label">時価総額</div>
                             <div class="metric-value">${{ "%.1f"|format(metrics.market_cap/1e9) }}B</div>
                         </div>
+                        {% else %}
+                        <div class="metric-item" style="grid-column: 1 / -1;">
+                            <div class="metric-label">データ取得エラー</div>
+                            <div class="metric-value" style="color: #e74c3c;">一時的にデータを取得できませんでした</div>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
-                {% endif %}
                 {% endfor %}
             </div>
             
@@ -302,34 +307,6 @@
                         <div class="metric-label">ポートフォリオ配分</div>
                         <div class="metric-value">{{ info.weight }}%</div>
                     </div>
-                </div>
-            </div>
-            
-            <!-- 要約セクション -->
-            <div class="analysis-section">
-                <h3>📊 分析サマリー</h3>
-                <div class="summary-grid">
-                    {% set discussion = discussion_reports.get(ticker) %}
-                    {% if discussion %}
-                    <div class="summary-card">
-                        <h4>🗣️ 4専門家討論ハイライト</h4>
-                        <div class="summary-content">
-                            <p>{{ discussion[:500] }}{% if discussion|length > 500 %}...{% endif %}</p>
-                            <a href="#{{ ticker.lower() }}-discussion" class="read-more">→ 詳細を読む</a>
-                        </div>
-                    </div>
-                    {% endif %}
-                    
-                    {% set competitor = competitor_reports.get(ticker) %}
-                    {% if competitor %}
-                    <div class="summary-card">
-                        <h4>🏆 競合分析ハイライト</h4>
-                        <div class="summary-content">
-                            <p>{{ competitor[:500] }}{% if competitor|length > 500 %}...{% endif %}</p>
-                            <a href="#{{ ticker.lower() }}-competitor" class="read-more">→ 詳細を読む</a>
-                        </div>
-                    </div>
-                    {% endif %}
                 </div>
             </div>
             

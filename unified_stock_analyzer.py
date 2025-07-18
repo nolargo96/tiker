@@ -22,9 +22,21 @@ except ImportError:
         "HTMLレポート機能は利用できません。html_report_generator.pyが見つかりません。"
     )
 
+# 専門家討論生成機能をインポート
+try:
+    from expert_discussion_generator import ExpertDiscussionGenerator
+
+    EXPERT_DISCUSSION_AVAILABLE = True
+except ImportError:
+    EXPERT_DISCUSSION_AVAILABLE = False
+    print(
+        "専門家討論生成機能は利用できません。expert_discussion_generator.pyが見つかりません。"
+    )
+
 
 def analyze_and_chart_stock(
-    ticker_symbol: str, today_date_str: Optional[str] = None
+    ticker_symbol: str, today_date_str: Optional[str] = None,
+    generate_detailed_report: bool = False
 ) -> Tuple[bool, str]:
     """
     指定されたティッカーの株価データを取得し、テクニカル指標を計算し、チャートを生成・保存します。
@@ -33,6 +45,7 @@ def analyze_and_chart_stock(
         ticker_symbol (str): 分析対象の米国株ティッカーシンボル (例: "AAPL", "MSFT").
         today_date_str (str, optional): 分析基準日を 'YYYY-MM-DD' 形式で指定します。
                                         指定しない場合、実行時の日本時間の日付が使用されます。
+        generate_detailed_report (bool): tiker.mdに沿った詳細な4専門家討論レポートを生成するかどうか。
     Returns:
         tuple: (bool, str) - 成功した場合は (True, "成功メッセージ"), 失敗した場合は (False, "エラーメッセージ").
     """
@@ -201,16 +214,39 @@ def analyze_and_chart_stock(
         if HTML_REPORT_AVAILABLE:
             try:
                 html_generator = HTMLReportGenerator()
-                html_success, html_result = html_generator.generate_stock_html_report(
-                    ticker=ticker_symbol,
-                    analysis_data=df_analysis,
-                    chart_path=CHART_FILEPATH,
-                    date_str=today_str,
-                )
-                if html_success:
-                    print(f"HTMLレポートを生成しました: {html_result}")
+                
+                # 詳細レポート生成が有効な場合
+                if generate_detailed_report and EXPERT_DISCUSSION_AVAILABLE:
+                    # 専門家討論生成
+                    discussion_generator = ExpertDiscussionGenerator()
+                    analysis_result = discussion_generator.generate_full_analysis(
+                        ticker=ticker_symbol,
+                        df=df_analysis,
+                        date_str=today_str
+                    )
+                    
+                    # 詳細HTMLレポート生成
+                    html_success, html_result = html_generator.generate_detailed_stock_report(
+                        analysis_result=analysis_result,
+                        analysis_data=df_analysis,
+                        chart_path=CHART_FILEPATH
+                    )
+                    if html_success:
+                        print(f"\n\ud83d\udcca 詳細投資分析レポートを生成しました: {html_result}")
+                    else:
+                        print(f"詳細レポート生成エラー: {html_result}")
                 else:
-                    print(f"HTMLレポート生成エラー: {html_result}")
+                    # 通常のHTMLレポート生成
+                    html_success, html_result = html_generator.generate_stock_html_report(
+                        ticker=ticker_symbol,
+                        analysis_data=df_analysis,
+                        chart_path=CHART_FILEPATH,
+                        date_str=today_str,
+                    )
+                    if html_success:
+                        print(f"HTMLレポートを生成しました: {html_result}")
+                    else:
+                        print(f"HTMLレポート生成エラー: {html_result}")
             except Exception as e:
                 print(f"HTMLレポート生成中にエラーが発生しました: {str(e)}")
 
@@ -1050,6 +1086,10 @@ def main():
         "--tickers", type=str, help="ポートフォリオ銘柄 (カンマ区切り: TSLA,FSLR,ASTS)"
     )
     parser.add_argument("--weights", type=str, help="配分比率 (カンマ区切り: 30,25,15)")
+    parser.add_argument(
+        "--detailed-report", action="store_true", 
+        help="tiker.mdに沿った詳細な4専門家討論レポートを生成"
+    )
 
     args = parser.parse_args()
 
@@ -1081,7 +1121,9 @@ def main():
 
     elif args.ticker:
         # 個別銘柄分析
-        success, message = analyze_and_chart_stock(args.ticker, args.date)
+        success, message = analyze_and_chart_stock(
+            args.ticker, args.date, generate_detailed_report=args.detailed_report
+        )
         print(f"\n結果: {message}")
 
     else:

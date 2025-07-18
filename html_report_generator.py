@@ -18,6 +18,14 @@ from pathlib import Path
 import base64
 from stock_analyzer_lib import ConfigManager, StockDataManager, TechnicalIndicators
 
+# Jinja2テンプレートエンジン
+try:
+    from jinja2 import Environment, FileSystemLoader, select_autoescape
+    JINJA2_AVAILABLE = True
+except ImportError:
+    JINJA2_AVAILABLE = False
+    print("Jinja2が利用できません。pip install jinja2 を実行してください。")
+
 
 class HTMLReportGenerator:
     """HTMLレポート生成クラス"""
@@ -32,6 +40,21 @@ class HTMLReportGenerator:
         self.config = ConfigManager(config_path)
         self.data_manager = StockDataManager(self.config)
         self.template_dir = self._ensure_template_directory()
+        
+        # Jinja2環境の設定
+        if JINJA2_AVAILABLE:
+            template_dirs = [
+                Path(__file__).parent / "templates",  # プロジェクト内テンプレート
+                self.template_dir  # 設定で指定されたテンプレート
+            ]
+            existing_dirs = [str(d) for d in template_dirs if d.exists()]
+            
+            self.jinja_env = Environment(
+                loader=FileSystemLoader(existing_dirs),
+                autoescape=select_autoescape(['html', 'xml'])
+            )
+        else:
+            self.jinja_env = None
 
     def _ensure_template_directory(self) -> Path:
         """テンプレートディレクトリを作成・確保"""
@@ -882,6 +905,84 @@ class HTMLReportGenerator:
             }
         });
         """
+    
+    def generate_detailed_stock_report(
+        self,
+        analysis_result: Dict[str, Any],
+        analysis_data: pd.DataFrame,
+        chart_path: str,
+    ) -> Tuple[bool, str]:
+        """
+        tiker.mdに基づく詳細な投資分析レポートを生成
+        
+        Args:
+            analysis_result: ExpertDiscussionGeneratorからの分析結果
+            analysis_data: 株価データとテクニカル指標
+            chart_path: チャート画像のパス
+            
+        Returns:
+            Tuple[bool, str]: 成功フラグとファイルパス/エラーメッセージ
+        """
+        if not JINJA2_AVAILABLE:
+            return False, "Jinja2が利用できません。pip install jinja2 を実行してください。"
+            
+        try:
+            # テンプレートの読み込み
+            template = self.jinja_env.get_template('stock_detail_report.html')
+            
+            # チャート画像をBase64エンコード
+            chart_base64 = self._encode_image_to_base64(chart_path)
+            
+            # 財務データの取得（簡略化）
+            financial_data = self._extract_financial_data(
+                analysis_result.get('company_info')
+            )
+            
+            # 現在時刻
+            generation_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            
+            # テンプレートにデータを渡してレンダリング
+            html_content = template.render(
+                company_info=analysis_result['company_info'],
+                current_data=analysis_result['current_data'],
+                scores=analysis_result['scores'],
+                environment_assessment=analysis_result['environment_assessment'],
+                discussion_rounds=analysis_result['discussion_rounds'],
+                price_targets=analysis_result['price_targets'],
+                entry_plan=analysis_result['entry_plan'],
+                risk_scenarios=analysis_result['risk_scenarios'],
+                final_recommendation=analysis_result['final_recommendation'],
+                analysis_date=analysis_result['analysis_date'],
+                financial_data=financial_data,
+                chart_path=chart_base64,
+                generation_time=generation_time
+            )
+            
+            # ファイル保存
+            reports_dir = Path(self.config.get("directories.reports", "./reports"))
+            html_dir = reports_dir / "html"
+            html_dir.mkdir(parents=True, exist_ok=True)
+            
+            ticker = analysis_result['company_info'].ticker
+            date_str = analysis_result['analysis_date']
+            filename = f"{ticker}_detailed_analysis_{date_str}.html"
+            filepath = html_dir / filename
+            
+            with open(filepath, 'w', encoding='utf-8') as f:
+                f.write(html_content)
+                
+            return True, str(filepath)
+            
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            return False, f"詳細レポート生成エラー: {str(e)}"
+    
+    def _extract_financial_data(self, company_info: Any) -> Optional[Dict[str, Any]]:
+        """財務データを抽出（プレースホルダー）"""
+        # 実際のyfinanceデータから取得する必要がある
+        # ここでは簡略化のためNoneを返す
+        return None
 
 
 # 使用例

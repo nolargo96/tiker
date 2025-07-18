@@ -60,15 +60,15 @@ body {
 }
 
 .nav-tab {
-    padding: 12px 20px;
+    padding: 8px 16px;
     background: var(--card-bg);
     border: 2px solid var(--border-color);
     border-radius: 8px 8px 0 0;
     cursor: pointer;
     transition: all 0.3s;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 500;
-    min-width: 120px;
+    min-width: 80px;
     text-align: center;
 }
 
@@ -327,6 +327,91 @@ body {
     margin-bottom: 10px;
 }
 
+/* 分析サマリーグリッド */
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.summary-card {
+    background: var(--bg-color);
+    border-radius: 8px;
+    padding: 20px;
+    border-left: 4px solid var(--secondary-color);
+}
+
+.summary-card h4 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.summary-content {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+}
+
+.summary-content p {
+    margin-bottom: 10px;
+}
+
+.read-more {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.read-more:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+/* 討論タブ */
+.discussion-tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.discussion-tab {
+    padding: 8px 16px;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    border-bottom: none;
+}
+
+.discussion-tab:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.discussion-tab.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.discussion-content {
+    display: none;
+}
+
+.discussion-content.active {
+    display: block;
+    animation: fadeIn 0.3s;
+}
+
 .footer {
     text-align: center;
     padding: 30px;
@@ -347,47 +432,59 @@ body {
     display: flex;
     align-items: center;
     margin-bottom: 12px;
-    padding: 8px;
+    padding: 10px;
     background: white;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    transition: all 0.2s;
+}
+
+.score-row:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    transform: translateX(2px);
 }
 
 .ticker-label {
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: var(--primary-color);
-    width: 60px;
+    width: 70px;
     text-align: center;
+    flex-shrink: 0;
 }
 
 .scores-grid {
-    display: flex;
-    gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
     flex: 1;
     margin-left: 15px;
+    align-items: center;
 }
 
 .score-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 60px;
+    padding: 5px;
+    min-width: 0;
 }
 
 .score-label {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
     color: var(--text-secondary);
+    letter-spacing: 0.5px;
 }
 
 .score-value {
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: bold;
-    padding: 2px 6px;
-    border-radius: 4px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
 }
 
 /* 専門家別カラー */
@@ -534,15 +631,33 @@ body {
     .score-row {
         flex-direction: column;
         align-items: stretch;
+        padding: 12px;
+    }
+    
+    .ticker-label {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 8px;
+        font-size: 1.1rem;
     }
     
     .scores-grid {
         margin-left: 0;
         margin-top: 8px;
-        justify-content: space-around;
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+        gap: 6px;
     }
     
     .score-item {
-        min-width: auto;
+        padding: 4px;
+    }
+    
+    .score-label {
+        font-size: 0.7rem;
+    }
+    
+    .score-value {
+        font-size: 0.9rem;
+        padding: 3px 6px;
     }
 }

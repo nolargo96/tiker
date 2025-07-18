@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ company_info.ticker }} - {{ company_info.name }} 詳細投資分析レポート</title>
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --success-color: #48bb78;
+            --warning-color: #f6ad55;
+            --danger-color: #f56565;
+            --tech-color: #4299e1;
+            --fund-color: #48bb78;
+            --macro-color: #ed8936;
+            --risk-color: #e53e3e;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7fafc;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-secondary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .section {
+            background: var(--bg-primary);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* 基本情報セクション */
+        .company-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-card {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .info-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card p {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* 4専門家評価スコア */
+        .expert-scores {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .score-card {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .score-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .score-card.tech {
+            background: linear-gradient(135deg, var(--tech-color), rgba(66, 153, 225, 0.8));
+            color: white;
+        }
+
+        .score-card.fund {
+            background: linear-gradient(135deg, var(--fund-color), rgba(72, 187, 120, 0.8));
+            color: white;
+        }
+
+        .score-card.macro {
+            background: linear-gradient(135deg, var(--macro-color), rgba(237, 137, 54, 0.8));
+            color: white;
+        }
+
+        .score-card.risk {
+            background: linear-gradient(135deg, var(--risk-color), rgba(229, 62, 62, 0.8));
+            color: white;
+        }
+
+        .score-title {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .score-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .score-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .overall-score {
+            grid-column: span 4;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .overall-score .score-value {
+            font-size: 3rem;
+        }
+
+        /* 投資環境評価 */
+        .environment-assessment {
+            margin-bottom: 2rem;
+        }
+
+        .assessment-item {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .assessment-item.tech {
+            border-left-color: var(--tech-color);
+        }
+
+        .assessment-item.fund {
+            border-left-color: var(--fund-color);
+        }
+
+        .assessment-item.macro {
+            border-left-color: var(--macro-color);
+        }
+
+        .assessment-item.risk {
+            border-left-color: var(--risk-color);
+        }
+
+        .assessment-item h4 {
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        /* 討論セクション */
+        .discussion-round {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .discussion-round::before {
+            content: attr(data-round);
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--bg-primary);
+            padding: 0 10px;
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .discussion-round h4 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .discussion-item {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            position: relative;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .discussion-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .discussion-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .speaker.tech { 
+            color: white;
+            background-color: var(--tech-color); 
+        }
+        .speaker.fund { 
+            color: white;
+            background-color: var(--fund-color); 
+        }
+        .speaker.macro { 
+            color: white;
+            background-color: var(--macro-color); 
+        }
+        .speaker.risk { 
+            color: white;
+            background-color: var(--risk-color); 
+        }
+
+        .discussion-content {
+            color: var(--text-primary);
+            line-height: 1.8;
+            margin-top: 0.5rem;
+        }
+
+        /* テーブルスタイル */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        tbody tr:hover {
+            background: var(--bg-secondary);
+        }
+
+        /* 価格目標テーブル */
+        .price-targets-table {
+            overflow-x: auto;
+        }
+
+        /* エントリー計画 */
+        .entry-plan {
+            margin-top: 1rem;
+        }
+
+        .entry-stage {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 6px;
+            display: grid;
+            grid-template-columns: auto 1fr 1fr 2fr;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .stage-number {
+            background: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* リスクシナリオ */
+        .risk-scenario {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .risk-scenario.base {
+            border-left-color: var(--success-color);
+        }
+
+        .risk-scenario.bullish {
+            border-left-color: var(--warning-color);
+        }
+
+        .risk-scenario.bearish {
+            border-left-color: var(--danger-color);
+        }
+
+        .scenario-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .probability-badge {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* 最終推奨 */
+        .final-recommendation {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .recommendation-judgment {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .recommendation-rationale {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+        }
+
+        .monitoring-points {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: left;
+        }
+
+        .monitoring-points ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .monitoring-points li:before {
+            content: "✓ ";
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        /* 財務分析 */
+        .financial-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .metric-card {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        /* 技術指標 */
+        .technical-indicators {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .indicator-group {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .indicator-group h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .indicator-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .indicator-item:last-child {
+            border-bottom: none;
+        }
+
+        /* チャート画像 */
+        .chart-container {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .chart-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* フッター */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .disclaimer {
+            background: #fff3cd;
+            color: #856404;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 2rem;
+            border-left: 4px solid #ffc107;
+        }
+
+        /* レスポンシブ対応 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .expert-scores {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .overall-score {
+                grid-column: span 2;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .entry-stage {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .stage-number {
+                margin: 0 auto;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            .financial-metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .technical-indicators {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 印刷対応 */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            .section {
+                box-shadow: none;
+                break-inside: avoid;
+            }
+
+            .header {
+                background: none;
+                color: black;
+                border: 2px solid black;
+            }
+
+            .score-card {
+                background: none !important;
+                color: black !important;
+                border: 1px solid black;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <div class="header">
+            <h1>{{ company_info.ticker }} - {{ company_info.name }}</h1>
+            <div class="subtitle">中長期投資エントリー分析レポート - {{ analysis_date }}</div>
+        </div>
+
+        <!-- 1. 基本情報 -->
+        <div class="section">
+            <h2>📊 基本情報</h2>
+            <div class="company-overview">
+                <div class="info-card">
+                    <h4>企業概要</h4>
+                    <p><strong>ティッカー:</strong> {{ company_info.ticker }}</p>
+                    <p><strong>企業名:</strong> {{ company_info.name }}</p>
+                    <p><strong>セクター:</strong> {{ company_info.sector }}</p>
+                    <p><strong>業界:</strong> {{ company_info.industry }}</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>経営情報</h4>
+                    <p><strong>現CEO:</strong> {{ company_info.ceo }}</p>
+                    <p><strong>就任年:</strong> {{ company_info.ceo_year }}</p>
+                    <p><strong>創業者:</strong> {{ '✓' if company_info.is_founder else '✗' }}</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>企業ビジョン・ミッション</h4>
+                    <p>{{ company_info.vision_mission }}</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>主力製品・サービス</h4>
+                    <ul>
+                        {% for product in company_info.main_products %}
+                        <li>{{ product }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 現在の価格情報 -->
+            <div class="financial-metrics">
+                <div class="metric-card">
+                    <div class="metric-label">現在価格</div>
+                    <div class="metric-value">${{ "%.2f"|format(current_data.price) }}</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">52週高値</div>
+                    <div class="metric-value">${{ "%.2f"|format(current_data.high_52w) }}</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">52週安値</div>
+                    <div class="metric-value">${{ "%.2f"|format(current_data.low_52w) }}</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">52週高値比</div>
+                    <div class="metric-value">{{ "%.1f"|format(current_data.from_52w_high) }}%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">出来高</div>
+                    <div class="metric-value">{{ "{:,.0f}".format(current_data.volume) }}</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">{{ "%.1f"|format(current_data.rsi) }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. 4専門家評価スコア -->
+        <div class="section">
+            <h2>⚖️ 4専門家評価スコア</h2>
+            <div class="expert-scores">
+                <div class="score-card tech">
+                    <div class="score-title">TECH</div>
+                    <div class="score-value">{{ scores.tech }}★</div>
+                    <div class="score-description">テクニカル分析</div>
+                </div>
+                <div class="score-card fund">
+                    <div class="score-title">FUND</div>
+                    <div class="score-value">{{ scores.fund }}★</div>
+                    <div class="score-description">ファンダメンタル分析</div>
+                </div>
+                <div class="score-card macro">
+                    <div class="score-title">MACRO</div>
+                    <div class="score-value">{{ scores.macro }}★</div>
+                    <div class="score-description">マクロ環境</div>
+                </div>
+                <div class="score-card risk">
+                    <div class="score-title">RISK</div>
+                    <div class="score-value">{{ scores.risk }}★</div>
+                    <div class="score-description">リスク管理</div>
+                </div>
+                
+                <div class="overall-score">
+                    <div>
+                        <div class="score-title">総合評価</div>
+                        <div class="score-description">4専門家の総合判断</div>
+                    </div>
+                    <div class="score-value">{{ scores.overall }}★</div>
+                </div>
+            </div>
+
+            <!-- 現在の投資環境評価 -->
+            <h3>現在の投資環境評価</h3>
+            <div class="environment-assessment">
+                <div class="assessment-item tech">
+                    <h4>📈 TECH - テクニカル分析</h4>
+                    <p>{{ environment_assessment.TECH }}</p>
+                </div>
+                <div class="assessment-item fund">
+                    <h4>💰 FUND - ファンダメンタル分析</h4>
+                    <p>{{ environment_assessment.FUND }}</p>
+                </div>
+                <div class="assessment-item macro">
+                    <h4>🌍 MACRO - マクロ環境</h4>
+                    <p>{{ environment_assessment.MACRO }}</p>
+                </div>
+                <div class="assessment-item risk">
+                    <h4>🛡️ RISK - リスク管理</h4>
+                    <p>{{ environment_assessment.RISK }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. 4専門家討論レポート -->
+        <div class="section">
+            <h2>🎯 4専門家討論レポート</h2>
+            
+            {% for round in discussion_rounds %}
+            <div class="discussion-round" data-round="Round {{ round.round }}">
+                <h4>{{ round.title }}</h4>
+                
+                {% for discussion in round.discussions %}
+                <div class="discussion-item">
+                    {% if discussion.speaker %}
+                    <div class="speaker {{ discussion.speaker|lower|replace('→', '')|replace(' ', '')|replace('第', '')|replace('段階', '') }}">
+                        {{ discussion.speaker }}
+                    </div>
+                    {% endif %}
+                    <div class="discussion-content">
+                        {{ discussion.content }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- 中長期投資判断サマリー -->
+        <div class="section">
+            <h2>📊 中長期投資判断サマリー</h2>
+            
+            <h3>価格目標</h3>
+            <div class="price-targets-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>項目</th>
+                            <th>TECH分析結果</th>
+                            <th>FUND分析結果</th>
+                            <th>MACRO環境影響</th>
+                            <th>RISK管理観点</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>エントリー推奨度</strong></td>
+                            <td>{{ scores.tech }}★</td>
+                            <td>{{ scores.fund }}★</td>
+                            <td>{{ scores.macro }}★</td>
+                            <td>{{ scores.risk }}★</td>
+                        </tr>
+                        <tr>
+                            <td><strong>理想的買いゾーン (USD)</strong></td>
+                            {% for zone in price_targets.support_zones[0] %}
+                            <td>${{ "%.2f"|format(zone[0]) }}～${{ "%.2f"|format(zone[1]) }}</td>
+                            {% endfor %}
+                            <td>市況考慮</td>
+                            <td>${{ "%.2f"|format(price_targets.support_zones[0][0]) }}～${{ "%.2f"|format(price_targets.support_zones[0][1]) }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>1年後目標株価 (USD)</strong></td>
+                            <td>${{ "%.2f"|format(price_targets.target_1y.TECH) }}</td>
+                            <td>${{ "%.2f"|format(price_targets.target_1y.FUND) }}</td>
+                            <td>マクロ要因次第</td>
+                            <td>達成確率60%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3年後目標株価 (USD)</strong></td>
+                            <td>${{ "%.2f"|format(price_targets.target_3y.TECH) }}</td>
+                            <td>${{ "%.2f"|format(price_targets.target_3y.FUND) }}</td>
+                            <td>長期成長期待</td>
+                            <td>達成確率40%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>段階的エントリー計画</h3>
+            <div class="entry-plan">
+                {% for stage in entry_plan %}
+                <div class="entry-stage">
+                    <div class="stage-number">{{ stage.stage }}</div>
+                    <div>
+                        <strong>価格帯:</strong> {{ stage.price_range }}
+                    </div>
+                    <div>
+                        <strong>投資比率:</strong> {{ stage.allocation_pct }}%
+                    </div>
+                    <div>
+                        <strong>トリガー条件:</strong> {{ stage.trigger }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <h3>リスクシナリオ対応</h3>
+            {% for scenario in risk_scenarios %}
+            <div class="risk-scenario {{ 'base' if scenario.probability >= 50 else 'bullish' if '強気' in scenario.name else 'bearish' }}">
+                <div class="scenario-header">
+                    <h4>{{ scenario.name }}</h4>
+                    <span class="probability-badge">発生確率: {{ scenario.probability }}%</span>
+                </div>
+                <p><strong>価格想定レンジ:</strong> ${{ "%.2f"|format(scenario.price_range[0]) }}～${{ "%.2f"|format(scenario.price_range[1]) }}</p>
+                <p><strong>対応策:</strong> {{ scenario.strategy }}</p>
+                <p><strong>シナリオ:</strong> {{ scenario.description }}</p>
+            </div>
+            {% endfor %}
+
+            <h3>最終推奨</h3>
+            <div class="final-recommendation">
+                <div class="recommendation-judgment">
+                    エントリー判定: {{ final_recommendation.judgment }}
+                </div>
+                <div class="recommendation-rationale">
+                    {{ final_recommendation.rationale }}
+                </div>
+                <div class="monitoring-points">
+                    <strong>次回レビュータイミング:</strong> {{ final_recommendation.review_timing }}
+                    <ul>
+                        {% for point in final_recommendation.key_monitoring_points %}
+                        <li>{{ point }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. 財務分析 -->
+        {% if financial_data %}
+        <div class="section">
+            <h2>💰 財務分析</h2>
+            <div class="financial-metrics">
+                <div class="metric-card">
+                    <div class="metric-label">時価総額</div>
+                    <div class="metric-value">${{ "%.1f"|format(financial_data.market_cap/1e9) }}B</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">PER（株価収益率）</div>
+                    <div class="metric-value">{{ "%.1f"|format(financial_data.pe_ratio) if financial_data.pe_ratio else 'N/A' }}</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">PBR（株価純資産倍率）</div>
+                    <div class="metric-value">{{ "%.1f"|format(financial_data.pb_ratio) if financial_data.pb_ratio else 'N/A' }}</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">ROE（自己資本利益率）</div>
+                    <div class="metric-value">{{ "%.1f"|format(financial_data.roe*100) }}%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">売上高成長率</div>
+                    <div class="metric-value">{{ "%.1f"|format(financial_data.revenue_growth*100) }}%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">利益率</div>
+                    <div class="metric-value">{{ "%.1f"|format(financial_data.profit_margin*100) }}%</div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- 5. 技術指標 -->
+        <div class="section">
+            <h2>📈 技術指標</h2>
+            
+            {% if chart_path %}
+            <div class="chart-container">
+                <img src="{{ chart_path }}" alt="{{ company_info.ticker }} チャート" class="chart-image">
+            </div>
+            {% endif %}
+            
+            <div class="technical-indicators">
+                <div class="indicator-group">
+                    <h4>移動平均線</h4>
+                    <div class="indicator-item">
+                        <span>20日EMA</span>
+                        <span>${{ "%.2f"|format(current_data.ema20) }}</span>
+                    </div>
+                    <div class="indicator-item">
+                        <span>50日EMA</span>
+                        <span>${{ "%.2f"|format(current_data.ema50) }}</span>
+                    </div>
+                    <div class="indicator-item">
+                        <span>200日SMA</span>
+                        <span>${{ "%.2f"|format(current_data.sma200) }}</span>
+                    </div>
+                </div>
+                
+                <div class="indicator-group">
+                    <h4>オシレーター</h4>
+                    <div class="indicator-item">
+                        <span>RSI(14)</span>
+                        <span>{{ "%.1f"|format(current_data.rsi) }}</span>
+                    </div>
+                    <div class="indicator-item">
+                        <span>ATR(14)</span>
+                        <span>${{ "%.2f"|format(current_data.atr) }}</span>
+                    </div>
+                </div>
+                
+                <div class="indicator-group">
+                    <h4>ボリンジャーバンド</h4>
+                    <div class="indicator-item">
+                        <span>上限バンド</span>
+                        <span>${{ "%.2f"|format(current_data.bb_upper) }}</span>
+                    </div>
+                    <div class="indicator-item">
+                        <span>下限バンド</span>
+                        <span>${{ "%.2f"|format(current_data.bb_lower) }}</span>
+                    </div>
+                </div>
+                
+                <div class="indicator-group">
+                    <h4>価格レベル</h4>
+                    <div class="indicator-item">
+                        <span>直近高値(60日)</span>
+                        <span>${{ "%.2f"|format(current_data.recent_high) }}</span>
+                    </div>
+                    <div class="indicator-item">
+                        <span>直近安値(60日)</span>
+                        <span>${{ "%.2f"|format(current_data.recent_low) }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 免責事項 -->
+        <div class="disclaimer">
+            <strong>免責事項:</strong> 本情報は教育目的のシミュレーションであり、投資助言ではありません。実際の投資判断は、ご自身の責任において行うようにしてください。市場環境は常に変動する可能性がある点にご留意ください。
+        </div>
+
+        <!-- フッター -->
+        <div class="footer">
+            <p>生成日時: {{ generation_time }}</p>
+            <p>© 2025 Stock Analysis Report - Powered by Tiker Analysis System</p>
+        </div>
+    </div>
+</body>
+</html>
