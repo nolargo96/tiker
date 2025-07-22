@@ -40,6 +40,15 @@ tiker/
 python unified_stock_analyzer.py --ticker AAPL --date 2025-01-31
 ```
 
+#### キャッシュオプション
+```bash
+# キャッシュを使用（デフォルト）
+python unified_stock_analyzer.py --ticker TSLA
+
+# キャッシュを無効化して最新データを取得
+python unified_stock_analyzer.py --ticker TSLA --no-cache
+```
+
 ### 2. 個別銘柄分析
 各スクリプトは`scripts/`ディレクトリ内にあります。
 ```bash
@@ -64,6 +73,42 @@ python scripts/fslr_final_report.py
 - numpy
 - matplotlib
 - mplfinance
+
+## キャッシュシステム
+
+### 概要
+開発時の待機時間を削減するため、株価データや計算結果をキャッシュする機能を実装しています。
+
+### キャッシュの種類と有効期限
+- **市場データ（market_data）**: 5分
+- **テクニカル指標（technical）**: 5分
+- **ファンダメンタルデータ（fundamental）**: 1日
+- **ポートフォリオ設定（portfolio）**: 1週間
+- **専門家テンプレート（expert_template）**: 30日
+- **チャート画像（chart）**: 1時間
+
+### キャッシュの管理
+```python
+from cache_manager import CacheManager
+
+# キャッシュマネージャーの初期化
+cache_manager = CacheManager()
+
+# キャッシュ統計の確認
+stats = cache_manager.get_cache_stats()
+print(f"キャッシュアイテム数: {stats['total_items']}")
+print(f"キャッシュサイズ: {stats['total_size_mb']:.2f} MB")
+
+# 期限切れキャッシュのクリア
+deleted = cache_manager.clear_expired()
+print(f"{deleted}個の期限切れアイテムを削除しました")
+
+# 全キャッシュのクリア
+cache_manager.clear_all()
+```
+
+### キャッシュの保存場所
+キャッシュファイルは`./cache/`ディレクトリに保存されます。
 
 ## 注意事項
 本プロジェクトは教育目的のシミュレーションであり、投資助言ではありません。

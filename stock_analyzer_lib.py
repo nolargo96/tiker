@@ -19,6 +19,7 @@ import logging
 from datetime import datetime, timedelta
 from typing import Tuple, Dict, Optional, Any
 import warnings
+from cache_manager import CacheManager, cache_stock_data, get_cached_stock_data
 
 warnings.filterwarnings("ignore")
 
@@ -191,8 +192,9 @@ class TechnicalIndicators:
 class StockDataManager:
     """株価データ管理クラス"""
 
-    def __init__(self, config: ConfigManager):
+    def __init__(self, config: ConfigManager, cache_manager: Optional[CacheManager] = None):
         self.config = config
+        self.cache_manager = cache_manager or CacheManager()
         self.setup_logging()
 
     def setup_logging(self) -> None:
@@ -206,11 +208,18 @@ class StockDataManager:
         self.logger = logging.getLogger(__name__)
 
     def fetch_stock_data(
-        self, ticker: str, days: Optional[int] = None
+        self, ticker: str, days: Optional[int] = None, use_cache: bool = True
     ) -> Tuple[bool, pd.DataFrame, str]:
-        """株価データを取得"""
+        """株価データを取得（キャッシュ対応）"""
         if days is None:
             days = self.config.get("data.default_period_days", 365)
+
+        # キャッシュからデータを取得
+        if use_cache:
+            cached_data = get_cached_stock_data(self.cache_manager, ticker, days)
+            if cached_data is not None:
+                self.logger.info(f"キャッシュからデータを取得: {ticker}")
+                return True, cached_data, ""
 
         buffer_multiplier = self.config.get("data.buffer_multiplier", 1.5)
         min_trading_days = self.config.get("data.min_trading_days", 250)
@@ -248,6 +257,11 @@ class StockDataManager:
                 self.logger.warning(
                     f"{ticker} のデータが{min_trading_days}日分ありません。取得: {len(df)}日分"
                 )
+
+            # キャッシュに保存
+            if use_cache:
+                cache_stock_data(self.cache_manager, ticker, df, days)
+                self.logger.info(f"データをキャッシュに保存: {ticker}")
 
             return True, df, "データ取得成功"
 
@@ -363,9 +377,10 @@ class ChartGenerator:
 class StockAnalyzer:
     """統合株式分析クラス"""
 
-    def __init__(self, config_path: str = "config.yaml"):
+    def __init__(self, config_path: str = "config.yaml", cache_manager: Optional[CacheManager] = None):
         self.config = ConfigManager(config_path)
-        self.data_manager = StockDataManager(self.config)
+        self.cache_manager = cache_manager or CacheManager()
+        self.data_manager = StockDataManager(self.config, self.cache_manager)
         self.chart_generator = ChartGenerator(self.config)
         self.logger = logging.getLogger(__name__)
 
