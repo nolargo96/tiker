@@ -24,5 +24,9 @@ mypy>=1.0.0
 black>=22.0.0
 flake8>=5.0.0
 
+# Streamlit Dashboard
+streamlit>=1.28.0
+plotly>=5.15.0
+
 # その他
 python-dateutil>=2.8.0
