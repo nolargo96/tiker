@@ -1,0 +1,166 @@
+# Stock Analyzer Configuration
+# 株式分析ツール設定ファイル
+
+# データ取得設定
+data:
+  # デフォルトの分析期間（日数）
+  default_period_days: 365
+  # 最低限必要な営業日数
+  min_trading_days: 250
+  # データ取得のバッファ期間（実際の期間の倍数）
+  buffer_multiplier: 1.5
+  # 無効なティッカーのリトライ回数
+  retry_attempts: 3
+
+# テクニカル指標設定
+technical:
+  # 移動平均線
+  ema_short: 20
+  ema_long: 50
+  sma_long: 200
+  
+  # RSI設定
+  rsi_period: 14
+  rsi_oversold: 30
+  rsi_overbought: 70
+  
+  # ボリンジャーバンド
+  bb_period: 20
+  bb_std_dev: 2
+  
+  # ATR設定
+  atr_period: 14
+
+# チャート設定
+chart:
+  # 画像サイズ（16:9比率）
+  figure_size: [16, 9]
+  # DPI設定
+  dpi: 100
+  # パネル比率（価格:出来高）
+  panel_ratios: [3, 1]
+  # カラーテーマ
+  colors:
+    up_candle: 'green'
+    down_candle: 'red'
+    ema_short: 'blue'
+    ema_long: 'orange'
+    sma_long: 'purple'
+    grid_alpha: 0.3
+
+# ディレクトリ設定
+directories:
+  charts: './charts'
+  data: './data'
+  reports: './reports'
+  scripts: './scripts'
+
+# ファイル命名規則
+naming:
+  chart_pattern: '{ticker}_chart_{date}.png'
+  data_pattern: '{ticker}_analysis_data_{date}.csv'
+  report_pattern: '{ticker}_analysis_{date}.md'
+  html_report_pattern: '{ticker}_analysis_{date}.html'
+
+# ログ設定
+logging:
+  level: 'INFO'
+  format: '%(asctime)s - %(levelname)s - %(message)s'
+  file: 'stock_analyzer.log'
+
+# HTMLレポート設定
+html_report:
+  enabled: true
+  output_directory: './reports/html'
+  include_interactive_charts: true
+  include_expert_analysis: true
+  responsive_design: true
+  print_friendly: true
+  
+# 分析専門家設定（tiker.md用）
+experts:
+  tech:
+    name: 'TECH'
+    specialty: 'テクニカルアナリスト'
+    focus: '日足〜月足のトレンド解析'
+  fund:
+    name: 'FUND'
+    specialty: 'ファンダメンタルアナリスト'
+    focus: '企業価値・業績分析'
+  macro:
+    name: 'MACRO'
+    specialty: 'マクロストラテジスト'
+    focus: '米経済・セクター環境'
+  risk:
+    name: 'RISK'
+    specialty: 'リスク管理専門家'
+    focus: 'ポジションサイジング・下落耐性'
+
+# デフォルトティッカーリスト（テスト用）
+default_tickers: ['TSLA', 'AAPL', 'MSFT', 'GOOGL', 'AMZN']
+
+# 専用ポートフォリオ設定（9銘柄）
+portfolio:
+  name: "次世代テクノロジー・ポートフォリオ"
+  description: "中長期成長を目指すテクノロジー投資ポートフォリオ"
+  total_allocation: 100
+  holdings:
+    TSLA:
+      allocation: 20
+      description: "EV・自動運転技術のリーダー"
+      sector: "Consumer Cyclical"
+      theme: ["EV", "Autonomous", "Energy Storage"]
+    FSLR:
+      allocation: 20
+      description: "太陽光発電・CdTe技術"
+      sector: "Technology"
+      theme: ["Solar", "Clean Energy", "Renewable"]
+    RKLB:
+      allocation: 10
+      description: "小型ロケット・宇宙インフラ"
+      sector: "Industrials"
+      theme: ["Space", "Launch", "Satellite"]
+    ASTS:
+      allocation: 10
+      description: "衛星通信・スマートフォン直接接続"
+      sector: "Communication Services"
+      theme: ["Satellite", "5G", "Space"]
+    OKLO:
+      allocation: 10
+      description: "小型モジュール原子炉（SMR）"
+      sector: "Utilities"
+      theme: ["Nuclear", "Clean Energy", "SMR"]
+    JOBY:
+      allocation: 10
+      description: "eVTOL・都市航空モビリティ"
+      sector: "Industrials"
+      theme: ["eVTOL", "Urban Air Mobility", "Aviation"]
+    OII:
+      allocation: 10
+      description: "海洋工学・ROVサービス"
+      sector: "Energy"
+      theme: ["Marine", "ROV", "Offshore"]
+    LUNR:
+      allocation: 5
+      description: "月面着陸・宇宙探査"
+      sector: "Industrials"
+      theme: ["Space", "Lunar", "Exploration"]
+    RDW:
+      allocation: 5
+      description: "宇宙インフラ・軌道上製造"
+      sector: "Industrials"
+      theme: ["Space", "Manufacturing", "Infrastructure"]
+
+# 専門家重み設定
+expert_weights:
+  TECH: 1.0
+  FUND: 1.5
+  MACRO: 1.0
+  RISK: 1.2
+  ESG: 0.8
+  THEME: 1.0
+  CATALYST: 0.7
+  MANAGEMENT: 0.8
+
+# 免責事項
+disclaimer: '本情報は教育目的のシミュレーションであり、投資助言ではありません。実際の投資判断は、ご自身の責任において行うようにしてください。'

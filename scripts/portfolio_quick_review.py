@@ -9,7 +9,7 @@ import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from unified_stock_analyzer import analyze_portfolio
+from src.analysis.unified_analyzer import analyze_portfolio
 from datetime import datetime
 import argparse
 

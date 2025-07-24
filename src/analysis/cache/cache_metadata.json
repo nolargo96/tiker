@@ -1,0 +1,74 @@
+{
+  "market_data_TSLA_7a484e49": {
+    "timestamp": "2025-07-24T14:09:20.813053",
+    "data_type": "market_data",
+    "identifier": "TSLA",
+    "params": {
+      "period_days": 365
+    }
+  },
+  "market_data_FSLR_7a484e49": {
+    "timestamp": "2025-07-24T14:09:21.411308",
+    "data_type": "market_data",
+    "identifier": "FSLR",
+    "params": {
+      "period_days": 365
+    }
+  },
+  "market_data_RKLB_7a484e49": {
+    "timestamp": "2025-07-24T14:09:21.994004",
+    "data_type": "market_data",
+    "identifier": "RKLB",
+    "params": {
+      "period_days": 365
+    }
+  },
+  "market_data_ASTS_7a484e49": {
+    "timestamp": "2025-07-24T14:09:22.556534",
+    "data_type": "market_data",
+    "identifier": "ASTS",
+    "params": {
+      "period_days": 365
+    }
+  },
+  "market_data_OKLO_7a484e49": {
+    "timestamp": "2025-07-24T14:09:23.147696",
+    "data_type": "market_data",
+    "identifier": "OKLO",
+    "params": {
+      "period_days": 365
+    }
+  },
+  "market_data_JOBY_7a484e49": {
+    "timestamp": "2025-07-24T14:09:23.722123",
+    "data_type": "market_data",
+    "identifier": "JOBY",
+    "params": {
+      "period_days": 365
+    }
+  },
+  "market_data_OII_7a484e49": {
+    "timestamp": "2025-07-24T14:09:24.320004",
+    "data_type": "market_data",
+    "identifier": "OII",
+    "params": {
+      "period_days": 365
+    }
+  },
+  "market_data_LUNR_7a484e49": {
+    "timestamp": "2025-07-24T14:09:24.892334",
+    "data_type": "market_data",
+    "identifier": "LUNR",
+    "params": {
+      "period_days": 365
+    }
+  },
+  "market_data_RDW_7a484e49": {
+    "timestamp": "2025-07-24T14:09:25.498698",
+    "data_type": "market_data",
+    "identifier": "RDW",
+    "params": {
+      "period_days": 365
+    }
+  }
+}

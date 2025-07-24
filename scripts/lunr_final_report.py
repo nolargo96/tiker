@@ -4,7 +4,7 @@ import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from stock_analyzer_lib import StockAnalyzer
+from src.analysis.stock_analyzer_lib import StockAnalyzer
 import datetime
 import pandas as pd
 import numpy as np

@@ -396,6 +396,18 @@
             </div>
             {% endif %}
             
+            {% set detailed_discussion = detailed_discussion_reports.get(ticker) %}
+            {% if detailed_discussion %}
+            <div class="analysis-section" id="{{ ticker.lower() }}-detailed-discussion">
+                <h3>📚 詳細4専門家討論レポート（全文）</h3>
+                <div class="detailed-discussion-wrapper">
+                    <div class="detailed-discussion-content markdown-content">
+                        {{ detailed_discussion | markdown_to_html | safe }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
         </div>
         {% endfor %}
         

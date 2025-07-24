@@ -1,0 +1,2749 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ポートフォリオ統合レポート - 2025-07-17</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 ポートフォリオ統合レポート</h1>
+            <div class="subtitle">全体戦略 + 9銘柄統合分析 - 2025-07-17</div>
+        </div>
+        
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="showSection('overview')">📊 概要</div>
+            <div class="nav-tab" onclick="showSection('optimization')">🎯 最適化</div>
+            
+            <div class="nav-tab stock-tab" onclick="showSection('tsla')" style="border-left-color: #e31837">TSLA</div>
+            
+            <div class="nav-tab stock-tab" onclick="showSection('fslr')" style="border-left-color: #ffd700">FSLR</div>
+            
+            <div class="nav-tab stock-tab" onclick="showSection('rklb')" style="border-left-color: #ff6b35">RKLB</div>
+            
+            <div class="nav-tab stock-tab" onclick="showSection('asts')" style="border-left-color: #4a90e2">ASTS</div>
+            
+            <div class="nav-tab stock-tab" onclick="showSection('oklo')" style="border-left-color: #50c878">OKLO</div>
+            
+            <div class="nav-tab stock-tab" onclick="showSection('joby')" style="border-left-color: #9b59b6">JOBY</div>
+            
+            <div class="nav-tab stock-tab" onclick="showSection('oii')" style="border-left-color: #1abc9c">OII</div>
+            
+            <div class="nav-tab stock-tab" onclick="showSection('lunr')" style="border-left-color: #34495e">LUNR</div>
+            
+            <div class="nav-tab stock-tab" onclick="showSection('rdw')" style="border-left-color: #e74c3c">RDW</div>
+            
+        </div>
+        
+        <!-- 概要セクション -->
+        <div id="overview" class="content-section active">
+            <h2>📊 ポートフォリオ概要</h2>
+            
+            <div class="portfolio-grid">
+                <div class="stock-card">
+                    <h3>🎯 投資戦略</h3>
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <div class="metric-label">総銘柄数</div>
+                            <div class="metric-value">9</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">セクター数</div>
+                            <div class="metric-value">9</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">投資期間</div>
+                            <div class="metric-value">3-5年</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">リスク水準</div>
+                            <div class="metric-value">中〜高</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stock-card">
+                    <h3>⚖️ 4専門家評価スコア</h3>
+                    <div class="expert-scores-overview">
+                        
+                        <div class="score-row">
+                            <div class="ticker-label">TSLA</div>
+                            <div class="scores-grid">
+                                <div class="score-item tech">
+                                    <span class="score-label">TECH</span>
+                                    <span class="score-value">5.0★</span>
+                                </div>
+                                <div class="score-item fund">
+                                    <span class="score-label">FUND</span>
+                                    <span class="score-value">3.5★</span>
+                                </div>
+                                <div class="score-item macro">
+                                    <span class="score-label">MACRO</span>
+                                    <span class="score-value">3.5★</span>
+                                </div>
+                                <div class="score-item risk">
+                                    <span class="score-label">RISK</span>
+                                    <span class="score-value">3.5★</span>
+                                </div>
+                                <div class="score-item overall">
+                                    <span class="score-label">総合</span>
+                                    <span class="score-value overall-score">3.9★</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="score-row">
+                            <div class="ticker-label">FSLR</div>
+                            <div class="scores-grid">
+                                <div class="score-item tech">
+                                    <span class="score-label">TECH</span>
+                                    <span class="score-value">3.0★</span>
+                                </div>
+                                <div class="score-item fund">
+                                    <span class="score-label">FUND</span>
+                                    <span class="score-value">3.0★</span>
+                                </div>
+                                <div class="score-item macro">
+                                    <span class="score-label">MACRO</span>
+                                    <span class="score-value">3.0★</span>
+                                </div>
+                                <div class="score-item risk">
+                                    <span class="score-label">RISK</span>
+                                    <span class="score-value">3.0★</span>
+                                </div>
+                                <div class="score-item overall">
+                                    <span class="score-label">総合</span>
+                                    <span class="score-value overall-score">3.0★</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="score-row">
+                            <div class="ticker-label">RKLB</div>
+                            <div class="scores-grid">
+                                <div class="score-item tech">
+                                    <span class="score-label">TECH</span>
+                                    <span class="score-value">4.5★</span>
+                                </div>
+                                <div class="score-item fund">
+                                    <span class="score-label">FUND</span>
+                                    <span class="score-value">4.5★</span>
+                                </div>
+                                <div class="score-item macro">
+                                    <span class="score-label">MACRO</span>
+                                    <span class="score-value">3.5★</span>
+                                </div>
+                                <div class="score-item risk">
+                                    <span class="score-label">RISK</span>
+                                    <span class="score-value">2.5★</span>
+                                </div>
+                                <div class="score-item overall">
+                                    <span class="score-label">総合</span>
+                                    <span class="score-value overall-score">3.8★</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="score-row">
+                            <div class="ticker-label">ASTS</div>
+                            <div class="scores-grid">
+                                <div class="score-item tech">
+                                    <span class="score-label">TECH</span>
+                                    <span class="score-value">5.0★</span>
+                                </div>
+                                <div class="score-item fund">
+                                    <span class="score-label">FUND</span>
+                                    <span class="score-value">4.5★</span>
+                                </div>
+                                <div class="score-item macro">
+                                    <span class="score-label">MACRO</span>
+                                    <span class="score-value">4.0★</span>
+                                </div>
+                                <div class="score-item risk">
+                                    <span class="score-label">RISK</span>
+                                    <span class="score-value">2.5★</span>
+                                </div>
+                                <div class="score-item overall">
+                                    <span class="score-label">総合</span>
+                                    <span class="score-value overall-score">4.0★</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="score-row">
+                            <div class="ticker-label">OKLO</div>
+                            <div class="scores-grid">
+                                <div class="score-item tech">
+                                    <span class="score-label">TECH</span>
+                                    <span class="score-value">5.0★</span>
+                                </div>
+                                <div class="score-item fund">
+                                    <span class="score-label">FUND</span>
+                                    <span class="score-value">3.5★</span>
+                                </div>
+                                <div class="score-item macro">
+                                    <span class="score-label">MACRO</span>
+                                    <span class="score-value">3.5★</span>
+                                </div>
+                                <div class="score-item risk">
+                                    <span class="score-label">RISK</span>
+                                    <span class="score-value">2.5★</span>
+                                </div>
+                                <div class="score-item overall">
+                                    <span class="score-label">総合</span>
+                                    <span class="score-value overall-score">3.6★</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="score-row">
+                            <div class="ticker-label">JOBY</div>
+                            <div class="scores-grid">
+                                <div class="score-item tech">
+                                    <span class="score-label">TECH</span>
+                                    <span class="score-value">4.5★</span>
+                                </div>
+                                <div class="score-item fund">
+                                    <span class="score-label">FUND</span>
+                                    <span class="score-value">4.0★</span>
+                                </div>
+                                <div class="score-item macro">
+                                    <span class="score-label">MACRO</span>
+                                    <span class="score-value">4.0★</span>
+                                </div>
+                                <div class="score-item risk">
+                                    <span class="score-label">RISK</span>
+                                    <span class="score-value">2.5★</span>
+                                </div>
+                                <div class="score-item overall">
+                                    <span class="score-label">総合</span>
+                                    <span class="score-value overall-score">3.8★</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="score-row">
+                            <div class="ticker-label">OII</div>
+                            <div class="scores-grid">
+                                <div class="score-item tech">
+                                    <span class="score-label">TECH</span>
+                                    <span class="score-value">3.5★</span>
+                                </div>
+                                <div class="score-item fund">
+                                    <span class="score-label">FUND</span>
+                                    <span class="score-value">4.5★</span>
+                                </div>
+                                <div class="score-item macro">
+                                    <span class="score-label">MACRO</span>
+                                    <span class="score-value">3.5★</span>
+                                </div>
+                                <div class="score-item risk">
+                                    <span class="score-label">RISK</span>
+                                    <span class="score-value">3.5★</span>
+                                </div>
+                                <div class="score-item overall">
+                                    <span class="score-label">総合</span>
+                                    <span class="score-value overall-score">3.8★</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="score-row">
+                            <div class="ticker-label">LUNR</div>
+                            <div class="scores-grid">
+                                <div class="score-item tech">
+                                    <span class="score-label">TECH</span>
+                                    <span class="score-value">4.5★</span>
+                                </div>
+                                <div class="score-item fund">
+                                    <span class="score-label">FUND</span>
+                                    <span class="score-value">3.5★</span>
+                                </div>
+                                <div class="score-item macro">
+                                    <span class="score-label">MACRO</span>
+                                    <span class="score-value">4.5★</span>
+                                </div>
+                                <div class="score-item risk">
+                                    <span class="score-label">RISK</span>
+                                    <span class="score-value">2.5★</span>
+                                </div>
+                                <div class="score-item overall">
+                                    <span class="score-label">総合</span>
+                                    <span class="score-value overall-score">3.8★</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="score-row">
+                            <div class="ticker-label">RDW</div>
+                            <div class="scores-grid">
+                                <div class="score-item tech">
+                                    <span class="score-label">TECH</span>
+                                    <span class="score-value">5.0★</span>
+                                </div>
+                                <div class="score-item fund">
+                                    <span class="score-label">FUND</span>
+                                    <span class="score-value">3.0★</span>
+                                </div>
+                                <div class="score-item macro">
+                                    <span class="score-label">MACRO</span>
+                                    <span class="score-value">3.5★</span>
+                                </div>
+                                <div class="score-item risk">
+                                    <span class="score-label">RISK</span>
+                                    <span class="score-value">2.5★</span>
+                                </div>
+                                <div class="score-item overall">
+                                    <span class="score-label">総合</span>
+                                    <span class="score-value overall-score">3.5★</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="stock-card">
+                    <h3>⚖️ 配分方針</h3>
+                    <div class="analysis-section">
+                        <div><strong>コア銘柄（20%）:</strong> TSLA, FSLR</div>
+                        <div><strong>成長銘柄（10%）:</strong> RKLB, ASTS, OKLO, JOBY, OII</div>
+                        <div><strong>高リスク銘柄（5%）:</strong> LUNR, RDW</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="portfolio-grid">
+                
+                
+                
+                <div class="stock-card" style="border-left-color: #e31837">
+                    <div class="stock-header">
+                        <div class="stock-ticker">TSLA</div>
+                        <div class="stock-weight">20%</div>
+                    </div>
+                    <div class="stock-name">Tesla</div>
+                    <div class="stock-sector">EV・自動運転</div>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <div class="metric-label">現在価格</div>
+                            <div class="metric-value">$321.67</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">前日比</div>
+                            <div class="metric-value positive">
+                                +3.50%
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">RSI</div>
+                            <div class="metric-value">47.3</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">時価総額</div>
+                            <div class="metric-value">$1036.1B</div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                
+                
+                
+                
+                <div class="stock-card" style="border-left-color: #ff6b35">
+                    <div class="stock-header">
+                        <div class="stock-ticker">RKLB</div>
+                        <div class="stock-weight">10%</div>
+                    </div>
+                    <div class="stock-name">Rocket Lab</div>
+                    <div class="stock-sector">小型ロケット</div>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <div class="metric-label">現在価格</div>
+                            <div class="metric-value">$47.69</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">前日比</div>
+                            <div class="metric-value positive">
+                                +6.93%
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">RSI</div>
+                            <div class="metric-value">87.8</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">時価総額</div>
+                            <div class="metric-value">$22.9B</div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                
+                <div class="stock-card" style="border-left-color: #4a90e2">
+                    <div class="stock-header">
+                        <div class="stock-ticker">ASTS</div>
+                        <div class="stock-weight">10%</div>
+                    </div>
+                    <div class="stock-name">AST SpaceMobile</div>
+                    <div class="stock-sector">衛星通信</div>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <div class="metric-label">現在価格</div>
+                            <div class="metric-value">$52.63</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">前日比</div>
+                            <div class="metric-value positive">
+                                +2.95%
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">RSI</div>
+                            <div class="metric-value">56.6</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">時価総額</div>
+                            <div class="metric-value">$17.8B</div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                
+                <div class="stock-card" style="border-left-color: #50c878">
+                    <div class="stock-header">
+                        <div class="stock-ticker">OKLO</div>
+                        <div class="stock-weight">10%</div>
+                    </div>
+                    <div class="stock-name">Oklo</div>
+                    <div class="stock-sector">SMR原子炉</div>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <div class="metric-label">現在価格</div>
+                            <div class="metric-value">$64.37</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">前日比</div>
+                            <div class="metric-value positive">
+                                +5.61%
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">RSI</div>
+                            <div class="metric-value">66.3</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">時価総額</div>
+                            <div class="metric-value">$9.5B</div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                
+                <div class="stock-card" style="border-left-color: #9b59b6">
+                    <div class="stock-header">
+                        <div class="stock-ticker">JOBY</div>
+                        <div class="stock-weight">10%</div>
+                    </div>
+                    <div class="stock-name">Joby Aviation</div>
+                    <div class="stock-sector">eVTOL</div>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <div class="metric-label">現在価格</div>
+                            <div class="metric-value">$16.33</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">前日比</div>
+                            <div class="metric-value positive">
+                                +17.06%
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">RSI</div>
+                            <div class="metric-value">89.2</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">時価総額</div>
+                            <div class="metric-value">$13.7B</div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                
+                <div class="stock-card" style="border-left-color: #1abc9c">
+                    <div class="stock-header">
+                        <div class="stock-ticker">OII</div>
+                        <div class="stock-weight">10%</div>
+                    </div>
+                    <div class="stock-name">Oceaneering</div>
+                    <div class="stock-sector">海洋エンジニアリング</div>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <div class="metric-label">現在価格</div>
+                            <div class="metric-value">$20.48</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">前日比</div>
+                            <div class="metric-value negative">
+                                -0.82%
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">RSI</div>
+                            <div class="metric-value">50.9</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">時価総額</div>
+                            <div class="metric-value">$2.1B</div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                
+                <div class="stock-card" style="border-left-color: #34495e">
+                    <div class="stock-header">
+                        <div class="stock-ticker">LUNR</div>
+                        <div class="stock-weight">5%</div>
+                    </div>
+                    <div class="stock-name">Intuitive Machines</div>
+                    <div class="stock-sector">月面探査</div>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <div class="metric-label">現在価格</div>
+                            <div class="metric-value">$11.22</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">前日比</div>
+                            <div class="metric-value positive">
+                                +1.26%
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">RSI</div>
+                            <div class="metric-value">64.7</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">時価総額</div>
+                            <div class="metric-value">$1.3B</div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                
+                <div class="stock-card" style="border-left-color: #e74c3c">
+                    <div class="stock-header">
+                        <div class="stock-ticker">RDW</div>
+                        <div class="stock-weight">5%</div>
+                    </div>
+                    <div class="stock-name">Redwire</div>
+                    <div class="stock-sector">宇宙製造</div>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <div class="metric-label">現在価格</div>
+                            <div class="metric-value">$17.50</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">前日比</div>
+                            <div class="metric-value positive">
+                                +3.06%
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">RSI</div>
+                            <div class="metric-value">58.6</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">時価総額</div>
+                            <div class="metric-value">$2.5B</div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+            
+            <div class="analysis-section">
+                <h3>💡 投資方針</h3>
+                <p>本ポートフォリオは、次世代テクノロジーセクターへの分散投資を通じて、
+                中長期的な成長を目指します。EV・再生可能エネルギーをコアとしつつ、
+                宇宙・航空・海洋といった新領域への投資機会も積極的に捉えています。</p>
+            </div>
+        </div>
+        
+        <!-- 最適化セクション -->
+        <div id="optimization" class="content-section">
+            <h2>🎯 ポートフォリオ最適化</h2>
+            
+            <div class="analysis-section">
+                <h3>📈 現在配分 vs 推奨配分</h3>
+                <table class="optimization-table">
+                    <thead>
+                        <tr>
+                            <th>銘柄</th>
+                            <th>セクター</th>
+                            <th>現在配分</th>
+                            <th>推奨配分</th>
+                            <th>変更幅</th>
+                            <th>リスクレベル</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        
+                        
+                        
+                        
+                        <tr>
+                            <td><strong>TSLA</strong></td>
+                            <td>EV・自動運転</td>
+                            <td>20.00%</td>
+                            <td>20.44%</td>
+                            <td class="positive">
+                                +0.44%
+                            </td>
+                            <td style="color: var(--warning-color)">
+                                6/10
+                            </td>
+                        </tr>
+                        
+                        
+                        
+                        
+                        
+                        <tr>
+                            <td><strong>FSLR</strong></td>
+                            <td>ソーラーパネル</td>
+                            <td>20.00%</td>
+                            <td>20.44%</td>
+                            <td class="positive">
+                                +0.44%
+                            </td>
+                            <td style="color: var(--warning-color)">
+                                5/10
+                            </td>
+                        </tr>
+                        
+                        
+                        
+                        
+                        
+                        <tr>
+                            <td><strong>RKLB</strong></td>
+                            <td>小型ロケット</td>
+                            <td>10.00%</td>
+                            <td>9.44%</td>
+                            <td class="negative">
+                                -0.56%
+                            </td>
+                            <td style="color: var(--danger-color)">
+                                8/10
+                            </td>
+                        </tr>
+                        
+                        
+                        
+                        
+                        
+                        <tr>
+                            <td><strong>ASTS</strong></td>
+                            <td>衛星通信</td>
+                            <td>10.00%</td>
+                            <td>9.44%</td>
+                            <td class="negative">
+                                -0.56%
+                            </td>
+                            <td style="color: var(--danger-color)">
+                                9/10
+                            </td>
+                        </tr>
+                        
+                        
+                        
+                        
+                        
+                        <tr>
+                            <td><strong>OKLO</strong></td>
+                            <td>SMR原子炉</td>
+                            <td>10.00%</td>
+                            <td>9.44%</td>
+                            <td class="negative">
+                                -0.56%
+                            </td>
+                            <td style="color: var(--danger-color)">
+                                8/10
+                            </td>
+                        </tr>
+                        
+                        
+                        
+                        
+                        
+                        <tr>
+                            <td><strong>JOBY</strong></td>
+                            <td>eVTOL</td>
+                            <td>10.00%</td>
+                            <td>10.44%</td>
+                            <td class="positive">
+                                +0.44%
+                            </td>
+                            <td style="color: var(--danger-color)">
+                                7/10
+                            </td>
+                        </tr>
+                        
+                        
+                        
+                        
+                        
+                        <tr>
+                            <td><strong>OII</strong></td>
+                            <td>海洋エンジニアリング</td>
+                            <td>10.00%</td>
+                            <td>11.44%</td>
+                            <td class="positive">
+                                +1.44%
+                            </td>
+                            <td style="color: var(--success-color)">
+                                4/10
+                            </td>
+                        </tr>
+                        
+                        
+                        
+                        
+                        
+                        <tr>
+                            <td><strong>LUNR</strong></td>
+                            <td>月面探査</td>
+                            <td>5.00%</td>
+                            <td>4.44%</td>
+                            <td class="negative">
+                                -0.56%
+                            </td>
+                            <td style="color: var(--danger-color)">
+                                9/10
+                            </td>
+                        </tr>
+                        
+                        
+                        
+                        
+                        
+                        <tr>
+                            <td><strong>RDW</strong></td>
+                            <td>宇宙製造</td>
+                            <td>5.00%</td>
+                            <td>4.44%</td>
+                            <td class="negative">
+                                -0.56%
+                            </td>
+                            <td style="color: var(--danger-color)">
+                                8/10
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="strategy-cards">
+                <div class="strategy-card">
+                    <h4>🛡️ リスク管理</h4>
+                    <p>高リスク銘柄（ASTS、OKLO、LUNR、RDW）の配分を抑制し、
+                    安定成長銘柄（TSLA、FSLR）の比重を維持することで、
+                    ポートフォリオ全体のリスクを管理します。</p>
+                </div>
+                
+                <div class="strategy-card">
+                    <h4>📈 成長性重視</h4>
+                    <p>宇宙・航空セクター（RKLB、ASTS、LUNR）は高い成長性を持つため、
+                    リスクを考慮しつつも一定の配分を維持し、
+                    長期的な成長機会を捉えます。</p>
+                </div>
+                
+                <div class="strategy-card">
+                    <h4>🎯 分散投資</h4>
+                    <p>9つの異なるセクターへの分散により、
+                    特定セクターのリスクを軽減しつつ、
+                    次世代テクノロジー全体の成長を享受します。</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 個別銘柄セクション -->
+        
+        <div id="tsla" class="content-section">
+            <h2 style="color: #e31837;">TSLA - Tesla</h2>
+            
+            
+            
+            
+            
+            
+            
+            
+            <div class="analysis-section">
+                <h3>⚖️ 4専門家評価スコア</h3>
+                <div class="expert-scores-detail">
+                    <div class="scores-grid-large">
+                        <div class="score-card tech">
+                            <div class="score-header">
+                                <div class="score-icon">📈</div>
+                                <div class="score-title">TECH</div>
+                                <div class="score-value-large">5.0★</div>
+                            </div>
+                            <div class="score-description">テクニカル分析</div>
+                        </div>
+                        <div class="score-card fund">
+                            <div class="score-header">
+                                <div class="score-icon">💰</div>
+                                <div class="score-title">FUND</div>
+                                <div class="score-value-large">3.5★</div>
+                            </div>
+                            <div class="score-description">ファンダメンタル分析</div>
+                        </div>
+                        <div class="score-card macro">
+                            <div class="score-header">
+                                <div class="score-icon">🌍</div>
+                                <div class="score-title">MACRO</div>
+                                <div class="score-value-large">3.5★</div>
+                            </div>
+                            <div class="score-description">マクロ環境</div>
+                        </div>
+                        <div class="score-card risk">
+                            <div class="score-header">
+                                <div class="score-icon">🛡️</div>
+                                <div class="score-title">RISK</div>
+                                <div class="score-value-large">3.5★</div>
+                            </div>
+                            <div class="score-description">リスク管理</div>
+                        </div>
+                    </div>
+                    <div class="overall-score-card">
+                        <div class="overall-header">
+                            <div class="overall-title">総合評価</div>
+                            <div class="overall-value">3.9★</div>
+                        </div>
+                        <div class="overall-description">
+                            
+                            買い推奨
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="analysis-section">
+                <h3>📊 基本情報</h3>
+                <div class="stock-header">
+                    <div class="stock-ticker">TSLA</div>
+                    <div class="stock-weight">20%</div>
+                </div>
+                <div class="stock-name">Tesla</div>
+                <div class="stock-sector">EV・自動運転</div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <div class="metric-label">現在価格</div>
+                        <div class="metric-value">$321.67</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">前日比</div>
+                        <div class="metric-value positive">
+                            +3.50%
+                        </div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">時価総額</div>
+                        <div class="metric-value">$1036.1B</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">ポートフォリオ配分</div>
+                        <div class="metric-value">20%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 要約セクション -->
+            <div class="analysis-section">
+                <h3>📊 分析サマリー</h3>
+                <div class="summary-grid">
+                    
+                    
+                    <div class="summary-card">
+                        <h4>🗣️ 4専門家討論ハイライト</h4>
+                        <div class="summary-content">
+                            <p>【TECH】テクニカル分析の観点から、TSLAは現在強い上昇トレンドにあります。
+EMA20がEMA50を上回り、ゴールデンクロスを形成。RSI 47.3は中立圏で過熱感なし。
+ボリンジャーバンドの中央値付近で推移し、上昇余地があります。
+
+【FUND】ファンダメンタル面では、PER 99.28と高水準ですが、
+EV市場のリーダーとしての地位を考慮すると妥当な範囲。
+売上成長率は-9.2%と一時的な減速も、新モデル投入で回復見込み。
+
+【MACRO】マクロ環境は追い風。バイデン政権のEV推進政策、
+インフレ鈍化による金利低下期待がプラス要因。
+中国市場の競争激化は懸念材料。
+
+【RISK】リスク管理の観点では、ポートフォリオの20%配分は適正。
+高ボラティリティを考慮し、段階的な買い増しを推奨。
+ストップロスは280ドルに設定。</p>
+                            <a href="#tsla-discussion" class="read-more">→ 詳細を読む</a>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                </div>
+            </div>
+            
+            
+            <div class="analysis-section">
+                <h3>💰 財務分析</h3>
+                <table class="financial-table">
+                    <tr><th>指標</th><th>値</th></tr>
+                    <tr><td>時価総額</td><td>$1036.1B</td></tr>
+                    <tr><td>予想PER</td><td>99.28087</td></tr>
+                    <tr><td>ROE</td><td>8.8%</td></tr>
+                    <tr><td>利益率</td><td>6.4%</td></tr>
+                    <tr><td>売上成長率</td><td>-9.2%</td></tr>
+                </table>
+            </div>
+            
+            
+            <div class="analysis-section">
+                <h3>📈 技術指標</h3>
+                <div class="technical-indicators">
+                    <div class="indicator-card">
+                        <div class="indicator-value rsi-neutral">
+                            47.3
+                        </div>
+                        <div class="metric-label">RSI (14)</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$315.05</div>
+                        <div class="metric-label">EMA 20</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$313.91</div>
+                        <div class="metric-label">EMA 50</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$317.17</div>
+                        <div class="metric-label">SMA 200</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$344.27</div>
+                        <div class="metric-label">BB 上限</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$289.37</div>
+                        <div class="metric-label">BB 下限</div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="analysis-section" id="tsla-discussion">
+                <h3>🎯 4専門家討論レポート</h3>
+                <div class="discussion-tabs">
+                    <button class="discussion-tab active" onclick="showDiscussionSection('tsla', 'full')">全文</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('tsla', 'tech')">📈 TECH</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('tsla', 'fund')">💰 FUND</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('tsla', 'macro')">🌍 MACRO</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('tsla', 'risk')">⚠️ RISK</button>
+                </div>
+                <div class="expert-discussion">
+                    <div id="tsla-discussion-full" class="discussion-content active">
+                        <pre>【TECH】テクニカル分析の観点から、TSLAは現在強い上昇トレンドにあります。
+EMA20がEMA50を上回り、ゴールデンクロスを形成。RSI 47.3は中立圏で過熱感なし。
+ボリンジャーバンドの中央値付近で推移し、上昇余地があります。
+
+【FUND】ファンダメンタル面では、PER 99.28と高水準ですが、
+EV市場のリーダーとしての地位を考慮すると妥当な範囲。
+売上成長率は-9.2%と一時的な減速も、新モデル投入で回復見込み。
+
+【MACRO】マクロ環境は追い風。バイデン政権のEV推進政策、
+インフレ鈍化による金利低下期待がプラス要因。
+中国市場の競争激化は懸念材料。
+
+【RISK】リスク管理の観点では、ポートフォリオの20%配分は適正。
+高ボラティリティを考慮し、段階的な買い増しを推奨。
+ストップロスは280ドルに設定。</pre>
+                    </div>
+                    <div id="tsla-discussion-tech" class="discussion-content">
+                        <pre>【TECH】テクニカル分析の観点から、TSLAは現在強い上昇トレンドにあります。
+EMA20がEMA50を上回り、ゴールデンクロスを形成。RSI 47.3は中立圏で過熱感なし。
+ボリンジャーバンドの中央値付近で推移し、上昇余地があります。
+</pre>
+                    </div>
+                    <div id="tsla-discussion-fund" class="discussion-content">
+                        <pre>【FUND】ファンダメンタル面では、PER 99.28と高水準ですが、
+EV市場のリーダーとしての地位を考慮すると妥当な範囲。
+売上成長率は-9.2%と一時的な減速も、新モデル投入で回復見込み。
+</pre>
+                    </div>
+                    <div id="tsla-discussion-macro" class="discussion-content">
+                        <pre>【MACRO】マクロ環境は追い風。バイデン政権のEV推進政策、
+インフレ鈍化による金利低下期待がプラス要因。
+中国市場の競争激化は懸念材料。
+</pre>
+                    </div>
+                    <div id="tsla-discussion-risk" class="discussion-content">
+                        <pre>【RISK】リスク管理の観点では、ポートフォリオの20%配分は適正。
+高ボラティリティを考慮し、段階的な買い増しを推奨。
+ストップロスは280ドルに設定。</pre>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+        </div>
+        
+        <div id="fslr" class="content-section">
+            <h2 style="color: #ffd700;">FSLR - First Solar</h2>
+            
+            
+            
+            
+            
+            
+            
+            
+            <div class="analysis-section">
+                <h3>⚖️ 4専門家評価スコア</h3>
+                <div class="expert-scores-detail">
+                    <div class="scores-grid-large">
+                        <div class="score-card tech">
+                            <div class="score-header">
+                                <div class="score-icon">📈</div>
+                                <div class="score-title">TECH</div>
+                                <div class="score-value-large">3.0★</div>
+                            </div>
+                            <div class="score-description">テクニカル分析</div>
+                        </div>
+                        <div class="score-card fund">
+                            <div class="score-header">
+                                <div class="score-icon">💰</div>
+                                <div class="score-title">FUND</div>
+                                <div class="score-value-large">3.0★</div>
+                            </div>
+                            <div class="score-description">ファンダメンタル分析</div>
+                        </div>
+                        <div class="score-card macro">
+                            <div class="score-header">
+                                <div class="score-icon">🌍</div>
+                                <div class="score-title">MACRO</div>
+                                <div class="score-value-large">3.0★</div>
+                            </div>
+                            <div class="score-description">マクロ環境</div>
+                        </div>
+                        <div class="score-card risk">
+                            <div class="score-header">
+                                <div class="score-icon">🛡️</div>
+                                <div class="score-title">RISK</div>
+                                <div class="score-value-large">3.0★</div>
+                            </div>
+                            <div class="score-description">リスク管理</div>
+                        </div>
+                    </div>
+                    <div class="overall-score-card">
+                        <div class="overall-header">
+                            <div class="overall-title">総合評価</div>
+                            <div class="overall-value">3.0★</div>
+                        </div>
+                        <div class="overall-description">
+                            
+                            中立
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+            
+            <div class="analysis-section" id="fslr-discussion">
+                <h3>🎯 4専門家討論レポート</h3>
+                <div class="discussion-tabs">
+                    <button class="discussion-tab active" onclick="showDiscussionSection('fslr', 'full')">全文</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('fslr', 'tech')">📈 TECH</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('fslr', 'fund')">💰 FUND</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('fslr', 'macro')">🌍 MACRO</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('fslr', 'risk')">⚠️ RISK</button>
+                </div>
+                <div class="expert-discussion">
+                    <div id="fslr-discussion-full" class="discussion-content active">
+                        <pre>【TECH】FSLRは安定した上昇トレンドを維持。RSI 58.2は健全な水準。
+EMA20が164.10ドルでサポートラインとして機能。
+ボリンジャーバンド内での推移は安定性を示唆。
+
+【FUND】PER 7.99と割安水準。ROE 16.8%、利益率29.7%と高収益体質。
+売上成長率6.4%と堅調。ソーラーパネル需要の拡大が追い風。
+米国製造業回帰の恩恵を享受。
+
+【MACRO】バイデン政権のクリーンエネルギー政策が強力な追い風。
+IRA法による税制優遇で競争力向上。中国メーカーとの差別化成功。
+
+【RISK】ポリシリコン価格変動リスクあり。20%配分は妥当。
+目標株価200ドル、ストップロス150ドル設定を推奨。</pre>
+                    </div>
+                    <div id="fslr-discussion-tech" class="discussion-content">
+                        <pre>【TECH】FSLRは安定した上昇トレンドを維持。RSI 58.2は健全な水準。
+EMA20が164.10ドルでサポートラインとして機能。
+ボリンジャーバンド内での推移は安定性を示唆。
+</pre>
+                    </div>
+                    <div id="fslr-discussion-fund" class="discussion-content">
+                        <pre>【FUND】PER 7.99と割安水準。ROE 16.8%、利益率29.7%と高収益体質。
+売上成長率6.4%と堅調。ソーラーパネル需要の拡大が追い風。
+米国製造業回帰の恩恵を享受。
+</pre>
+                    </div>
+                    <div id="fslr-discussion-macro" class="discussion-content">
+                        <pre>【MACRO】バイデン政権のクリーンエネルギー政策が強力な追い風。
+IRA法による税制優遇で競争力向上。中国メーカーとの差別化成功。
+</pre>
+                    </div>
+                    <div id="fslr-discussion-risk" class="discussion-content">
+                        <pre>【RISK】ポリシリコン価格変動リスクあり。20%配分は妥当。
+目標株価200ドル、ストップロス150ドル設定を推奨。</pre>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+        </div>
+        
+        <div id="rklb" class="content-section">
+            <h2 style="color: #ff6b35;">RKLB - Rocket Lab</h2>
+            
+            
+            
+            
+            
+            
+            
+            
+            <div class="analysis-section">
+                <h3>⚖️ 4専門家評価スコア</h3>
+                <div class="expert-scores-detail">
+                    <div class="scores-grid-large">
+                        <div class="score-card tech">
+                            <div class="score-header">
+                                <div class="score-icon">📈</div>
+                                <div class="score-title">TECH</div>
+                                <div class="score-value-large">4.5★</div>
+                            </div>
+                            <div class="score-description">テクニカル分析</div>
+                        </div>
+                        <div class="score-card fund">
+                            <div class="score-header">
+                                <div class="score-icon">💰</div>
+                                <div class="score-title">FUND</div>
+                                <div class="score-value-large">4.5★</div>
+                            </div>
+                            <div class="score-description">ファンダメンタル分析</div>
+                        </div>
+                        <div class="score-card macro">
+                            <div class="score-header">
+                                <div class="score-icon">🌍</div>
+                                <div class="score-title">MACRO</div>
+                                <div class="score-value-large">3.5★</div>
+                            </div>
+                            <div class="score-description">マクロ環境</div>
+                        </div>
+                        <div class="score-card risk">
+                            <div class="score-header">
+                                <div class="score-icon">🛡️</div>
+                                <div class="score-title">RISK</div>
+                                <div class="score-value-large">2.5★</div>
+                            </div>
+                            <div class="score-description">リスク管理</div>
+                        </div>
+                    </div>
+                    <div class="overall-score-card">
+                        <div class="overall-header">
+                            <div class="overall-title">総合評価</div>
+                            <div class="overall-value">3.8★</div>
+                        </div>
+                        <div class="overall-description">
+                            
+                            買い推奨
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="analysis-section">
+                <h3>📊 基本情報</h3>
+                <div class="stock-header">
+                    <div class="stock-ticker">RKLB</div>
+                    <div class="stock-weight">10%</div>
+                </div>
+                <div class="stock-name">Rocket Lab</div>
+                <div class="stock-sector">小型ロケット</div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <div class="metric-label">現在価格</div>
+                        <div class="metric-value">$47.69</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">前日比</div>
+                        <div class="metric-value positive">
+                            +6.93%
+                        </div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">時価総額</div>
+                        <div class="metric-value">$22.9B</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">ポートフォリオ配分</div>
+                        <div class="metric-value">10%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 要約セクション -->
+            <div class="analysis-section">
+                <h3>📊 分析サマリー</h3>
+                <div class="summary-grid">
+                    
+                    
+                    <div class="summary-card">
+                        <h4>🗣️ 4専門家討論ハイライト</h4>
+                        <div class="summary-content">
+                            <p>【TECH】RKLBは爆発的な上昇を見せており、RSI 87.8は買われ過ぎ圏。
+短期的な調整リスクあり。ただし、強い上昇トレンドは継続中。
+EMA20/50/200すべてを上回る強気相場。
+
+【FUND】売上成長率32.1%と高成長を維持。赤字継続も、
+小型ロケット市場のリーダーとして将来性は高い。
+契約残高の増加が今後の収益改善を示唆。
+
+【MACRO】宇宙産業への投資拡大、衛星需要の急増が追い風。
+SpaceXとの差別化戦略が奏功。政府契約の増加も期待。
+
+【RISK】高リスク銘柄として10%配分は妥当。
+RSI過熱感から短期調整の可能性。40ドル付近がサポート。</p>
+                            <a href="#rklb-discussion" class="read-more">→ 詳細を読む</a>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                </div>
+            </div>
+            
+            
+            <div class="analysis-section">
+                <h3>💰 財務分析</h3>
+                <table class="financial-table">
+                    <tr><th>指標</th><th>値</th></tr>
+                    <tr><td>時価総額</td><td>$22.9B</td></tr>
+                    <tr><td>予想PER</td><td>-207.34781</td></tr>
+                    <tr><td>ROE</td><td>-45.4%</td></tr>
+                    <tr><td>利益率</td><td>-44.3%</td></tr>
+                    <tr><td>売上成長率</td><td>32.1%</td></tr>
+                </table>
+            </div>
+            
+            
+            <div class="analysis-section">
+                <h3>📈 技術指標</h3>
+                <div class="technical-indicators">
+                    <div class="indicator-card">
+                        <div class="indicator-value rsi-overbought">
+                            87.8
+                        </div>
+                        <div class="metric-label">RSI (14)</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$37.31</div>
+                        <div class="metric-label">EMA 20</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$31.63</div>
+                        <div class="metric-label">EMA 50</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$22.72</div>
+                        <div class="metric-label">SMA 200</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$46.90</div>
+                        <div class="metric-label">BB 上限</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$25.73</div>
+                        <div class="metric-label">BB 下限</div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="analysis-section" id="rklb-discussion">
+                <h3>🎯 4専門家討論レポート</h3>
+                <div class="discussion-tabs">
+                    <button class="discussion-tab active" onclick="showDiscussionSection('rklb', 'full')">全文</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('rklb', 'tech')">📈 TECH</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('rklb', 'fund')">💰 FUND</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('rklb', 'macro')">🌍 MACRO</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('rklb', 'risk')">⚠️ RISK</button>
+                </div>
+                <div class="expert-discussion">
+                    <div id="rklb-discussion-full" class="discussion-content active">
+                        <pre>【TECH】RKLBは爆発的な上昇を見せており、RSI 87.8は買われ過ぎ圏。
+短期的な調整リスクあり。ただし、強い上昇トレンドは継続中。
+EMA20/50/200すべてを上回る強気相場。
+
+【FUND】売上成長率32.1%と高成長を維持。赤字継続も、
+小型ロケット市場のリーダーとして将来性は高い。
+契約残高の増加が今後の収益改善を示唆。
+
+【MACRO】宇宙産業への投資拡大、衛星需要の急増が追い風。
+SpaceXとの差別化戦略が奏功。政府契約の増加も期待。
+
+【RISK】高リスク銘柄として10%配分は妥当。
+RSI過熱感から短期調整の可能性。40ドル付近がサポート。</pre>
+                    </div>
+                    <div id="rklb-discussion-tech" class="discussion-content">
+                        <pre>【TECH】RKLBは爆発的な上昇を見せており、RSI 87.8は買われ過ぎ圏。
+短期的な調整リスクあり。ただし、強い上昇トレンドは継続中。
+EMA20/50/200すべてを上回る強気相場。
+</pre>
+                    </div>
+                    <div id="rklb-discussion-fund" class="discussion-content">
+                        <pre>【FUND】売上成長率32.1%と高成長を維持。赤字継続も、
+小型ロケット市場のリーダーとして将来性は高い。
+契約残高の増加が今後の収益改善を示唆。
+</pre>
+                    </div>
+                    <div id="rklb-discussion-macro" class="discussion-content">
+                        <pre>【MACRO】宇宙産業への投資拡大、衛星需要の急増が追い風。
+SpaceXとの差別化戦略が奏功。政府契約の増加も期待。
+</pre>
+                    </div>
+                    <div id="rklb-discussion-risk" class="discussion-content">
+                        <pre>【RISK】高リスク銘柄として10%配分は妥当。
+RSI過熱感から短期調整の可能性。40ドル付近がサポート。</pre>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+        </div>
+        
+        <div id="asts" class="content-section">
+            <h2 style="color: #4a90e2;">ASTS - AST SpaceMobile</h2>
+            
+            
+            
+            
+            
+            
+            
+            
+            <div class="analysis-section">
+                <h3>⚖️ 4専門家評価スコア</h3>
+                <div class="expert-scores-detail">
+                    <div class="scores-grid-large">
+                        <div class="score-card tech">
+                            <div class="score-header">
+                                <div class="score-icon">📈</div>
+                                <div class="score-title">TECH</div>
+                                <div class="score-value-large">5.0★</div>
+                            </div>
+                            <div class="score-description">テクニカル分析</div>
+                        </div>
+                        <div class="score-card fund">
+                            <div class="score-header">
+                                <div class="score-icon">💰</div>
+                                <div class="score-title">FUND</div>
+                                <div class="score-value-large">4.5★</div>
+                            </div>
+                            <div class="score-description">ファンダメンタル分析</div>
+                        </div>
+                        <div class="score-card macro">
+                            <div class="score-header">
+                                <div class="score-icon">🌍</div>
+                                <div class="score-title">MACRO</div>
+                                <div class="score-value-large">4.0★</div>
+                            </div>
+                            <div class="score-description">マクロ環境</div>
+                        </div>
+                        <div class="score-card risk">
+                            <div class="score-header">
+                                <div class="score-icon">🛡️</div>
+                                <div class="score-title">RISK</div>
+                                <div class="score-value-large">2.5★</div>
+                            </div>
+                            <div class="score-description">リスク管理</div>
+                        </div>
+                    </div>
+                    <div class="overall-score-card">
+                        <div class="overall-header">
+                            <div class="overall-title">総合評価</div>
+                            <div class="overall-value">4.0★</div>
+                        </div>
+                        <div class="overall-description">
+                            
+                            強い買い推奨
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="analysis-section">
+                <h3>📊 基本情報</h3>
+                <div class="stock-header">
+                    <div class="stock-ticker">ASTS</div>
+                    <div class="stock-weight">10%</div>
+                </div>
+                <div class="stock-name">AST SpaceMobile</div>
+                <div class="stock-sector">衛星通信</div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <div class="metric-label">現在価格</div>
+                        <div class="metric-value">$52.63</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">前日比</div>
+                        <div class="metric-value positive">
+                            +2.95%
+                        </div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">時価総額</div>
+                        <div class="metric-value">$17.8B</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">ポートフォリオ配分</div>
+                        <div class="metric-value">10%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 要約セクション -->
+            <div class="analysis-section">
+                <h3>📊 分析サマリー</h3>
+                <div class="summary-grid">
+                    
+                    
+                    <div class="summary-card">
+                        <h4>🗣️ 4専門家討論ハイライト</h4>
+                        <div class="summary-content">
+                            <p>【TECH】ASTSは強い上昇モメンタム。RSI 56.6は上昇余地あり。
+52週高値更新の可能性。出来高増加は機関投資家の参入示唆。
+
+【FUND】売上成長率43.6%と爆発的成長。赤字継続も、
+衛星通信市場の革新的技術で将来性は極めて高い。
+AT&amp;Tとの提携が収益化の鍵。
+
+【MACRO】5G/6G時代の到来で衛星通信需要急増。
+デジタルデバイド解消の切り札として政府支援期待。
+競合他社の参入リスクは技術優位性で対抗。
+
+【RISK】技術実証リスクと規制リスクが主要懸念。
+10%配分で高リスク高リターンを狙う戦略は適切。</p>
+                            <a href="#asts-discussion" class="read-more">→ 詳細を読む</a>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                </div>
+            </div>
+            
+            
+            <div class="analysis-section">
+                <h3>💰 財務分析</h3>
+                <table class="financial-table">
+                    <tr><th>指標</th><th>値</th></tr>
+                    <tr><td>時価総額</td><td>$17.8B</td></tr>
+                    <tr><td>予想PER</td><td>-74.12676</td></tr>
+                    <tr><td>ROE</td><td>-104.5%</td></tr>
+                    <tr><td>利益率</td><td>0.0%</td></tr>
+                    <tr><td>売上成長率</td><td>43.6%</td></tr>
+                </table>
+            </div>
+            
+            
+            <div class="analysis-section">
+                <h3>📈 技術指標</h3>
+                <div class="technical-indicators">
+                    <div class="indicator-card">
+                        <div class="indicator-value rsi-neutral">
+                            56.6
+                        </div>
+                        <div class="metric-label">RSI (14)</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$45.23</div>
+                        <div class="metric-label">EMA 20</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$38.53</div>
+                        <div class="metric-label">EMA 50</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$27.39</div>
+                        <div class="metric-label">SMA 200</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$53.96</div>
+                        <div class="metric-label">BB 上限</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$40.22</div>
+                        <div class="metric-label">BB 下限</div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="analysis-section" id="asts-discussion">
+                <h3>🎯 4専門家討論レポート</h3>
+                <div class="discussion-tabs">
+                    <button class="discussion-tab active" onclick="showDiscussionSection('asts', 'full')">全文</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('asts', 'tech')">📈 TECH</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('asts', 'fund')">💰 FUND</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('asts', 'macro')">🌍 MACRO</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('asts', 'risk')">⚠️ RISK</button>
+                </div>
+                <div class="expert-discussion">
+                    <div id="asts-discussion-full" class="discussion-content active">
+                        <pre>【TECH】ASTSは強い上昇モメンタム。RSI 56.6は上昇余地あり。
+52週高値更新の可能性。出来高増加は機関投資家の参入示唆。
+
+【FUND】売上成長率43.6%と爆発的成長。赤字継続も、
+衛星通信市場の革新的技術で将来性は極めて高い。
+AT&amp;Tとの提携が収益化の鍵。
+
+【MACRO】5G/6G時代の到来で衛星通信需要急増。
+デジタルデバイド解消の切り札として政府支援期待。
+競合他社の参入リスクは技術優位性で対抗。
+
+【RISK】技術実証リスクと規制リスクが主要懸念。
+10%配分で高リスク高リターンを狙う戦略は適切。</pre>
+                    </div>
+                    <div id="asts-discussion-tech" class="discussion-content">
+                        <pre>【TECH】ASTSは強い上昇モメンタム。RSI 56.6は上昇余地あり。
+52週高値更新の可能性。出来高増加は機関投資家の参入示唆。
+</pre>
+                    </div>
+                    <div id="asts-discussion-fund" class="discussion-content">
+                        <pre>【FUND】売上成長率43.6%と爆発的成長。赤字継続も、
+衛星通信市場の革新的技術で将来性は極めて高い。
+AT&amp;Tとの提携が収益化の鍵。
+</pre>
+                    </div>
+                    <div id="asts-discussion-macro" class="discussion-content">
+                        <pre>【MACRO】5G/6G時代の到来で衛星通信需要急増。
+デジタルデバイド解消の切り札として政府支援期待。
+競合他社の参入リスクは技術優位性で対抗。
+</pre>
+                    </div>
+                    <div id="asts-discussion-risk" class="discussion-content">
+                        <pre>【RISK】技術実証リスクと規制リスクが主要懸念。
+10%配分で高リスク高リターンを狙う戦略は適切。</pre>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+        </div>
+        
+        <div id="oklo" class="content-section">
+            <h2 style="color: #50c878;">OKLO - Oklo</h2>
+            
+            
+            
+            
+            
+            
+            
+            
+            <div class="analysis-section">
+                <h3>⚖️ 4専門家評価スコア</h3>
+                <div class="expert-scores-detail">
+                    <div class="scores-grid-large">
+                        <div class="score-card tech">
+                            <div class="score-header">
+                                <div class="score-icon">📈</div>
+                                <div class="score-title">TECH</div>
+                                <div class="score-value-large">5.0★</div>
+                            </div>
+                            <div class="score-description">テクニカル分析</div>
+                        </div>
+                        <div class="score-card fund">
+                            <div class="score-header">
+                                <div class="score-icon">💰</div>
+                                <div class="score-title">FUND</div>
+                                <div class="score-value-large">3.5★</div>
+                            </div>
+                            <div class="score-description">ファンダメンタル分析</div>
+                        </div>
+                        <div class="score-card macro">
+                            <div class="score-header">
+                                <div class="score-icon">🌍</div>
+                                <div class="score-title">MACRO</div>
+                                <div class="score-value-large">3.5★</div>
+                            </div>
+                            <div class="score-description">マクロ環境</div>
+                        </div>
+                        <div class="score-card risk">
+                            <div class="score-header">
+                                <div class="score-icon">🛡️</div>
+                                <div class="score-title">RISK</div>
+                                <div class="score-value-large">2.5★</div>
+                            </div>
+                            <div class="score-description">リスク管理</div>
+                        </div>
+                    </div>
+                    <div class="overall-score-card">
+                        <div class="overall-header">
+                            <div class="overall-title">総合評価</div>
+                            <div class="overall-value">3.6★</div>
+                        </div>
+                        <div class="overall-description">
+                            
+                            買い推奨
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="analysis-section">
+                <h3>📊 基本情報</h3>
+                <div class="stock-header">
+                    <div class="stock-ticker">OKLO</div>
+                    <div class="stock-weight">10%</div>
+                </div>
+                <div class="stock-name">Oklo</div>
+                <div class="stock-sector">SMR原子炉</div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <div class="metric-label">現在価格</div>
+                        <div class="metric-value">$64.37</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">前日比</div>
+                        <div class="metric-value positive">
+                            +5.61%
+                        </div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">時価総額</div>
+                        <div class="metric-value">$9.5B</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">ポートフォリオ配分</div>
+                        <div class="metric-value">10%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 要約セクション -->
+            <div class="analysis-section">
+                <h3>📊 分析サマリー</h3>
+                <div class="summary-grid">
+                    
+                    
+                    <div class="summary-card">
+                        <h4>🗣️ 4専門家討論ハイライト</h4>
+                        <div class="summary-content">
+                            <p>【TECH】OKLOは上昇トレンド継続。RSI 66.3とやや過熱感あるも、
+強気相場は継続。64ドル突破で次の目標は75ドル。
+
+【FUND】SMR（小型モジュール炉）市場の先駆者。
+現在は赤字も、2030年代の商業運転開始で収益急拡大見込み。
+政府補助金と長期契約で事業基盤確立。
+
+【MACRO】脱炭素化とエネルギー安全保障の観点から原子力見直し機運。
+AI/データセンター向け電力需要急増が追い風。
+規制緩和の動きも加速。
+
+【RISK】規制承認の遅延リスクと技術的課題。
+10%配分は長期成長を見据えた適正水準。</p>
+                            <a href="#oklo-discussion" class="read-more">→ 詳細を読む</a>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                </div>
+            </div>
+            
+            
+            <div class="analysis-section">
+                <h3>💰 財務分析</h3>
+                <table class="financial-table">
+                    <tr><th>指標</th><th>値</th></tr>
+                    <tr><td>時価総額</td><td>$9.5B</td></tr>
+                    <tr><td>予想PER</td><td>-165.0513</td></tr>
+                    <tr><td>ROE</td><td>-56.0%</td></tr>
+                    <tr><td>利益率</td><td>0.0%</td></tr>
+                    <tr><td>売上成長率</td><td>0.0%</td></tr>
+                </table>
+            </div>
+            
+            
+            <div class="analysis-section">
+                <h3>📈 技術指標</h3>
+                <div class="technical-indicators">
+                    <div class="indicator-card">
+                        <div class="indicator-value rsi-neutral">
+                            66.3
+                        </div>
+                        <div class="metric-label">RSI (14)</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$56.77</div>
+                        <div class="metric-label">EMA 20</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$50.28</div>
+                        <div class="metric-label">EMA 50</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$31.52</div>
+                        <div class="metric-label">SMA 200</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$64.71</div>
+                        <div class="metric-label">BB 上限</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$49.36</div>
+                        <div class="metric-label">BB 下限</div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="analysis-section" id="oklo-discussion">
+                <h3>🎯 4専門家討論レポート</h3>
+                <div class="discussion-tabs">
+                    <button class="discussion-tab active" onclick="showDiscussionSection('oklo', 'full')">全文</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('oklo', 'tech')">📈 TECH</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('oklo', 'fund')">💰 FUND</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('oklo', 'macro')">🌍 MACRO</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('oklo', 'risk')">⚠️ RISK</button>
+                </div>
+                <div class="expert-discussion">
+                    <div id="oklo-discussion-full" class="discussion-content active">
+                        <pre>【TECH】OKLOは上昇トレンド継続。RSI 66.3とやや過熱感あるも、
+強気相場は継続。64ドル突破で次の目標は75ドル。
+
+【FUND】SMR（小型モジュール炉）市場の先駆者。
+現在は赤字も、2030年代の商業運転開始で収益急拡大見込み。
+政府補助金と長期契約で事業基盤確立。
+
+【MACRO】脱炭素化とエネルギー安全保障の観点から原子力見直し機運。
+AI/データセンター向け電力需要急増が追い風。
+規制緩和の動きも加速。
+
+【RISK】規制承認の遅延リスクと技術的課題。
+10%配分は長期成長を見据えた適正水準。</pre>
+                    </div>
+                    <div id="oklo-discussion-tech" class="discussion-content">
+                        <pre>【TECH】OKLOは上昇トレンド継続。RSI 66.3とやや過熱感あるも、
+強気相場は継続。64ドル突破で次の目標は75ドル。
+</pre>
+                    </div>
+                    <div id="oklo-discussion-fund" class="discussion-content">
+                        <pre>【FUND】SMR（小型モジュール炉）市場の先駆者。
+現在は赤字も、2030年代の商業運転開始で収益急拡大見込み。
+政府補助金と長期契約で事業基盤確立。
+</pre>
+                    </div>
+                    <div id="oklo-discussion-macro" class="discussion-content">
+                        <pre>【MACRO】脱炭素化とエネルギー安全保障の観点から原子力見直し機運。
+AI/データセンター向け電力需要急増が追い風。
+規制緩和の動きも加速。
+</pre>
+                    </div>
+                    <div id="oklo-discussion-risk" class="discussion-content">
+                        <pre>【RISK】規制承認の遅延リスクと技術的課題。
+10%配分は長期成長を見据えた適正水準。</pre>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+        </div>
+        
+        <div id="joby" class="content-section">
+            <h2 style="color: #9b59b6;">JOBY - Joby Aviation</h2>
+            
+            
+            
+            
+            
+            
+            
+            
+            <div class="analysis-section">
+                <h3>⚖️ 4専門家評価スコア</h3>
+                <div class="expert-scores-detail">
+                    <div class="scores-grid-large">
+                        <div class="score-card tech">
+                            <div class="score-header">
+                                <div class="score-icon">📈</div>
+                                <div class="score-title">TECH</div>
+                                <div class="score-value-large">4.5★</div>
+                            </div>
+                            <div class="score-description">テクニカル分析</div>
+                        </div>
+                        <div class="score-card fund">
+                            <div class="score-header">
+                                <div class="score-icon">💰</div>
+                                <div class="score-title">FUND</div>
+                                <div class="score-value-large">4.0★</div>
+                            </div>
+                            <div class="score-description">ファンダメンタル分析</div>
+                        </div>
+                        <div class="score-card macro">
+                            <div class="score-header">
+                                <div class="score-icon">🌍</div>
+                                <div class="score-title">MACRO</div>
+                                <div class="score-value-large">4.0★</div>
+                            </div>
+                            <div class="score-description">マクロ環境</div>
+                        </div>
+                        <div class="score-card risk">
+                            <div class="score-header">
+                                <div class="score-icon">🛡️</div>
+                                <div class="score-title">RISK</div>
+                                <div class="score-value-large">2.5★</div>
+                            </div>
+                            <div class="score-description">リスク管理</div>
+                        </div>
+                    </div>
+                    <div class="overall-score-card">
+                        <div class="overall-header">
+                            <div class="overall-title">総合評価</div>
+                            <div class="overall-value">3.8★</div>
+                        </div>
+                        <div class="overall-description">
+                            
+                            買い推奨
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="analysis-section">
+                <h3>📊 基本情報</h3>
+                <div class="stock-header">
+                    <div class="stock-ticker">JOBY</div>
+                    <div class="stock-weight">10%</div>
+                </div>
+                <div class="stock-name">Joby Aviation</div>
+                <div class="stock-sector">eVTOL</div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <div class="metric-label">現在価格</div>
+                        <div class="metric-value">$16.33</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">前日比</div>
+                        <div class="metric-value positive">
+                            +17.06%
+                        </div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">時価総額</div>
+                        <div class="metric-value">$13.7B</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">ポートフォリオ配分</div>
+                        <div class="metric-value">10%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 要約セクション -->
+            <div class="analysis-section">
+                <h3>📊 分析サマリー</h3>
+                <div class="summary-grid">
+                    
+                    
+                    <div class="summary-card">
+                        <h4>🗣️ 4専門家討論ハイライト</h4>
+                        <div class="summary-content">
+                            <p>【TECH】JOBYは急騰後の調整局面入りか。RSI 89.2は過熱圏。
+一時的な利益確定売りの可能性。長期上昇トレンドは維持。
+
+【FUND】eVTOL市場のパイオニア。FAA認証取得に向けて着実に前進。
+2025年の商業運航開始で収益化フェーズへ。
+トヨタからの出資で財務基盤強化。
+
+【MACRO】都市部の交通渋滞解消ニーズ拡大。
+環境規制強化でゼロエミッション交通手段への需要増。
+競合激化も先行者利益で優位性維持。
+
+【RISK】認証取得の遅延と事故リスクが最大の懸念。
+10%配分で革新的技術への投資を継続。</p>
+                            <a href="#joby-discussion" class="read-more">→ 詳細を読む</a>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                </div>
+            </div>
+            
+            
+            <div class="analysis-section">
+                <h3>💰 財務分析</h3>
+                <table class="financial-table">
+                    <tr><th>指標</th><th>値</th></tr>
+                    <tr><td>時価総額</td><td>$13.7B</td></tr>
+                    <tr><td>予想PER</td><td>-27.216665</td></tr>
+                    <tr><td>ROE</td><td>-65.0%</td></tr>
+                    <tr><td>利益率</td><td>0.0%</td></tr>
+                    <tr><td>売上成長率</td><td>0.0%</td></tr>
+                </table>
+            </div>
+            
+            
+            <div class="analysis-section">
+                <h3>📈 技術指標</h3>
+                <div class="technical-indicators">
+                    <div class="indicator-card">
+                        <div class="indicator-value rsi-overbought">
+                            89.2
+                        </div>
+                        <div class="metric-label">RSI (14)</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$11.25</div>
+                        <div class="metric-label">EMA 20</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$9.45</div>
+                        <div class="metric-label">EMA 50</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$7.34</div>
+                        <div class="metric-label">SMA 200</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$14.77</div>
+                        <div class="metric-label">BB 上限</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$6.51</div>
+                        <div class="metric-label">BB 下限</div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="analysis-section" id="joby-discussion">
+                <h3>🎯 4専門家討論レポート</h3>
+                <div class="discussion-tabs">
+                    <button class="discussion-tab active" onclick="showDiscussionSection('joby', 'full')">全文</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('joby', 'tech')">📈 TECH</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('joby', 'fund')">💰 FUND</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('joby', 'macro')">🌍 MACRO</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('joby', 'risk')">⚠️ RISK</button>
+                </div>
+                <div class="expert-discussion">
+                    <div id="joby-discussion-full" class="discussion-content active">
+                        <pre>【TECH】JOBYは急騰後の調整局面入りか。RSI 89.2は過熱圏。
+一時的な利益確定売りの可能性。長期上昇トレンドは維持。
+
+【FUND】eVTOL市場のパイオニア。FAA認証取得に向けて着実に前進。
+2025年の商業運航開始で収益化フェーズへ。
+トヨタからの出資で財務基盤強化。
+
+【MACRO】都市部の交通渋滞解消ニーズ拡大。
+環境規制強化でゼロエミッション交通手段への需要増。
+競合激化も先行者利益で優位性維持。
+
+【RISK】認証取得の遅延と事故リスクが最大の懸念。
+10%配分で革新的技術への投資を継続。</pre>
+                    </div>
+                    <div id="joby-discussion-tech" class="discussion-content">
+                        <pre>【TECH】JOBYは急騰後の調整局面入りか。RSI 89.2は過熱圏。
+一時的な利益確定売りの可能性。長期上昇トレンドは維持。
+</pre>
+                    </div>
+                    <div id="joby-discussion-fund" class="discussion-content">
+                        <pre>【FUND】eVTOL市場のパイオニア。FAA認証取得に向けて着実に前進。
+2025年の商業運航開始で収益化フェーズへ。
+トヨタからの出資で財務基盤強化。
+</pre>
+                    </div>
+                    <div id="joby-discussion-macro" class="discussion-content">
+                        <pre>【MACRO】都市部の交通渋滞解消ニーズ拡大。
+環境規制強化でゼロエミッション交通手段への需要増。
+競合激化も先行者利益で優位性維持。
+</pre>
+                    </div>
+                    <div id="joby-discussion-risk" class="discussion-content">
+                        <pre>【RISK】認証取得の遅延と事故リスクが最大の懸念。
+10%配分で革新的技術への投資を継続。</pre>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+        </div>
+        
+        <div id="oii" class="content-section">
+            <h2 style="color: #1abc9c;">OII - Oceaneering</h2>
+            
+            
+            
+            
+            
+            
+            
+            
+            <div class="analysis-section">
+                <h3>⚖️ 4専門家評価スコア</h3>
+                <div class="expert-scores-detail">
+                    <div class="scores-grid-large">
+                        <div class="score-card tech">
+                            <div class="score-header">
+                                <div class="score-icon">📈</div>
+                                <div class="score-title">TECH</div>
+                                <div class="score-value-large">3.5★</div>
+                            </div>
+                            <div class="score-description">テクニカル分析</div>
+                        </div>
+                        <div class="score-card fund">
+                            <div class="score-header">
+                                <div class="score-icon">💰</div>
+                                <div class="score-title">FUND</div>
+                                <div class="score-value-large">4.5★</div>
+                            </div>
+                            <div class="score-description">ファンダメンタル分析</div>
+                        </div>
+                        <div class="score-card macro">
+                            <div class="score-header">
+                                <div class="score-icon">🌍</div>
+                                <div class="score-title">MACRO</div>
+                                <div class="score-value-large">3.5★</div>
+                            </div>
+                            <div class="score-description">マクロ環境</div>
+                        </div>
+                        <div class="score-card risk">
+                            <div class="score-header">
+                                <div class="score-icon">🛡️</div>
+                                <div class="score-title">RISK</div>
+                                <div class="score-value-large">3.5★</div>
+                            </div>
+                            <div class="score-description">リスク管理</div>
+                        </div>
+                    </div>
+                    <div class="overall-score-card">
+                        <div class="overall-header">
+                            <div class="overall-title">総合評価</div>
+                            <div class="overall-value">3.8★</div>
+                        </div>
+                        <div class="overall-description">
+                            
+                            買い推奨
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="analysis-section">
+                <h3>📊 基本情報</h3>
+                <div class="stock-header">
+                    <div class="stock-ticker">OII</div>
+                    <div class="stock-weight">10%</div>
+                </div>
+                <div class="stock-name">Oceaneering</div>
+                <div class="stock-sector">海洋エンジニアリング</div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <div class="metric-label">現在価格</div>
+                        <div class="metric-value">$20.48</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">前日比</div>
+                        <div class="metric-value negative">
+                            -0.82%
+                        </div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">時価総額</div>
+                        <div class="metric-value">$2.1B</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">ポートフォリオ配分</div>
+                        <div class="metric-value">10%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 要約セクション -->
+            <div class="analysis-section">
+                <h3>📊 分析サマリー</h3>
+                <div class="summary-grid">
+                    
+                    
+                    <div class="summary-card">
+                        <h4>🗣️ 4専門家討論ハイライト</h4>
+                        <div class="summary-content">
+                            <p>【TECH】OIIは横ばい推移。RSI 50.9と中立的。
+20ドルがサポートライン。ブレイクアウト待ちの状況。
+
+【FUND】PER 10.95と割安。ROE 25.9%と高収益性。
+海洋エンジニアリング需要の回復で業績改善。
+オフショア風力発電向け需要が新たな成長ドライバー。
+
+【MACRO】エネルギー転換期における海洋資源開発の重要性増大。
+深海探査技術の需要拡大。ESG投資の観点からも注目。
+
+【RISK】原油価格変動の影響を受けやすい。
+10%配分は分散効果を考慮した適正水準。</p>
+                            <a href="#oii-discussion" class="read-more">→ 詳細を読む</a>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                </div>
+            </div>
+            
+            
+            <div class="analysis-section">
+                <h3>💰 財務分析</h3>
+                <table class="financial-table">
+                    <tr><th>指標</th><th>値</th></tr>
+                    <tr><td>時価総額</td><td>$2.1B</td></tr>
+                    <tr><td>予想PER</td><td>10.951871</td></tr>
+                    <tr><td>ROE</td><td>25.9%</td></tr>
+                    <tr><td>利益率</td><td>6.7%</td></tr>
+                    <tr><td>売上成長率</td><td>12.6%</td></tr>
+                </table>
+            </div>
+            
+            
+            <div class="analysis-section">
+                <h3>📈 技術指標</h3>
+                <div class="technical-indicators">
+                    <div class="indicator-card">
+                        <div class="indicator-value rsi-neutral">
+                            50.9
+                        </div>
+                        <div class="metric-label">RSI (14)</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$21.01</div>
+                        <div class="metric-label">EMA 20</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$20.60</div>
+                        <div class="metric-label">EMA 50</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$23.10</div>
+                        <div class="metric-label">SMA 200</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$22.10</div>
+                        <div class="metric-label">BB 上限</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$20.21</div>
+                        <div class="metric-label">BB 下限</div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="analysis-section" id="oii-discussion">
+                <h3>🎯 4専門家討論レポート</h3>
+                <div class="discussion-tabs">
+                    <button class="discussion-tab active" onclick="showDiscussionSection('oii', 'full')">全文</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('oii', 'tech')">📈 TECH</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('oii', 'fund')">💰 FUND</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('oii', 'macro')">🌍 MACRO</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('oii', 'risk')">⚠️ RISK</button>
+                </div>
+                <div class="expert-discussion">
+                    <div id="oii-discussion-full" class="discussion-content active">
+                        <pre>【TECH】OIIは横ばい推移。RSI 50.9と中立的。
+20ドルがサポートライン。ブレイクアウト待ちの状況。
+
+【FUND】PER 10.95と割安。ROE 25.9%と高収益性。
+海洋エンジニアリング需要の回復で業績改善。
+オフショア風力発電向け需要が新たな成長ドライバー。
+
+【MACRO】エネルギー転換期における海洋資源開発の重要性増大。
+深海探査技術の需要拡大。ESG投資の観点からも注目。
+
+【RISK】原油価格変動の影響を受けやすい。
+10%配分は分散効果を考慮した適正水準。</pre>
+                    </div>
+                    <div id="oii-discussion-tech" class="discussion-content">
+                        <pre>【TECH】OIIは横ばい推移。RSI 50.9と中立的。
+20ドルがサポートライン。ブレイクアウト待ちの状況。
+</pre>
+                    </div>
+                    <div id="oii-discussion-fund" class="discussion-content">
+                        <pre>【FUND】PER 10.95と割安。ROE 25.9%と高収益性。
+海洋エンジニアリング需要の回復で業績改善。
+オフショア風力発電向け需要が新たな成長ドライバー。
+</pre>
+                    </div>
+                    <div id="oii-discussion-macro" class="discussion-content">
+                        <pre>【MACRO】エネルギー転換期における海洋資源開発の重要性増大。
+深海探査技術の需要拡大。ESG投資の観点からも注目。
+</pre>
+                    </div>
+                    <div id="oii-discussion-risk" class="discussion-content">
+                        <pre>【RISK】原油価格変動の影響を受けやすい。
+10%配分は分散効果を考慮した適正水準。</pre>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+        </div>
+        
+        <div id="lunr" class="content-section">
+            <h2 style="color: #34495e;">LUNR - Intuitive Machines</h2>
+            
+            
+            
+            
+            
+            
+            
+            
+            <div class="analysis-section">
+                <h3>⚖️ 4専門家評価スコア</h3>
+                <div class="expert-scores-detail">
+                    <div class="scores-grid-large">
+                        <div class="score-card tech">
+                            <div class="score-header">
+                                <div class="score-icon">📈</div>
+                                <div class="score-title">TECH</div>
+                                <div class="score-value-large">4.5★</div>
+                            </div>
+                            <div class="score-description">テクニカル分析</div>
+                        </div>
+                        <div class="score-card fund">
+                            <div class="score-header">
+                                <div class="score-icon">💰</div>
+                                <div class="score-title">FUND</div>
+                                <div class="score-value-large">3.5★</div>
+                            </div>
+                            <div class="score-description">ファンダメンタル分析</div>
+                        </div>
+                        <div class="score-card macro">
+                            <div class="score-header">
+                                <div class="score-icon">🌍</div>
+                                <div class="score-title">MACRO</div>
+                                <div class="score-value-large">4.5★</div>
+                            </div>
+                            <div class="score-description">マクロ環境</div>
+                        </div>
+                        <div class="score-card risk">
+                            <div class="score-header">
+                                <div class="score-icon">🛡️</div>
+                                <div class="score-title">RISK</div>
+                                <div class="score-value-large">2.5★</div>
+                            </div>
+                            <div class="score-description">リスク管理</div>
+                        </div>
+                    </div>
+                    <div class="overall-score-card">
+                        <div class="overall-header">
+                            <div class="overall-title">総合評価</div>
+                            <div class="overall-value">3.8★</div>
+                        </div>
+                        <div class="overall-description">
+                            
+                            買い推奨
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="analysis-section">
+                <h3>📊 基本情報</h3>
+                <div class="stock-header">
+                    <div class="stock-ticker">LUNR</div>
+                    <div class="stock-weight">5%</div>
+                </div>
+                <div class="stock-name">Intuitive Machines</div>
+                <div class="stock-sector">月面探査</div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <div class="metric-label">現在価格</div>
+                        <div class="metric-value">$11.22</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">前日比</div>
+                        <div class="metric-value positive">
+                            +1.26%
+                        </div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">時価総額</div>
+                        <div class="metric-value">$1.3B</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">ポートフォリオ配分</div>
+                        <div class="metric-value">5%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 要約セクション -->
+            <div class="analysis-section">
+                <h3>📊 分析サマリー</h3>
+                <div class="summary-grid">
+                    
+                    
+                    <div class="summary-card">
+                        <h4>🗣️ 4専門家討論ハイライト</h4>
+                        <div class="summary-content">
+                            <p>【TECH】LUNRは上昇トレンド。RSI 64.7で過熱感なし。
+11ドル台での推移は底堅い。12ドル突破で上昇加速の可能性。
+
+【FUND】NASA契約による安定収益基盤。月面着陸技術の商業化進展。
+赤字継続も、宇宙開発市場の拡大で将来性は高い。
+
+【MACRO】アルテミス計画による月面開発本格化。
+中国との宇宙開発競争激化で政府支援拡大。
+民間宇宙産業の成長加速。
+
+【RISK】技術的失敗リスクと資金調達リスク。
+5%の少額配分でリスクを限定しつつ成長機会を捕捉。</p>
+                            <a href="#lunr-discussion" class="read-more">→ 詳細を読む</a>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                </div>
+            </div>
+            
+            
+            <div class="analysis-section">
+                <h3>💰 財務分析</h3>
+                <table class="financial-table">
+                    <tr><th>指標</th><th>値</th></tr>
+                    <tr><td>時価総額</td><td>$1.3B</td></tr>
+                    <tr><td>予想PER</td><td>-80.14286</td></tr>
+                    <tr><td>ROE</td><td>-160.7%</td></tr>
+                    <tr><td>利益率</td><td>-103.0%</td></tr>
+                    <tr><td>売上成長率</td><td>-14.6%</td></tr>
+                </table>
+            </div>
+            
+            
+            <div class="analysis-section">
+                <h3>📈 技術指標</h3>
+                <div class="technical-indicators">
+                    <div class="indicator-card">
+                        <div class="indicator-value rsi-neutral">
+                            64.7
+                        </div>
+                        <div class="metric-label">RSI (14)</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$10.86</div>
+                        <div class="metric-label">EMA 20</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$10.74</div>
+                        <div class="metric-label">EMA 50</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$12.02</div>
+                        <div class="metric-label">SMA 200</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$11.52</div>
+                        <div class="metric-label">BB 上限</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$9.85</div>
+                        <div class="metric-label">BB 下限</div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="analysis-section" id="lunr-discussion">
+                <h3>🎯 4専門家討論レポート</h3>
+                <div class="discussion-tabs">
+                    <button class="discussion-tab active" onclick="showDiscussionSection('lunr', 'full')">全文</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('lunr', 'tech')">📈 TECH</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('lunr', 'fund')">💰 FUND</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('lunr', 'macro')">🌍 MACRO</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('lunr', 'risk')">⚠️ RISK</button>
+                </div>
+                <div class="expert-discussion">
+                    <div id="lunr-discussion-full" class="discussion-content active">
+                        <pre>【TECH】LUNRは上昇トレンド。RSI 64.7で過熱感なし。
+11ドル台での推移は底堅い。12ドル突破で上昇加速の可能性。
+
+【FUND】NASA契約による安定収益基盤。月面着陸技術の商業化進展。
+赤字継続も、宇宙開発市場の拡大で将来性は高い。
+
+【MACRO】アルテミス計画による月面開発本格化。
+中国との宇宙開発競争激化で政府支援拡大。
+民間宇宙産業の成長加速。
+
+【RISK】技術的失敗リスクと資金調達リスク。
+5%の少額配分でリスクを限定しつつ成長機会を捕捉。</pre>
+                    </div>
+                    <div id="lunr-discussion-tech" class="discussion-content">
+                        <pre>【TECH】LUNRは上昇トレンド。RSI 64.7で過熱感なし。
+11ドル台での推移は底堅い。12ドル突破で上昇加速の可能性。
+</pre>
+                    </div>
+                    <div id="lunr-discussion-fund" class="discussion-content">
+                        <pre>【FUND】NASA契約による安定収益基盤。月面着陸技術の商業化進展。
+赤字継続も、宇宙開発市場の拡大で将来性は高い。
+</pre>
+                    </div>
+                    <div id="lunr-discussion-macro" class="discussion-content">
+                        <pre>【MACRO】アルテミス計画による月面開発本格化。
+中国との宇宙開発競争激化で政府支援拡大。
+民間宇宙産業の成長加速。
+</pre>
+                    </div>
+                    <div id="lunr-discussion-risk" class="discussion-content">
+                        <pre>【RISK】技術的失敗リスクと資金調達リスク。
+5%の少額配分でリスクを限定しつつ成長機会を捕捉。</pre>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+        </div>
+        
+        <div id="rdw" class="content-section">
+            <h2 style="color: #e74c3c;">RDW - Redwire</h2>
+            
+            
+            
+            
+            
+            
+            
+            
+            <div class="analysis-section">
+                <h3>⚖️ 4専門家評価スコア</h3>
+                <div class="expert-scores-detail">
+                    <div class="scores-grid-large">
+                        <div class="score-card tech">
+                            <div class="score-header">
+                                <div class="score-icon">📈</div>
+                                <div class="score-title">TECH</div>
+                                <div class="score-value-large">5.0★</div>
+                            </div>
+                            <div class="score-description">テクニカル分析</div>
+                        </div>
+                        <div class="score-card fund">
+                            <div class="score-header">
+                                <div class="score-icon">💰</div>
+                                <div class="score-title">FUND</div>
+                                <div class="score-value-large">3.0★</div>
+                            </div>
+                            <div class="score-description">ファンダメンタル分析</div>
+                        </div>
+                        <div class="score-card macro">
+                            <div class="score-header">
+                                <div class="score-icon">🌍</div>
+                                <div class="score-title">MACRO</div>
+                                <div class="score-value-large">3.5★</div>
+                            </div>
+                            <div class="score-description">マクロ環境</div>
+                        </div>
+                        <div class="score-card risk">
+                            <div class="score-header">
+                                <div class="score-icon">🛡️</div>
+                                <div class="score-title">RISK</div>
+                                <div class="score-value-large">2.5★</div>
+                            </div>
+                            <div class="score-description">リスク管理</div>
+                        </div>
+                    </div>
+                    <div class="overall-score-card">
+                        <div class="overall-header">
+                            <div class="overall-title">総合評価</div>
+                            <div class="overall-value">3.5★</div>
+                        </div>
+                        <div class="overall-description">
+                            
+                            買い推奨
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="analysis-section">
+                <h3>📊 基本情報</h3>
+                <div class="stock-header">
+                    <div class="stock-ticker">RDW</div>
+                    <div class="stock-weight">5%</div>
+                </div>
+                <div class="stock-name">Redwire</div>
+                <div class="stock-sector">宇宙製造</div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <div class="metric-label">現在価格</div>
+                        <div class="metric-value">$17.50</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">前日比</div>
+                        <div class="metric-value positive">
+                            +3.06%
+                        </div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">時価総額</div>
+                        <div class="metric-value">$2.5B</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">ポートフォリオ配分</div>
+                        <div class="metric-value">5%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 要約セクション -->
+            <div class="analysis-section">
+                <h3>📊 分析サマリー</h3>
+                <div class="summary-grid">
+                    
+                    
+                    <div class="summary-card">
+                        <h4>🗣️ 4専門家討論ハイライト</h4>
+                        <div class="summary-content">
+                            <p>【TECH】RDWは堅調な上昇基調。RSI 58.6は健全水準。
+17.50ドルを維持し、20ドル目標。出来高増は好材料。
+
+【FUND】宇宙製造技術のリーダー。3Dプリンティング技術で差別化。
+売上は減少も、大型契約獲得で回復見込み。
+軌道上製造の実現で市場創造。
+
+【MACRO】宇宙産業の商業化加速。軌道上サービス需要拡大。
+宇宙太陽光発電等の大型プロジェクトで成長機会。
+
+【RISK】新興市場特有の不確実性。技術実証の遅れリスク。
+5%配分で将来の大化け銘柄への投資。</p>
+                            <a href="#rdw-discussion" class="read-more">→ 詳細を読む</a>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                </div>
+            </div>
+            
+            
+            <div class="analysis-section">
+                <h3>💰 財務分析</h3>
+                <table class="financial-table">
+                    <tr><th>指標</th><th>値</th></tr>
+                    <tr><td>時価総額</td><td>$2.5B</td></tr>
+                    <tr><td>予想PER</td><td>-72.91667</td></tr>
+                    <tr><td>ROE</td><td>-192.9%</td></tr>
+                    <tr><td>利益率</td><td>-39.3%</td></tr>
+                    <tr><td>売上成長率</td><td>-30.1%</td></tr>
+                </table>
+            </div>
+            
+            
+            <div class="analysis-section">
+                <h3>📈 技術指標</h3>
+                <div class="technical-indicators">
+                    <div class="indicator-card">
+                        <div class="indicator-value rsi-neutral">
+                            58.6
+                        </div>
+                        <div class="metric-label">RSI (14)</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$16.41</div>
+                        <div class="metric-label">EMA 20</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$15.42</div>
+                        <div class="metric-label">EMA 50</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$13.44</div>
+                        <div class="metric-label">SMA 200</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$17.67</div>
+                        <div class="metric-label">BB 上限</div>
+                    </div>
+                    <div class="indicator-card">
+                        <div class="indicator-value">$14.76</div>
+                        <div class="metric-label">BB 下限</div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="analysis-section" id="rdw-discussion">
+                <h3>🎯 4専門家討論レポート</h3>
+                <div class="discussion-tabs">
+                    <button class="discussion-tab active" onclick="showDiscussionSection('rdw', 'full')">全文</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('rdw', 'tech')">📈 TECH</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('rdw', 'fund')">💰 FUND</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('rdw', 'macro')">🌍 MACRO</button>
+                    <button class="discussion-tab" onclick="showDiscussionSection('rdw', 'risk')">⚠️ RISK</button>
+                </div>
+                <div class="expert-discussion">
+                    <div id="rdw-discussion-full" class="discussion-content active">
+                        <pre>【TECH】RDWは堅調な上昇基調。RSI 58.6は健全水準。
+17.50ドルを維持し、20ドル目標。出来高増は好材料。
+
+【FUND】宇宙製造技術のリーダー。3Dプリンティング技術で差別化。
+売上は減少も、大型契約獲得で回復見込み。
+軌道上製造の実現で市場創造。
+
+【MACRO】宇宙産業の商業化加速。軌道上サービス需要拡大。
+宇宙太陽光発電等の大型プロジェクトで成長機会。
+
+【RISK】新興市場特有の不確実性。技術実証の遅れリスク。
+5%配分で将来の大化け銘柄への投資。</pre>
+                    </div>
+                    <div id="rdw-discussion-tech" class="discussion-content">
+                        <pre>【TECH】RDWは堅調な上昇基調。RSI 58.6は健全水準。
+17.50ドルを維持し、20ドル目標。出来高増は好材料。
+</pre>
+                    </div>
+                    <div id="rdw-discussion-fund" class="discussion-content">
+                        <pre>【FUND】宇宙製造技術のリーダー。3Dプリンティング技術で差別化。
+売上は減少も、大型契約獲得で回復見込み。
+軌道上製造の実現で市場創造。
+</pre>
+                    </div>
+                    <div id="rdw-discussion-macro" class="discussion-content">
+                        <pre>【MACRO】宇宙産業の商業化加速。軌道上サービス需要拡大。
+宇宙太陽光発電等の大型プロジェクトで成長機会。
+</pre>
+                    </div>
+                    <div id="rdw-discussion-risk" class="discussion-content">
+                        <pre>【RISK】新興市場特有の不確実性。技術実証の遅れリスク。
+5%配分で将来の大化け銘柄への投資。</pre>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+        </div>
+        
+        
+        <div class="footer">
+            <p>本レポートは教育目的のシミュレーションです。投資判断は自己責任で行ってください。</p>
+            <p>生成日時: 2025-07-17 19:26:04</p>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

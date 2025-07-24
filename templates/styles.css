@@ -661,3 +661,112 @@ body {
         padding: 3px 6px;
     }
 }
+
+/* 詳細討論レポート用スタイル */
+.detailed-discussion-wrapper {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 15px;
+    max-height: 800px;
+    overflow-y: auto;
+}
+
+.detailed-discussion-content {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.detailed-discussion-content h1,
+.detailed-discussion-content h2,
+.detailed-discussion-content h3 {
+    color: var(--primary-color);
+    margin: 20px 0 10px;
+    font-weight: 600;
+}
+
+.detailed-discussion-content h1 {
+    font-size: 1.5rem;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+}
+
+.detailed-discussion-content h2 {
+    font-size: 1.3rem;
+    margin-top: 30px;
+}
+
+.detailed-discussion-content h3 {
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+}
+
+.detailed-discussion-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.detailed-discussion-content th,
+.detailed-discussion-content td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.detailed-discussion-content th {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+}
+
+.detailed-discussion-content tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+.detailed-discussion-content ul,
+.detailed-discussion-content ol {
+    margin: 10px 0;
+    padding-left: 30px;
+}
+
+.detailed-discussion-content li {
+    margin: 5px 0;
+}
+
+.detailed-discussion-content strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.detailed-discussion-content pre {
+    background-color: #f3f4f6;
+    padding: 15px;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 10px 0;
+}
+
+/* スクロールバーのスタイリング */
+.detailed-discussion-wrapper::-webkit-scrollbar {
+    width: 10px;
+}
+
+.detailed-discussion-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.detailed-discussion-wrapper::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.detailed-discussion-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
