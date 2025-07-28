@@ -51,7 +51,9 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "tiker-analyze=unified_stock_analyzer:main",
+            "tiker-analyze=src.analysis.unified_analyzer:main",
+            "tiker-portfolio=src.portfolio.portfolio_master_report:main",
+            "tiker-dashboard=src.web.simple_dashboard:main",
         ],
     },
     include_package_data=True,
