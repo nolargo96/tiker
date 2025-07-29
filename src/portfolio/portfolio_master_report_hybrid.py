@@ -500,7 +500,7 @@ class PortfolioMasterReportHybrid:
             # リスクメトリクス（1-10スケール）
             risk_metrics = {
                 'TSLA': 6, 'FSLR': 5, 'RKLB': 8, 'ASTS': 9, 'OKLO': 8,
-                'JOBY': 7, 'OII': 4, 'LUNR': 9, 'RDW': 8
+                'JOBY': 7, 'OII': 4, 'LUNR': 9, 'RDW': 8, 'AAPL': 3
             }
             
             # 高リスク銘柄の配分を微調整
