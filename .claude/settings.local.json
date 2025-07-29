@@ -21,7 +21,9 @@
       "Bash(pkill:*)",
       "Bash(uv venv:*)",
       "Bash(uv pip install:*)",
-      "Bash(cp:*)"
+      "Bash(cp:*)",
+      "Bash(rg:*)",
+      "Bash(grep:*)"
     ],
     "deny": []
   }

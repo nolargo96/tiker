@@ -517,6 +517,10 @@ class PortfolioMasterReportHybrid:
                 for ticker in recommended_allocation:
                     recommended_allocation[ticker] += adjustment
             
+            # 小数点2桁に丸める
+            for ticker in recommended_allocation:
+                recommended_allocation[ticker] = round(recommended_allocation[ticker], 2)
+            
             return {
                 'current_allocation': current_allocation,
                 'recommended_allocation': recommended_allocation,
@@ -546,7 +550,7 @@ class PortfolioMasterReportHybrid:
             self.env.loader = FileSystemLoader(template_dir)
             
             # メインテンプレート読み込み
-            template = self.env.get_template('hybrid_report.html')
+            template = self.env.get_template('portfolio_report_template.html')
             
             # テンプレート用データ準備
             template_data = self._prepare_template_data()

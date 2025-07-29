@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ポートフォリオ統合レポート - {{ report_date }}</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 ポートフォリオ統合レポート</h1>
+            <div class="subtitle">全体戦略 + 9銘柄統合分析 - {{ report_date }}</div>
+        </div>
+        
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="showSection('overview')">📊 概要</div>
+            <div class="nav-tab" onclick="showSection('optimization')">🎯 最適化</div>
+            
+            {% for ticker, info in portfolio.items() %}
+            <div class="nav-tab stock-tab" onclick="showSection('{{ ticker.lower() }}')" style="border-left-color: {{ info.color }}">{{ ticker }}</div>
+            {% endfor %}
+        </div>
+        
+        <!-- 概要セクション -->
+        <div id="overview" class="content-section active">
+            <h2>📊 ポートフォリオ概要</h2>
+            
+            <div class="overview-header-grid">
+                <div class="strategy-summary">
+                    <h3>🎯 投資戦略サマリー</h3>
+                    <div class="strategy-metrics">
+                        <span class="strategy-item">銘柄数: {{ portfolio|length }}</span>
+                        <span class="strategy-item">セクター: {{ sectors|length }}</span>
+                        <span class="strategy-item">期間: 3-5年</span>
+                        <span class="strategy-item">リスク: 中〜高</span>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 class="scores-section-title">⚖️ 9銘柄 専門家評価スコア</h3>
+            <div class="scores-grid-3x3">
+                {% for ticker, info in portfolio.items() %}
+                <div class="score-card-compact" style="border-color: {{ info.color }}">
+                    <div class="score-header-compact">
+                        <span class="ticker-compact" style="color: {{ info.color }}">{{ ticker }}</span>
+                        <span class="name-compact">{{ info.name }}</span>
+                    </div>
+                    <div class="investment-decision">
+                        {% if expert_scores[ticker].OVERALL >= 4.0 %}
+                        <span class="decision-buy">買い</span>
+                        {% elif expert_scores[ticker].OVERALL >= 3.5 %}
+                        <span class="decision-hold">様子見</span>
+                        {% else %}
+                        <span class="decision-wait">見送り</span>
+                        {% endif %}
+                    </div>
+                    <div class="scores-row-compact">
+                        <div class="score-mini tech">
+                            <span class="score-label-mini">T</span>
+                            <span class="score-value-mini">{{ expert_scores[ticker].TECH }}</span>
+                        </div>
+                        <div class="score-mini fund">
+                            <span class="score-label-mini">F</span>
+                            <span class="score-value-mini">{{ expert_scores[ticker].FUND }}</span>
+                        </div>
+                        <div class="score-mini macro">
+                            <span class="score-label-mini">M</span>
+                            <span class="score-value-mini">{{ expert_scores[ticker].MACRO }}</span>
+                        </div>
+                        <div class="score-mini risk">
+                            <span class="score-label-mini">R</span>
+                            <span class="score-value-mini">{{ expert_scores[ticker].RISK }}</span>
+                        </div>
+                        <div class="score-mini overall">
+                            <span class="score-value-mini overall-mini">{{ expert_scores[ticker].OVERALL }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <!-- 最適化セクション -->
+        <div id="optimization" class="content-section">
+            <h2>🎯 ポートフォリオ最適化</h2>
+            
+            <div class="optimization-content">
+                <h3>現在の配分 vs 推奨配分</h3>
+                <table class="allocation-table">
+                    <thead>
+                        <tr>
+                            <th>銘柄</th>
+                            <th>セクター</th>
+                            <th>現在配分</th>
+                            <th>推奨配分</th>
+                            <th>リスクレベル</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ticker, info in portfolio.items() %}
+                        <tr>
+                            <td>{{ ticker }}</td>
+                            <td>{{ info.sector }}</td>
+                            <td>{{ optimization.current_allocation[ticker] }}%</td>
+                            <td>{{ optimization.recommended_allocation[ticker] }}%</td>
+                            <td>
+                                <div class="risk-meter" style="width: {{ optimization.risk_metrics[ticker] * 10 }}%; background-color: {% if optimization.risk_metrics[ticker] >= 8 %}#ef4444{% elif optimization.risk_metrics[ticker] <= 4 %}#10b981{% else %}#f59e0b{% endif %}">
+                                    {{ optimization.risk_metrics[ticker] }}/10
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- 個別銘柄セクション -->
+        {% for ticker, info in portfolio.items() %}
+        <div id="{{ ticker.lower() }}" class="content-section">
+            <div class="stock-header-section" style="background: linear-gradient(135deg, {{ info.color }}20, {{ info.color }}10)">
+                <h2 style="color: {{ info.color }}">{{ ticker }} - {{ info.name }}</h2>
+                <div class="sector-badge" style="background: {{ info.color }}20; color: {{ info.color }}">{{ info.sector }}</div>
+            </div>
+            
+            <!-- 株価情報 -->
+            {% if stock_metrics[ticker] %}
+            <div class="stock-metrics-section">
+                <h3>📈 現在の株価指標</h3>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <div class="metric-label">現在価格</div>
+                        <div class="metric-value">${{ "%.2f" % stock_metrics[ticker].current_price }}</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">前日比</div>
+                        <div class="metric-value {% if stock_metrics[ticker].change_pct > 0 %}positive{% else %}negative{% endif %}">
+                            {{ "%.2f" % stock_metrics[ticker].change_pct }}%
+                        </div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">RSI</div>
+                        <div class="metric-value">{{ "%.1f" % stock_metrics[ticker].rsi }}</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">出来高</div>
+                        <div class="metric-value">{{ "{:,.0f}".format(stock_metrics[ticker].volume) }}</div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- 4専門家スコア -->
+            <div class="expert-scores-section">
+                <h3>⚖️ 4専門家評価スコア</h3>
+                <div class="scores-detail-grid">
+                    <div class="score-card tech">
+                        <div class="score-type">TECH</div>
+                        <div class="score-value">{{ expert_scores[ticker].TECH }}★</div>
+                        <div class="score-desc">テクニカル分析</div>
+                    </div>
+                    <div class="score-card fund">
+                        <div class="score-type">FUND</div>
+                        <div class="score-value">{{ expert_scores[ticker].FUND }}★</div>
+                        <div class="score-desc">ファンダメンタル</div>
+                    </div>
+                    <div class="score-card macro">
+                        <div class="score-type">MACRO</div>
+                        <div class="score-value">{{ expert_scores[ticker].MACRO }}★</div>
+                        <div class="score-desc">マクロ環境</div>
+                    </div>
+                    <div class="score-card risk">
+                        <div class="score-type">RISK</div>
+                        <div class="score-value">{{ expert_scores[ticker].RISK }}★</div>
+                        <div class="score-desc">リスク管理</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 財務指標 -->
+            {% if financial_metrics[ticker] %}
+            <div class="financial-metrics-section">
+                <h3>💰 財務指標</h3>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <div class="metric-label">時価総額</div>
+                        <div class="metric-value">${{ "{:,.0f}".format(financial_metrics[ticker].market_cap / 1000000) }}M</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">P/E比率</div>
+                        <div class="metric-value">{{ financial_metrics[ticker].pe_ratio if financial_metrics[ticker].pe_ratio != 'N/A' else 'N/A' }}</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">利益率</div>
+                        <div class="metric-value">{{ "%.1f" % (financial_metrics[ticker].profit_margin * 100) }}%</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">売上成長率</div>
+                        <div class="metric-value">{{ "%.1f" % (financial_metrics[ticker].revenue_growth * 100) }}%</div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            
+            <!-- 詳細討論レポート -->
+            {% if detailed_discussion_reports[ticker] %}
+            <div class="analysis-section" id="{{ ticker.lower() }}-detailed-discussion">
+                <h3>📚 4専門家討論レポート</h3>
+                <div class="detailed-discussion-wrapper">
+                    <div class="detailed-discussion-content markdown-content">
+                        {{ detailed_discussion_reports[ticker]|markdown_to_html|safe }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- 競合分析 -->
+            {% if competitor_reports[ticker] %}
+            <div class="analysis-section" id="{{ ticker.lower() }}-competitor">
+                <h3>🏢 競合分析レポート</h3>
+                <div class="competitor-content markdown-content">
+                    {{ competitor_reports[ticker]|markdown_to_html|safe }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
