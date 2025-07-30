@@ -276,14 +276,6 @@
   <div class="container">
     <div class="summary-cards" id="summaryCards">
       <div class="summary-card">
-        <div class="label">ポートフォリオ価値</div>
-        <div class="value" id="totalValue">-</div>
-      </div>
-      <div class="summary-card">
-        <div class="label">本日の損益</div>
-        <div class="value" id="todayChange">-</div>
-      </div>
-      <div class="summary-card">
         <div class="label">買い推奨</div>
         <div class="value" id="buyCount">-</div>
       </div>
@@ -316,7 +308,7 @@
       google.script.run
         .withSuccessHandler(displayPortfolio)
         .withFailureHandler(showError)
-        .getPortfolioData();
+        .getIntegratedPortfolioData();
     }
     
     function displayPortfolio(data) {
@@ -327,8 +319,6 @@
         '最終更新: ' + new Date(data.lastUpdate).toLocaleString('ja-JP');
       
       // サマリー計算
-      let totalValue = 0;
-      let todayChange = 0;
       let buyCount = 0;
       let alertCount = 0;
       
@@ -341,7 +331,7 @@
         
         if (stock && !stock.error) {
           // サマリー計算
-          if (stock.recommendation === '買い') buyCount++;
+          if (stock.recommendation?.recommendation === '買い' || stock.recommendation?.recommendation === '強い買い') buyCount++;
           if (parseFloat(stock.changePercent) < -5) alertCount++;
           
           // カードHTML
@@ -363,9 +353,14 @@
       const changeClass = parseFloat(stock.changePercent) >= 0 ? 'positive' : 'negative';
       const changeSymbol = parseFloat(stock.changePercent) >= 0 ? '+' : '';
       
+      const recommendText = stock.recommendation?.recommendation || '評価中';
       const recommendClass = 
-        stock.recommendation === '買い' ? 'buy' : 
-        stock.recommendation === '様子見' ? 'hold' : 'sell';
+        recommendText === '強い買い' || recommendText === '買い' ? 'buy' : 
+        recommendText === '様子見' ? 'hold' : 'sell';
+      
+      // シグナル表示用のテキスト作成
+      const signals = stock.recommendation?.signals || [];
+      const signalText = signals.length > 0 ? signals.slice(0, 2).join(' / ') : '';
       
       return `
         <div class="stock-card">
@@ -378,31 +373,32 @@
           </div>
           <div class="stock-body">
             <div class="price-section">
-              <span class="current-price">$${stock.currentPrice}</span>
+              <span class="current-price">$${stock.currentPrice.toFixed(2)}</span>
               <span class="price-change ${changeClass}">
-                ${changeSymbol}${stock.changePercent}%
+                ${changeSymbol}${stock.changePercent.toFixed(2)}%
               </span>
             </div>
             <div class="metrics">
               <div class="metric">
                 <div class="metric-label">RSI</div>
-                <div class="metric-value">${stock.rsi}</div>
+                <div class="metric-value">${stock.rsi !== null && stock.rsi !== undefined ? stock.rsi.toFixed(1) : '-'}</div>
               </div>
               <div class="metric">
-                <div class="metric-label">SMA20</div>
-                <div class="metric-value">${stock.sma20 || '-'}</div>
+                <div class="metric-label">Stoch</div>
+                <div class="metric-value">${stock.stochastic && stock.stochastic.k !== null && stock.stochastic.k !== undefined ? stock.stochastic.k.toFixed(1) : '-'}</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">MACD</div>
+                <div class="metric-value">${stock.macd && stock.macd.macd !== null && stock.macd.macd !== undefined ? (stock.macd.macd > 0 ? '↗' : '↘') : '-'}</div>
               </div>
               <div class="metric">
                 <div class="metric-label">出来高</div>
                 <div class="metric-value">${formatVolume(stock.volume)}</div>
               </div>
-              <div class="metric">
-                <div class="metric-label">高値</div>
-                <div class="metric-value">$${stock.dayHigh?.toFixed(2) || '-'}</div>
-              </div>
             </div>
             <div class="recommendation ${recommendClass}">
-              ${stock.recommendation}
+              ${recommendText}
+              ${signalText ? '<div style="font-size: 0.75rem; margin-top: 4px; opacity: 0.8;">' + signalText + '</div>' : ''}
             </div>
           </div>
         </div>
@@ -427,7 +423,7 @@
       
       google.script.run
         .withSuccessHandler(function(result) {
-          displayPortfolio(result.data);
+          displayPortfolio(result);
           btn.disabled = false;
           btn.textContent = '🔄 更新';
         })
@@ -436,7 +432,7 @@
           btn.disabled = false;
           btn.textContent = '🔄 更新';
         })
-        .refreshAllData();
+        .handleApi({parameter: {action: 'refreshData'}});
     }
     
     function showError(error) {

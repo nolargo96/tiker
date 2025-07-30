@@ -9,7 +9,7 @@
 // ========== 設定 ==========
 const CONFIG = {
   // Google DriveのフォルダID（upload_to_drive.py実行後に設定）
-  DRIVE_FOLDER_ID: '', // ここにフォルダIDを設定
+  DRIVE_FOLDER_ID: '1JpP1WBK-DG7SYBNXP-QTCQW8uUzVZwwr', // ここにフォルダIDを設定
   
   // キャッシュ期間（24時間 = 1日1回更新）
   CACHE_DURATION: 86400, // 24時間（秒）

@@ -9,7 +9,7 @@
 // ========== 設定 ==========
 const CONFIG = {
   // Google DriveのフォルダID（upload_to_drive.py実行後に設定）
-  DRIVE_FOLDER_ID: '', // ここにフォルダIDを設定
+  DRIVE_FOLDER_ID: '1JpP1WBK-DG7SYBNXP-QTCQW8uUzVZwwr', // ここにフォルダIDを設定
   
   // キャッシュ期間（24時間 = 1日1回更新）
   CACHE_DURATION: 86400, // 24時間（秒）
@@ -38,7 +38,7 @@ const LOG_CONFIG = {
 // ========== メインエントリーポイント ==========
 function doGet(e) {
   const startTime = new Date();
-  const page = e.parameter.page || 'dashboard';
+  const page = (e && e.parameter && e.parameter.page) ? e.parameter.page : 'dashboard';
   
   try {
     // アクセスログ記録
@@ -73,7 +73,7 @@ function doGet(e) {
 
 // ========== APIハンドラー ==========
 function handleApi(e) {
-  const action = e.parameter.action;
+  const action = (e && e.parameter && e.parameter.action) ? e.parameter.action : 'getPortfolio';
   
   try {
     logAccess('API呼び出し', `アクション: ${action}`);
@@ -349,22 +349,27 @@ function getLatestReportFromDrive() {
 }
 
 function getIntegratedPortfolioData() {
+  console.log('getIntegratedPortfolioData called'); // デバッグログ
   const cache = CacheService.getScriptCache();
   const cacheKey = 'integrated_portfolio_data';
   const cached = cache.get(cacheKey);
   
   if (cached) {
+    console.log('Returning cached data'); // デバッグログ
     return JSON.parse(cached);
   }
   
   // Yahoo Financeデータを取得
   const stockData = {};
   for (const ticker in CONFIG.PORTFOLIO) {
-    try {
-      stockData[ticker] = fetchStockData(ticker);
-    } catch(e) {
-      console.error(`Error fetching ${ticker}:`, e);
-      stockData[ticker] = { error: 'データ取得エラー' };
+    console.log(`Processing ticker: ${ticker}`); // デバッグログ
+    if (CONFIG.PORTFOLIO.hasOwnProperty(ticker)) {
+      try {
+        stockData[ticker] = fetchStockData(ticker);
+      } catch(e) {
+        console.error(`Error fetching ${ticker}:`, e);
+        stockData[ticker] = { error: 'データ取得エラー' };
+      }
     }
   }
   
@@ -382,6 +387,21 @@ function getIntegratedPortfolioData() {
 
 // ========== Yahoo Finance関連 ==========
 function fetchStockData(ticker) {
+  // ティッカーシンボルの検証
+  if (!ticker || ticker === 'undefined' || ticker === undefined) {
+    console.log('fetchStockData called with invalid ticker:', ticker);
+    return {
+      ticker: 'UNKNOWN',
+      name: 'Unknown',
+      sector: 'Unknown',
+      currentPrice: 0,
+      change: 0,
+      changePercent: 0,
+      volume: 0,
+      error: '無効なティッカーシンボル'
+    };
+  }
+  
   const cache = CacheService.getScriptCache();
   const cacheKey = `stock_${ticker}`;
   const cached = cache.get(cacheKey);
@@ -395,11 +415,39 @@ function fetchStockData(ticker) {
     const response = UrlFetchApp.fetch(url, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-      }
+      },
+      muteHttpExceptions: true
     });
     
+    // レスポンスステータスチェック
+    if (response.getResponseCode() !== 200) {
+      console.error(`Failed to fetch data for ${ticker}: ${response.getResponseCode()}`);
+      return {
+        ticker: ticker,
+        error: 'データ取得エラー'
+      };
+    }
+    
     const data = JSON.parse(response.getContentText());
+    
+    // データ検証
+    if (!data.chart || !data.chart.result || data.chart.result.length === 0) {
+      console.error(`Invalid data structure for ${ticker}`);
+      return {
+        ticker: ticker,
+        error: 'データ形式エラー'
+      };
+    }
+    
     const result = data.chart.result[0];
+    
+    if (!result.meta || !result.indicators || !result.indicators.quote) {
+      console.error(`Missing required data for ${ticker}`);
+      return {
+        ticker: ticker,
+        error: 'データ不足'
+      };
+    }
     
     const meta = result.meta;
     const quote = result.indicators.quote[0];
@@ -411,12 +459,21 @@ function fetchStockData(ticker) {
     const previousClose = meta.previousClose;
     const change = currentPrice - previousClose;
     const changePercent = (change / previousClose) * 100;
+    const currentVolume = meta.regularMarketVolume || (quote.volume ? quote.volume[lastIndex] : 0);
     
     // テクニカル指標計算
-    const closes = quote.close.filter(val => val !== null);
-    const sma20 = calculateSMA(closes, 20);
+    const closes = quote.close ? quote.close.filter(val => val !== null) : [];
+    const highs = quote.high ? quote.high.filter(val => val !== null) : [];
+    const lows = quote.low ? quote.low.filter(val => val !== null) : [];
+    
     const sma50 = calculateSMA(closes, 50);
     const rsi = calculateRSI(closes);
+    const stochastic = calculateStochastic(highs, lows, closes);
+    const macd = calculateMACD(closes);
+    const volatility = calculateVolatility(closes);
+    
+    // デバッグ用ログ
+    console.log(`${ticker} - Closes: ${closes.length}, RSI: ${rsi}, Stoch: ${JSON.stringify(stochastic)}, MACD: ${JSON.stringify(macd)}, Vol: ${volatility}`);
     
     const stockData = {
       ticker: ticker,
@@ -425,14 +482,15 @@ function fetchStockData(ticker) {
       currentPrice: currentPrice,
       change: change,
       changePercent: changePercent,
-      volume: quote.volume[lastIndex],
-      dayHigh: meta.regularMarketDayHigh,
-      dayLow: meta.regularMarketDayLow,
+      volume: currentVolume,
       previousClose: previousClose,
-      sma20: sma20,
+      dayLow: meta.regularMarketDayLow,
       sma50: sma50,
       rsi: rsi,
-      recommendation: getRecommendation(currentPrice, sma20, sma50, rsi)
+      stochastic: stochastic,
+      macd: macd,
+      volatility: volatility,
+      recommendation: getAdvancedRecommendation(currentPrice, sma50, rsi, stochastic, macd, volatility)
     };
     
     // キャッシュに保存（1時間）
@@ -479,50 +537,223 @@ function calculateRSI(values, period = 14) {
   return 100 - (100 / (1 + rs));
 }
 
-function getRecommendation(price, sma20, sma50, rsi) {
-  let score = 0;
-  let signals = [];
+function calculateStochastic(highs, lows, closes, period = 14) {
+  if (highs.length < period || lows.length < period || closes.length < period) return null;
   
-  if (sma20 && sma50) {
-    if (price > sma20) {
-      score += 1;
-      signals.push('20日線上');
+  const recentHighs = highs.slice(-period);
+  const recentLows = lows.slice(-period);
+  const currentClose = closes[closes.length - 1];
+  
+  const highestHigh = Math.max(...recentHighs);
+  const lowestLow = Math.min(...recentLows);
+  
+  if (highestHigh === lowestLow) return { k: 50, d: 50 };
+  
+  const k = ((currentClose - lowestLow) / (highestHigh - lowestLow)) * 100;
+  
+  return {
+    k: k,
+    d: k // 簡略化のため、%Dは%Kと同じ値を使用
+  };
+}
+
+function calculateMACD(values) {
+  if (values.length < 26) return null;
+  
+  const ema12 = calculateEMA(values, 12);
+  const ema26 = calculateEMA(values, 26);
+  
+  if (!ema12 || !ema26) return null;
+  
+  const macdLine = ema12 - ema26;
+  const signal = macdLine; // 簡略化のため、シグナルラインはMACDラインと同じ値を使用
+  
+  return {
+    macd: macdLine,
+    signal: signal,
+    histogram: 0
+  };
+}
+
+function calculateEMA(values, period) {
+  if (values.length < period) return null;
+  
+  const k = 2 / (period + 1);
+  let ema = values.slice(0, period).reduce((a, b) => a + b, 0) / period;
+  
+  for (let i = period; i < values.length; i++) {
+    ema = values[i] * k + ema * (1 - k);
+  }
+  
+  return ema;
+}
+
+function calculateVolatility(values, period = 20) {
+  if (values.length < period) return null;
+  
+  const recentValues = values.slice(-period);
+  const returns = [];
+  
+  for (let i = 1; i < recentValues.length; i++) {
+    returns.push((recentValues[i] - recentValues[i-1]) / recentValues[i-1]);
+  }
+  
+  const avgReturn = returns.reduce((a, b) => a + b, 0) / returns.length;
+  const variance = returns.reduce((sum, ret) => sum + Math.pow(ret - avgReturn, 2), 0) / returns.length;
+  const volatility = Math.sqrt(variance) * Math.sqrt(252) * 100; // 年率換算
+  
+  return volatility;
+}
+
+function getAdvancedRecommendation(price, sma50, rsi, stochastic, macd, volatility) {
+  let signals = [];
+  let marketType = 'normal'; // normal, high_volatility, low_volatility, trend, range
+  
+  // ボラティリティに基づく市場タイプの判定
+  if (volatility > 40) {
+    marketType = 'high_volatility';
+  } else if (volatility < 15) {
+    marketType = 'low_volatility';
+  }
+  
+  // トレンド/レンジの判定
+  if (macd && Math.abs(macd.macd) > 0.5) {
+    marketType = marketType === 'high_volatility' ? 'high_volatility' : 'trend';
+  } else if (volatility < 20 && stochastic) {
+    marketType = 'range';
+  }
+  
+  // 重み付けの動的調整
+  let weights = {
+    rsi: 0.40,
+    stochastic: 0.35,
+    macd: 0.20,
+    sma: 0.05
+  };
+  
+  // 市場タイプに応じた重み調整
+  if (marketType === 'high_volatility') {
+    weights.rsi = 0.50;
+    weights.stochastic = 0.30;
+    weights.macd = 0.15;
+    weights.sma = 0.05;
+  } else if (marketType === 'trend') {
+    weights.rsi = 0.30;
+    weights.stochastic = 0.25;
+    weights.macd = 0.35;
+    weights.sma = 0.10;
+  } else if (marketType === 'range') {
+    weights.rsi = 0.25;
+    weights.stochastic = 0.50;
+    weights.macd = 0.15;
+    weights.sma = 0.10;
+  }
+  
+  // RSI閾値の動的調整
+  let rsiBuyThreshold = 30;
+  let rsiSellThreshold = 70;
+  
+  if (marketType === 'high_volatility') {
+    rsiBuyThreshold = 20;
+    rsiSellThreshold = 80;
+  } else if (marketType === 'low_volatility') {
+    rsiBuyThreshold = 35;
+    rsiSellThreshold = 65;
+  }
+  
+  // スコア計算
+  let totalScore = 0;
+  
+  // RSIスコア
+  if (rsi) {
+    let rsiScore = 0;
+    if (rsi < rsiBuyThreshold) {
+      rsiScore = 1.0;
+      signals.push(`RSI売られすぎ(${rsi.toFixed(1)})`);
+    } else if (rsi < 40) {
+      rsiScore = 0.7;
+    } else if (rsi < 60) {
+      rsiScore = 0.5;
+    } else if (rsi < rsiSellThreshold) {
+      rsiScore = 0.3;
+    } else {
+      rsiScore = 0;
+      signals.push(`RSI買われすぎ(${rsi.toFixed(1)})`);
     }
+    totalScore += rsiScore * weights.rsi;
+  }
+  
+  // ストキャスティクススコア
+  if (stochastic) {
+    let stochasticScore = 0;
+    if (stochastic.k < 20) {
+      stochasticScore = 1.0;
+      signals.push(`Stoch売られすぎ(${stochastic.k.toFixed(1)})`);
+    } else if (stochastic.k < 40) {
+      stochasticScore = 0.7;
+    } else if (stochastic.k < 60) {
+      stochasticScore = 0.5;
+    } else if (stochastic.k < 80) {
+      stochasticScore = 0.3;
+    } else {
+      stochasticScore = 0;
+      signals.push(`Stoch買われすぎ(${stochastic.k.toFixed(1)})`);
+    }
+    totalScore += stochasticScore * weights.stochastic;
+  }
+  
+  // MACDスコア
+  if (macd) {
+    let macdScore = 0;
+    if (macd.macd > 0 && macd.histogram >= 0) {
+      macdScore = 1.0;
+      signals.push('MACD上昇トレンド');
+    } else if (macd.macd > 0) {
+      macdScore = 0.7;
+    } else if (macd.macd < 0 && macd.histogram >= 0) {
+      macdScore = 0.5;
+    } else {
+      macdScore = 0.2;
+    }
+    totalScore += macdScore * weights.macd;
+  }
+  
+  // SMA50スコア
+  if (sma50 && price) {
+    let smaScore = price > sma50 ? 1.0 : 0.3;
     if (price > sma50) {
-      score += 1;
       signals.push('50日線上');
     }
-    if (sma20 > sma50) {
-      score += 1;
-      signals.push('ゴールデンクロス');
-    }
+    totalScore += smaScore * weights.sma;
   }
   
-  if (rsi) {
-    if (rsi < 30) {
-      score += 2;
-      signals.push('売られすぎ');
-    } else if (rsi > 70) {
-      score -= 1;
-      signals.push('買われすぎ');
-    }
-  }
-  
+  // 推奨判定
   let recommendation;
-  if (score >= 3) {
+  if (totalScore >= 0.75) {
     recommendation = '強い買い';
-  } else if (score >= 2) {
+  } else if (totalScore >= 0.60) {
     recommendation = '買い';
-  } else if (score >= 1) {
-    recommendation = '中立';
+  } else if (totalScore >= 0.40) {
+    recommendation = '様子見';
+  } else if (totalScore >= 0.25) {
+    recommendation = '売り検討';
   } else {
     recommendation = '売り';
   }
   
+  // 市場タイプを信号に追加
+  if (marketType !== 'normal') {
+    signals.push(`市場: ${marketType === 'high_volatility' ? '高ボラティリティ' : 
+                        marketType === 'low_volatility' ? '低ボラティリティ' :
+                        marketType === 'trend' ? 'トレンド相場' : 'レンジ相場'}`);
+  }
+  
   return {
-    score: score,
+    score: totalScore,
     recommendation: recommendation,
-    signals: signals
+    signals: signals,
+    marketType: marketType,
+    weights: weights
   };
 }
 
@@ -699,4 +930,30 @@ function setupInitial() {
   setupDailyTrigger();
   
   console.log('初期設定が完了しました');
+}
+
+// ========== テスト関数 ==========
+function testFetchStockData() {
+  // 特定のティッカーでテスト
+  const result = fetchStockData('TSLA');
+  console.log('Test result for TSLA:', JSON.stringify(result));
+}
+
+function testGetPortfolioData() {
+  // ポートフォリオデータ取得のテスト
+  const result = getIntegratedPortfolioData();
+  console.log('Portfolio data:', JSON.stringify(result));
+}
+
+function clearAllCache() {
+  // 全キャッシュをクリア
+  const cache = CacheService.getScriptCache();
+  cache.removeAll(['integrated_portfolio_data']);
+  
+  // 個別銘柄のキャッシュもクリア
+  for (const ticker in CONFIG.PORTFOLIO) {
+    cache.remove(`stock_${ticker}`);
+  }
+  
+  console.log('All cache cleared successfully');
 }
