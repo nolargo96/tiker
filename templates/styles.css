@@ -661,3 +661,308 @@ body {
         padding: 3px 6px;
     }
 }
+
+/* 3x3グリッドレイアウト用スタイル */
+.overview-header-grid {
+    margin-bottom: 20px;
+}
+
+.strategy-summary {
+    background: var(--card-bg);
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.strategy-summary h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+}
+
+.strategy-metrics {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.strategy-item {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.scores-section-title {
+    font-size: 1.2rem;
+    margin: 20px 0 15px;
+    color: var(--primary-color);
+}
+
+.scores-grid-3x3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.score-card-compact {
+    background: white;
+    border: 2px solid;
+    border-radius: 8px;
+    padding: 12px;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.score-card-compact:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.score-header-compact {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.ticker-compact {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.name-compact {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-align: right;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.investment-decision {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.decision-buy {
+    background: #10b981;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.decision-hold {
+    background: #f59e0b;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.decision-wait {
+    background: #6b7280;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.scores-row-compact {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.score-mini {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+}
+
+.score-label-mini {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 2px;
+}
+
+.score-value-mini {
+    font-size: 0.85rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.score-mini.tech .score-value-mini {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.score-mini.fund .score-value-mini {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.score-mini.macro .score-value-mini {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+.score-mini.risk .score-value-mini {
+    background: #fce4ec;
+    color: #c2185b;
+}
+
+.score-mini.overall .overall-mini {
+    background: var(--primary-color);
+    color: white;
+    font-size: 0.9rem;
+    padding: 2px 8px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 1200px) {
+    .scores-grid-3x3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .scores-grid-3x3 {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .score-card-compact {
+        padding: 10px;
+    }
+    
+    .scores-row-compact {
+        gap: 4px;
+    }
+    
+    .strategy-metrics {
+        gap: 10px;
+        font-size: 0.85rem;
+    }
+}
+
+/* 詳細討論レポート用スタイル */
+.detailed-discussion-wrapper {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 15px;
+    max-height: 800px;
+    overflow-y: auto;
+}
+
+.detailed-discussion-content {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.detailed-discussion-content h1,
+.detailed-discussion-content h2,
+.detailed-discussion-content h3 {
+    color: var(--primary-color);
+    margin: 20px 0 10px;
+    font-weight: 600;
+}
+
+.detailed-discussion-content h1 {
+    font-size: 1.5rem;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+}
+
+.detailed-discussion-content h2 {
+    font-size: 1.3rem;
+    margin-top: 30px;
+}
+
+.detailed-discussion-content h3 {
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+}
+
+.detailed-discussion-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.detailed-discussion-content th,
+.detailed-discussion-content td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.detailed-discussion-content th {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+}
+
+.detailed-discussion-content tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+.detailed-discussion-content ul,
+.detailed-discussion-content ol {
+    margin: 10px 0;
+    padding-left: 30px;
+}
+
+.detailed-discussion-content li {
+    margin: 5px 0;
+}
+
+.detailed-discussion-content strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.detailed-discussion-content pre {
+    background-color: #f3f4f6;
+    padding: 15px;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 10px 0;
+}
+
+/* スクロールバーのスタイリング */
+.detailed-discussion-wrapper::-webkit-scrollbar {
+    width: 10px;
+}
+
+.detailed-discussion-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.detailed-discussion-wrapper::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.detailed-discussion-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

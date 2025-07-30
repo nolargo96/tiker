@@ -1,0 +1,56 @@
+{
+  "TSLA": {
+    "weight": 20,
+    "name": "Tesla",
+    "sector": "EV・自動運転",
+    "color": "#e31837"
+  },
+  "FSLR": {
+    "weight": 20,
+    "name": "First Solar",
+    "sector": "ソーラーパネル",
+    "color": "#ffd700"
+  },
+  "RKLB": {
+    "weight": 10,
+    "name": "Rocket Lab",
+    "sector": "小型ロケット",
+    "color": "#ff6b35"
+  },
+  "ASTS": {
+    "weight": 10,
+    "name": "AST SpaceMobile",
+    "sector": "衛星通信",
+    "color": "#4a90e2"
+  },
+  "OKLO": {
+    "weight": 10,
+    "name": "Oklo",
+    "sector": "SMR原子炉",
+    "color": "#50c878"
+  },
+  "JOBY": {
+    "weight": 10,
+    "name": "Joby Aviation",
+    "sector": "eVTOL",
+    "color": "#9b59b6"
+  },
+  "OII": {
+    "weight": 10,
+    "name": "Oceaneering",
+    "sector": "海洋エンジニアリング",
+    "color": "#1abc9c"
+  },
+  "LUNR": {
+    "weight": 5,
+    "name": "Intuitive Machines",
+    "sector": "月面探査",
+    "color": "#34495e"
+  },
+  "RDW": {
+    "weight": 5,
+    "name": "Redwire",
+    "sector": "宇宙製造",
+    "color": "#e74c3c"
+  }
+}

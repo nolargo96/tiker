@@ -87,7 +87,7 @@ tiker/
 ├── 🎯 メインツール
 │   ├── unified_stock_analyzer.py    # 統合分析エンジン
 │   ├── stock_analyzer_lib.py        # 共通ライブラリ
-│   └── config.yaml                  # 設定ファイル
+│   └── config/config.yaml                  # 設定ファイル
 │
 ├── 📊 レポート・データ
 │   ├── charts/                      # チャート画像

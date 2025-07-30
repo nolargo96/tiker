@@ -1,115 +1,146 @@
-# 株式投資分析プロジェクト
+# Tiker - 次世代AI駆動投資分析プラットフォーム
 
-このプロジェクトは、米国上場企業の中長期投資エントリータイミングを分析するためのツール群です。
+## 概要
 
-## プロジェクト構造
+Tikerは、米国上場企業の中長期投資エントリータイミング分析に特化した、AI駆動の投資分析プラットフォームです。4専門家（TECH、FUND、MACRO、RISK）による包括的な投資判断フレームワークを実装しています。
+
+## 新しいプロジェクト構造
 
 ```
 tiker/
-│  tiker.md                    # 主要仕様書：分析フレームワークとレポート形式の定義
-│  unified_stock_analyzer.py   # メインツール：株価データ取得・チャート作成
-│  README.md                   # このファイル
-│
-├─charts/                      # チャート画像保存ディレクトリ
-│      RDW_chart_2025-06-27.png
-│      tsla_chart_2025-06-26.png
-│
-├─data/                        # データファイル保存ディレクトリ
-│      tsla_data.csv
-│
-├─reports/                     # レポート・ドキュメント保存ディレクトリ
-│      investment_portfolio_summary.md  # ポートフォリオ提案サマリー
-│      tiker.docx                       # tiker.mdのWord版
-│
-└─scripts/                     # 分析スクリプト保存ディレクトリ
-        asts_analysis.py       # ASTS個別分析
-        fslr_final_report.py   # FSLR詳細レポート
-        joby_chart_*.py        # JOBY関連チャート作成スクリプト
-        lunr_final_report.py   # LUNR詳細レポート
-        oii_final_report.py    # OII詳細レポート
-        oklo_analysis.py       # OKLO個別分析
-        rdw_final_report.py    # RDW詳細レポート
-        rklb_analysis.py       # RKLB個別分析
-        tsla_analysis.py       # TSLA個別分析
+├── src/                        # ソースコード
+│   ├── analysis/              # 分析エンジン
+│   │   ├── unified_analyzer.py
+│   │   ├── stock_analyzer_lib.py
+│   │   └── expert_discussion_generator.py
+│   ├── data/                  # データ管理
+│   │   ├── cache_manager.py
+│   │   └── signal_history_tracker.py
+│   ├── visualization/         # 可視化
+│   │   └── html_report_generator.py
+│   ├── portfolio/             # ポートフォリオ管理
+│   │   ├── portfolio_master_report_hybrid.py
+│   │   ├── competitor_analysis.py
+│   │   └── financial_comparison_extension.py
+│   └── web/                   # Webインターフェース
+│       ├── dashboard_consolidated.py
+│       └── dashboard_export_manager.py
+├── tests/                     # テストコード
+├── scripts/                   # 個別銘柄スクリプト
+├── config/                    # 設定ファイル
+│   └── config.yaml
+├── data/                      # データファイル
+├── charts/                    # チャート出力
+├── reports/                   # レポート出力
+├── docs/                      # ドキュメント
+├── requirements.txt           # 依存関係
+├── setup.py                   # セットアップスクリプト
+├── run_dashboard.py           # ダッシュボード実行
+└── run_analysis.py            # 分析実行
+
 ```
 
-## 使い方
+## 主要機能
 
-### 1. 統合分析ツールの実行
+### 1. 統合ダッシュボード（Streamlit）
+- リアルタイムポートフォリオパフォーマンス追跡
+- 履歴シグナル追跡と精度メトリクス
+- 高度なフィルタリングと比較機能
+- AI投資インサイト生成
+- データエクスポート機能（Excel/PDF）
+
+### 2. 4専門家分析フレームワーク
+- **TECH**: テクニカル分析（移動平均、RSI、MACD、フィボナッチ）
+- **FUND**: ファンダメンタル分析（PER、PBR、DCF、EPS成長）
+- **MACRO**: マクロ環境分析（Fed金利、CPI、セクタートレンド）
+- **RISK**: リスク管理（VaR、ドローダウン分析、ポジションサイジング）
+
+### 3. ポートフォリオ構成（9銘柄）
+- **TSLA**: 20% - EV・自動運転
+- **FSLR**: 20% - ソーラーパネル
+- **RKLB**: 10% - 小型ロケット
+- **ASTS**: 10% - 衛星通信
+- **OKLO**: 10% - SMR原子炉
+- **JOBY**: 10% - eVTOL
+- **OII**: 10% - 海洋エンジニアリング
+- **LUNR**: 5% - 月面探査
+- **RDW**: 5% - 宇宙製造
+
+## インストール
+
 ```bash
-python unified_stock_analyzer.py --ticker AAPL --date 2025-01-31
+# 依存関係のインストール
+pip install -r requirements.txt
+
+# または個別にインストール
+pip install streamlit yfinance pandas numpy matplotlib mplfinance seaborn PyYAML pytest
 ```
 
-#### キャッシュオプション
-```bash
-# キャッシュを使用（デフォルト）
-python unified_stock_analyzer.py --ticker TSLA
+## 使用方法
 
-# キャッシュを無効化して最新データを取得
-python unified_stock_analyzer.py --ticker TSLA --no-cache
+### 1. 統合ダッシュボードの起動
+
+```bash
+# Streamlitダッシュボードを起動
+streamlit run run_dashboard.py
+
+# または直接実行
+python -m streamlit run run_dashboard.py
 ```
 
-### 2. 個別銘柄分析
-各スクリプトは`scripts/`ディレクトリ内にあります。
+### 2. 個別銘柄分析の実行
+
 ```bash
+# 統一分析エンジンで個別銘柄を分析
+python run_analysis.py --ticker TSLA --date 2025-01-31
+
+# または個別スクリプトを実行
 python scripts/tsla_analysis.py
 ```
 
-### 3. 詳細レポートの生成
-`final_report.py`系のスクリプトは、tiker.mdの仕様に基づいた詳細な投資分析レポートを生成します。
+### 3. HTMLレポート生成
+
+ダッシュボードの「ハイブリッドレポート」タブから、包括的なHTMLレポートを生成できます。
+
+## テスト
+
 ```bash
-python scripts/fslr_final_report.py
+# 全テストを実行
+python -m pytest tests/ -v
+
+# カバレッジレポート付きで実行
+python -m pytest tests/ -v --cov=src
 ```
 
-## 主要ファイルの説明
+## 設定
 
-- **tiker.md**: 4人の専門家（TECH、FUND、MACRO、RISK）による投資分析フレームワークを定義
-- **unified_stock_analyzer.py**: yfinanceを使用した株価データ取得とチャート生成の統合ツール
-- **investment_portfolio_summary.md**: 分析済み銘柄のサマリーと1000万円ポートフォリオ提案
+`config/config.yaml`で以下の設定が可能：
+- データ期間と検証ルール
+- テクニカル指標パラメータ
+- チャートスタイルと寸法
+- ファイル命名規則
+- HTMLレポート生成設定
 
-## 必要なライブラリ
-- yfinance
-- pandas
-- numpy
-- matplotlib
-- mplfinance
+## 開発環境
 
-## キャッシュシステム
+- Python 3.8以上
+- WSL2環境で動作確認済み
+- 主要な依存関係：
+  - streamlit >= 1.28.0
+  - yfinance >= 0.2.28
+  - pandas >= 2.0.0
+  - numpy >= 1.24.0
+  - matplotlib >= 3.7.0
+  - mplfinance >= 0.12.10b0
 
-### 概要
-開発時の待機時間を削減するため、株価データや計算結果をキャッシュする機能を実装しています。
+## ライセンス
 
-### キャッシュの種類と有効期限
-- **市場データ（market_data）**: 5分
-- **テクニカル指標（technical）**: 5分
-- **ファンダメンタルデータ（fundamental）**: 1日
-- **ポートフォリオ設定（portfolio）**: 1週間
-- **専門家テンプレート（expert_template）**: 30日
-- **チャート画像（chart）**: 1時間
+このプロジェクトは教育・研究目的のみです。実際の投資判断には使用しないでください。
 
-### キャッシュの管理
-```python
-from cache_manager import CacheManager
+## 貢献
 
-# キャッシュマネージャーの初期化
-cache_manager = CacheManager()
+プルリクエストを歓迎します。大きな変更の場合は、まずissueを開いて変更内容を議論してください。
 
-# キャッシュ統計の確認
-stats = cache_manager.get_cache_stats()
-print(f"キャッシュアイテム数: {stats['total_items']}")
-print(f"キャッシュサイズ: {stats['total_size_mb']:.2f} MB")
+## 連絡先
 
-# 期限切れキャッシュのクリア
-deleted = cache_manager.clear_expired()
-print(f"{deleted}個の期限切れアイテムを削除しました")
-
-# 全キャッシュのクリア
-cache_manager.clear_all()
-```
-
-### キャッシュの保存場所
-キャッシュファイルは`./cache/`ディレクトリに保存されます。
-
-## 注意事項
-本プロジェクトは教育目的のシミュレーションであり、投資助言ではありません。
-実際の投資判断は、ご自身の責任において行うようにしてください。 This is a test for learning Git.
+質問や提案がある場合は、プロジェクトのissueセクションに投稿してください。

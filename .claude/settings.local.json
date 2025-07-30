@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(echo $PATH)",
+      "Bash(ls:*)",
+      "Bash(mcp:*)",
+      "Bash(npx @modelcontextprotocol/server-filesystem:*)",
+      "Bash(python3:*)",
+      "Bash(git -C \"C:\\Users\\nolar\\OneDrive\\ドキュメント\\tiker\" remote -v)",
+      "Bash(git -C \"C:\\Users\\nolar\\OneDrive\\ドキュメント\\tiker\" status --porcelain)",
+      "Bash(echo $HOME)",
+      "Bash(find:*)",
+      "Bash(cat:*)",
+      "Bash(claude mcp)",
+      "Bash(claude --version)",
+      "Bash(source:*)",
+      "Bash(python:*)",
+      "Bash(pip3 install:*)",
+      "Bash(/usr/bin/python3 -m pip install:*)",
+      "Bash(pip install:*)",
+      "Bash(pkill:*)",
+      "Bash(uv venv:*)",
+      "Bash(uv pip install:*)",
+      "Bash(cp:*)",
+      "Bash(rg:*)",
+      "Bash(grep:*)"
+    ],
+    "deny": []
+  }
+}
